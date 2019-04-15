@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+		
+	<!-- Connect Database Info - LOCAL -->
+	<!-- 
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/myjava" />
+		<property name="username" value="root" />
+		<property name="password" value="1234" />
+	</bean> 
+	 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="org.mariadb.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mariadb://localhost:3306/planbut" />
+		<property name="username" value="root" />
+		<property name="password" value="1234" />
+	</bean> 
+	
+	<!-- SqlSession setup for MyBatis Database Layer -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:/kr/co/**/*.xml" />	
+		<property name="typeAliasesPackage" value="kr.co.planbut" /><!-- 다른 경로 패키지가 여러개 오는 경우 Comma(,)로 구분 -->
+	</bean>
+	
+	<!-- 실제 sql 연결 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+		
+		
+</beans>
