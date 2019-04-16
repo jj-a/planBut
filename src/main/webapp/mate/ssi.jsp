@@ -5,10 +5,7 @@
 <%@ page import="java.util.*"%>
 
 <%@ page import="net.utility.*"%>
-<%@ page import="net.bbs.*"%>
-
-<jsp:useBean id="dao" class="net.bbs.BbsDAO"></jsp:useBean>
-<jsp:useBean id="dto" class="net.bbs.BbsDTO"></jsp:useBean>
+<%@ page import="kr.co.planbut.mate.*"%>
 
 <% request.setCharacterEncoding("UTF-8"); %>
 
