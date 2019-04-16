@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!-- mem.xml -->
+ <!-- 실행할 SQL 문을 정의 해 놓은 파일-->
+
+
+<!-- namespace를 필수로 지정해야함 -->
+ <mapper namespace="kr.co.planbut.plan"> 
+    <!-- 
+                데이터베이스 결과를 객체에 매핑 하는 방법을 정의한다.
+        ResultSet에서 가져와서 dto에 담는것과 비슷
+                기본키는 <id>에 지정한다.
+     -->
+    <!-- 
+     <insert id="create" parameterType="PlanDTO">
+        <selectKey keyProperty="noticeno" resultType="int" order="BEFORE">
+         <![CDATA[
+            SELECT nvl(max(noticeno),0)+1 AS noticeno FROM notice5
+        ]]>
+        </selectKey>
+         <![CDATA[
+            insert into notice5(noticeno, title, rname, rdate)
+            values(#{noticeno}, #{title}, #{rname}, sysdate)
+        ]]>      
+     </insert>
+      -->
+ </mapper>
+ 
