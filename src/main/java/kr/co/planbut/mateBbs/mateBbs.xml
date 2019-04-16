@@ -11,20 +11,22 @@
 	■ 데이터베이스 결과 데이터를 객체에 매핑하는 방법을 정의 
 	■ ResultSet 에서 가져와서 DTO에 담는것과 비슷하다
 	■ 기본키(PK)는 <id>에 지정
+	INSERT INTO mateboard(b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity)
+VALUES((select ifnull(max(b_no),0)+1 from mateboard as TB), 'aaaa', now(), '동행구함제목', '동행구함내용', 'PR', now(), '1', 4);
 	-->
 
-	<insert id="create" parameterType="NoticeDTO"> <!-- setter 함수가 있기에 parameterType사용 가능 -->
-		<selectKey keyProperty="noticeno" resultType="int" order="BEFORE"> 
-		<!-- keyProperty = "변수명", 변수가 a 라면 밑에 noticeno도 a 로 바꿔줘야한다 -->
+	<insert id="create" parameterType="MateBbsDTO"> <!-- setter 함수가 있기에 parameterType사용 가능 -->
+		<selectKey keyProperty="b_no" resultType="int" order="BEFORE"> 
+		<!-- keyProperty = "변수명", 변수가 a 라면 밑에 b_no도 a 로 바꿔줘야한다 -->
 		<![CDATA[
-			select nvl(max(noticeno),0)+1 as noticeno
-			from notice5
+			select ifnull(max(b_no),0)+1 as b_no
+			from mateboard
 		]]>
 		</selectKey>
 		
 		<![CDATA[
-			insert into notice5(noticeno, title, rname, rdate)
-			values(#{noticeno}, #{title}, #{rname}, sysdate) 
+			INSERT INTO mateboard(b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity)
+			values(#{b_no}, #{mp_id}, now(), #{subject}, #{content}, #{ct_code}, #{m_date}, #{gender}, #{capacity},) 
 		]]>
 		<!-- getter 함수가 있기에 values에 값을 꺼내올 수 있다 -->
 	</insert>

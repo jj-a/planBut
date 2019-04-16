@@ -21,15 +21,16 @@ public class MateBbsDAO {
 	SqlSession sqlSession;
 	
 	public MateBbsDAO() {
-		System.out.println("����������� MateDAO() 객체 생성 �����������");
+		System.out.println("●●●●● MateBbsDAO() 객체 생성 ●●●●●");
 	}
 	
-	/*public int create(NoticeDTO dto) {
-		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);
+	public int create(MateBbsDTO dto) {
+		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
 		int count = mapper.create(dto);
 		return count;
 	} // create() end
 	
+	/*
 	public ArrayList<NoticeDTO> list() {
 		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);
 		ArrayList<NoticeDTO> list = mapper.list();

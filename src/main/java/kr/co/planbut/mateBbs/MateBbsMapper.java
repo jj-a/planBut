@@ -5,26 +5,26 @@ import java.util.HashMap;
 
 public interface MateBbsMapper {
 	/*
-		매퍼(notice.xml)에 등록되어 있는 id를 인터페이스의 메소드에 다시 한번 등록함으로써 
+		매퍼(mateBbs.xml)에 등록되어 있는 id를 인터페이스의 메소드에 다시 한번 등록함으로써 
 		MyBatis3 에서 호출하기 편리하도록 지원
 	*/
 	
 	// <insert id="create">
-	/*public int create(NoticeDTO dto);
-	
+	public int create(MateBbsDTO dto);
+	/*
 	// <select id="list">
-	public ArrayList<NoticeDTO> list();
+	public ArrayList<MateBbsDTO> list();
 	
 	// <delete id="delete">
-	public int delete(NoticeDTO dto);
+	public int delete(MateBbsDTO dto);
 	
-	// <select id="read" parameterType="NoticeDTO" resultType="NoticeDTO">
-	public NoticeDTO read(NoticeDTO dto);
+	// <select id="read" parameterType="MateBbsDTO" resultType="MateBbsDTO">
+	public MateBbsDTO read(MateBbsDTO dto);
 	
 	// <update id="update">
-	public int update(NoticeDTO dto);
+	public int update(MateBbsDTO dto);
 
 	// <select id="search">
-	public ArrayList<NoticeDTO> search(HashMap searchMap);*/
+	public ArrayList<MateBbsDTO> search(HashMap searchMap);*/
 	
 } // interface end
