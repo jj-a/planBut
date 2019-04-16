@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MateBbsDAO {
+public class ApplyRecmDAO {
 	
 	// POJO 방식의 DB 연결
 	// DBOpen dbopen;
@@ -20,7 +20,7 @@ public class MateBbsDAO {
 	@Autowired
 	SqlSession sqlSession;
 	
-	public MateBbsDAO() {
+	public ApplyRecmDAO() {
 		System.out.println("����������� MateDAO() 객체 생성 �����������");
 	}
 	

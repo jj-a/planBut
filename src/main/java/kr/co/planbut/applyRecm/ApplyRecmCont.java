@@ -1,5 +1,5 @@
 package kr.co.planbut.applyRecm;
 
-public class MateBbsCont {
+public class ApplyRecmCont {
 
 }
