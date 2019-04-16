@@ -1,6 +1,6 @@
-package kr.co.planbut.mate;
+package kr.co.planbut.mateBbs;
 
-public class MateDTO {
+public class MateBbsDTO {
 	private int b_no;
 	private String mp_id;
 	private String regdt;
@@ -11,7 +11,7 @@ public class MateDTO {
 	private String gender;
 	private int capacity;
 	
-	public MateDTO() {}
+	public MateBbsDTO() {}
 
 	public int getB_no() {
 		return b_no;

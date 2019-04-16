@@ -12,6 +12,7 @@
   int bbsno = Integer.parseInt(request.getParameter("bbsno"));
   String passwd = request.getParameter("passwd");
   
+  /* 
   dto.setPasswd(passwd);
   dto.setBbsno(bbsno);
   
@@ -20,6 +21,7 @@
   if(dto==null) {
 	  out.print("해당 게시글 없음");
   } else {
+	 */  
 %>
 	 <form method="post" action="bbsUpdateProc.jsp" onsubmit="return bbsCheck(this)">
 	 <table border="1">
@@ -30,21 +32,21 @@
   	 <input type="hidden" name="nowPage" value="<%=nowPage%>">
 	 <tr>
      <th>작성자</th>
-     <td><input type="text" name="wname" value="<%=dto.getWname() %>" size="28" maxlength="20" required></td>
+     <%-- <td><input type="text" name="wname" value="<%=dto.getWname() %>" size="28" maxlength="20" required></td> --%>
 	 </tr> 
 	 <tr>
      <th>제목</th>
-     <td><input type="text" name="subject" value="<%=dto.getSubject() %>" size="28" maxlength="100" required></td>
+     <%-- <td><input type="text" name="subject" value="<%=dto.getSubject() %>" size="28" maxlength="100" required></td> --%>
 	 <tr>
      
      <th>내용</th>
      <td>
-      <textarea rows="5" cols="30" name="content"><%=dto.getContent() %></textarea>
+     <%--  <textarea rows="5" cols="30" name="content"><%=dto.getContent() %></textarea> --%>
      </td>
 	 </tr> 
 	 <tr>
 		<th>비밀번호</th>
-   		<td><input type="password" name="passwd" value="<%=dto.getPasswd() %>" size="28" maxlength="10" required></td>
+   		<%-- <td><input type="password" name="passwd" value="<%=dto.getPasswd() %>" size="28" maxlength="10" required></td> --%>
 	 </tr>
 		<tr>
     		<td colspan="2" align="center">
@@ -55,8 +57,8 @@
 		</table>
 		</form>
 <% 	
-	}
-%>	
+	 // }
+%>	 
   
 
 <!-- 본문 끝 -->

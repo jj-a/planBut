@@ -1,4 +1,4 @@
-package kr.co.planbut.mate;
+package kr.co.planbut.applyBbs;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MateDAO {
+public class MateBbsDAO {
 	
 	// POJO 방식의 DB 연결
 	// DBOpen dbopen;
@@ -20,7 +20,7 @@ public class MateDAO {
 	@Autowired
 	SqlSession sqlSession;
 	
-	public MateDAO() {
+	public MateBbsDAO() {
 		System.out.println("����������� MateDAO() 객체 생성 �����������");
 	}
 	

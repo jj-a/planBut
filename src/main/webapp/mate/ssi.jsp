@@ -5,7 +5,7 @@
 <%@ page import="java.util.*"%>
 
 <%@ page import="net.utility.*"%>
-<%@ page import="kr.co.planbut.mate.*"%>
+<%@ page import="kr.co.planbut.mateBbs.*"%>
 
 <% request.setCharacterEncoding("UTF-8"); %>
 
