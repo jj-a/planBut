@@ -1,5 +1,5 @@
 package kr.co.planbut.mate;
 
-public class MateBbsCont {
+public class MateCont {
 
 }
