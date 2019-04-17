@@ -31,13 +31,9 @@
 	
 	<select id="list" resultType="MateBbsDTO">
 		<![CDATA[
-		    select b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity, BB.sum(people)  
-		    from(
-			select b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity
+		    select b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity
 			from mateboard
 			order by b_no desc
-			) AA join mateapply_b as BB
-			on AA.b_no = BB.b_no 
 			
 		]]>
 	</select>
