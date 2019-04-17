@@ -1,4 +1,4 @@
-package kr.co.tour;
+package kr.co.planbut.tour;
 
 public class TourDTO {
 	private String tour_code;

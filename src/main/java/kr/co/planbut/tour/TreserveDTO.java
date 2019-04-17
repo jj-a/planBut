@@ -1,4 +1,4 @@
-package kr.co.tour;
+package kr.co.planbut.tour;
 
 public class TreserveDTO {
 	private String re_code;

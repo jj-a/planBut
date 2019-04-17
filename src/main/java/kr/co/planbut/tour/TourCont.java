@@ -1,4 +1,4 @@
-package kr.co.tour;
+package kr.co.planbut.tour;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,18 +10,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class TourCont {
-	
-	@Autowired
-	TourDAO dao;
+
+//	@Autowired
+//	TourDAO dao;
 		
 	public TourCont() {
-		System.out.println("--- PlanButCont ");
+		System.out.println("--- PlanButCont 생성");
 	}
 	
 	@RequestMapping(value="/tour/tour.do", method=RequestMethod.GET)
-	public ModelAndView tourcountry() {
+	public ModelAndView tour() {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("tour/tour");
+		mav.setViewName("tour/index");
 		return mav;
 	}//createForm end
 

@@ -1,4 +1,4 @@
-package kr.co.tour;
+package kr.co.planbut.tour;
 
 public class TreviewDTO {
 	private String rv_code;
