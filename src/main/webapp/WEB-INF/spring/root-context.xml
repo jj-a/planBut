@@ -23,11 +23,11 @@
 	<!-- SqlSession setup for MyBatis Database Layer -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="mapperLocations" value="classpath:/kr/co/**/*.xml" />	
-		<property name="typeAliasesPackage" value="kr.co.planbut" /><!-- 다른 경로 패키지가 여러개 오는 경우 Comma(,)로 구분 -->
+		<property name="mapperLocations" value="classpath:/kr/co/planbut/**/*.xml" />	
+		<property name="typeAliasesPackage" value="kr.co.planbut, kr.co.planbut.mate, kr.co.planbut.applyBbs, kr.co.planbut.applyRecm, kr.co.planbut.mateBbs" /><!-- 다른 경로 패키지가 여러개 오는 경우 Comma(,)로 구분 -->
 	</bean>
 	
-	<!-- 실제 sql 연결 -->
+	<!-- 실제 sql 연 결 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
