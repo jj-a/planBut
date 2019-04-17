@@ -26,10 +26,10 @@
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="${pageContext.request.contextPath}/#">계획짜기</a></li>
-					<li><a href="${pageContext.request.contextPath}/#">동행찾기</a></li>
-					<li><a href="${pageContext.request.contextPath}/#">투어예약</a></li>
-					<li><a href="${pageContext.request.contextPath}/#">여행지</a></li>
+					<li><a href="${pageContext.request.contextPath}/plan/plan.do">계획짜기</a></li>
+					<li><a href="${pageContext.request.contextPath}/mate/mate.do">동행찾기</a></li>
+					<li><a href="${pageContext.request.contextPath}/tour/tour.do">투어예약</a></li>
+					<li><a href="${pageContext.request.contextPath}/place/country.do">여행지</a></li>
 					<li><a href="${pageContext.request.contextPath}/board.do">광장</a></li>
 					<li><a href="${pageContext.request.contextPath}/login.do">로그인</a></li>
 					<li><a href="${pageContext.request.contextPath}/join.do">회원가입</a></li>
@@ -37,9 +37,3 @@
 			</div>
 		</div>
 	</nav>
-	
-	<!-- 
-	<div class="header text-center">
-	  <h1>플랜벗</h1>
-	</div>
-	 -->
