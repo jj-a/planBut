@@ -25,7 +25,11 @@
 </tr> 
 <tr>
     <th>성별</th>
-    <td><input type="text" name="gender" size="1" maxlength="10" required></td>
+    <td><select name="gender"  id="gender">
+          <option value="F">여자</option>
+          <option value="M" selected>남자</option>
+        </select>
+     </td>
 </tr>
 <tr>
     <th>작성일</th>
@@ -33,7 +37,29 @@
 </tr>
 <tr>
     <th>도시</th>
-    <td><input type="text" name="ct_code" size="2" maxlength="100" required></td>
+    <td><select name="ct_code"  id="ct_code">
+          <option value="0" selected>선택하세요.</option>
+          <option value="NY">뉴욕</option>
+          <option value="NS">니스</option>
+          <option value="LD">런던</option>
+          <option value="RM">로마</option>
+          <option value="LA">로스엔젤레스</option>
+          <option value="LS">리스본</option>
+          <option value="MD">마드리드</option>
+          <option value="MS">마르세유</option>
+          <option value="MH">뮌헨</option>
+          <option value="BR">바르셀로나</option>
+          <option value="BL">베를린</option>
+          <option value="BS">부산</option>
+          <option value="BU">브뤼셀</option>
+          <option value="SO">서울</option>
+          <option value="AM">암스테르담</option>
+          <option value="ED">에든버러</option>
+          <option value="IN">인터라켄</option>
+          <option value="ZU">취리히</option>
+          <option value="PR">파리</option>
+          <option value="FL">피렌체</option>
+        </select></td>
 </tr>
 <tr>
     <th>정원</th>
