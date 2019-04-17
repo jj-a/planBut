@@ -1,0 +1,32 @@
+
+/planbut/planner/*
+내 플래너 페이지
+
+접근권한:
+회원 (비회원일 시 로그인 페이지 이동)
+
+경로: 
+마이페이지>내 플래너
+
+/planner/home.do			플래너 홈 (지도)
+/planner/calender.do	캘린더
+/planner/gallary.do		사진
+/planner/plan.do				일정
+/planner/course.do		일일경로
+/planner/?							설정
+
+관련 테이블:
+member				회원
+planner				플래너
+cityplan				도시계획
+courseplan		경로계획
+mytransport	교통
+myaccomm		숙소
+myticket				티켓
+mytour				투어
+
+
+
+
+
+
