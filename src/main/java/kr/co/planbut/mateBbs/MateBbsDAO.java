@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,7 @@ public class MateBbsDAO {
 	// MyBatis 기반 스프링빈 방식의 DB 연결
 	@Autowired
 	SqlSession sqlSession;
-	
+		
 	public MateBbsDAO() {
 		System.out.println("●●●●● MateBbsDAO() 객체 생성 ●●●●●");
 	}
