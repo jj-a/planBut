@@ -32,10 +32,6 @@
      </td>
 </tr>
 <tr>
-    <th>작성일</th>
-    <td><input type="text" name="regdt" size="28" maxlength="100" required></td>
-</tr>
-<tr>
     <th>도시</th>
     <td><select name="ct_code"  id="ct_code">
           <option value="0" selected>선택하세요.</option>
