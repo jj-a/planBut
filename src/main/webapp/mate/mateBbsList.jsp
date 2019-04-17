@@ -1,51 +1,37 @@
 <%@ page contentType="text/html; charset=UTF-8" %> 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../header.jsp"%>
-<!DOCTYPE html> 
-<html> 
-<head> 
-<meta charset="UTF-8"> 
-<title>mate/mateBbsList.jsp</title> 
-<style type="text/css"> 
-*{ 
-  font-family: Consolas; 
-  font-size: 24px; 
-} 
-</style> 
-<link href="../css/style.css" rel="stylesheet" type="text/css">
-</head> 
-<body>
-	<div class="title">동행 게시판</div>
-	<table>
-	<tr>
-		<th>번호</th>
-		<th>모집자</th>
-		<th>작성일</th>
-		<th>제목</th>
-		<th>내용</th>
-		<th>도시</th>
-		<th>동행날짜</th>
-		<th>성별</th>
-		<th>현재 확정인원</th>
-		<th>정원</th>
-	</tr>
-	
+<!-- 본문시작 mateBbsList.jsp -->
+
+    
+	<h3>동행 구하기 글안나와</h3>
+	<h1>동행 구하기 게시판</h1>
+	<table border=1>
 	<c:forEach var="dto" items="${list }">
-		<tr>
-			<td>${dto.b_no }</td>
-			<td>${dto.mp_id }</td>
+	     <tr>
+			<th>모집자 : ${dto.mp_id }</th>
+			<th>작성일</th>
 			<td>${dto.regdt.substring(0,10) }</td>
+			<th>제목</th>
 			<td>${dto.subject }</td>
+			<th>내용</th>
 			<td>${dto.content }</td>
+			<th>도시</th>
 			<td>${dto.ct_code }</td>
-			<td>${dto.m_date }</td>
+		</tr>
+		<tr>
+			<th>동행날짜</th>
+			<td>${dto.m_date.substring(0,10) }</td>
+			<th>성별</th>
 			<td>${dto.gender }</td>
+			<th>현재확정인원 / 정원</th>
 			<td>${dto.people } / ${dto.capacity }</td>
 		</tr>
+		
 	</c:forEach>
+	<br/>
 	
 	</table>
-	
+	</div>
 	<%-- <c:if test="${!(empty requestScope.list)}">
 	<!-- 검색시작 -->
 	<br>

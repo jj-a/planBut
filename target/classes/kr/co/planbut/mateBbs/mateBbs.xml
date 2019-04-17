@@ -18,26 +18,22 @@
 		<!-- keyProperty = "변수명", 변수가 a 라면 밑에 b_no도 a 로 바꿔줘야한다 -->
 		<![CDATA[
 			select ifnull(max(b_no),0)+1 as b_no
-			from mateboard
+			from mateboard as TB
 		]]>
 		</selectKey>
 		
 		<![CDATA[
 			INSERT INTO mateboard(b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity)
-			values(#{b_no}, #{mp_id}, now(), #{subject}, #{content}, #{ct_code}, #{m_date}, #{gender}, #{capacity},) 
+			values(#{b_no}, #{mp_id}, now(), #{subject}, #{content}, #{ct_code}, #{m_date}, #{gender}, #{capacity}) 
 		]]>
 		<!-- getter 함수가 있기에 values에 값을 꺼내올 수 있다 -->
 	</insert>
 	
 	<select id="list" resultType="MateBbsDTO">
 		<![CDATA[
-		    select b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity, BB.sum(people)  
-		    from(
-			select b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity
+		    select b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity
 			from mateboard
 			order by b_no desc
-			) AA join mateapply_b as BB
-			on AA.b_no = BB.b_no 
 			
 		]]>
 	</select>

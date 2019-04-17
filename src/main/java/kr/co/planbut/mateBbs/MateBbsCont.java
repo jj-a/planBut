@@ -28,7 +28,7 @@ public class MateBbsCont {
 	public ModelAndView createForm(MateBbsDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("mate/mateBbsForm");
-		// mav.addObject("b_no", dto.getB_no());
+		mav.addObject("b_no", dto.getB_no());
 
 		return mav;
 	} // createForm() end
