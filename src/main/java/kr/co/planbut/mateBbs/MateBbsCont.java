@@ -43,18 +43,18 @@ public class MateBbsCont {
 		return mav;
 	} // createProc() end
 
-	/*
-	@RequestMapping("/notice/list.do")
+	
+	@RequestMapping("/mate/list.do")
 	public ModelAndView list() {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("notice/list");
-		// ArrayList<NoticeDTO> list = dao.list();
+		mav.setViewName("mate/mateBbsList");
+		// ArrayList<MateBbsDTO> list = dao.list();
 		// mav.addObject("list", list); ㅡ▶ 밑에 한줄과 같은 의미
 		mav.addObject("list", dao.list());
 	
 		return mav;
 	} // list() end
-
+	/*
 	@RequestMapping( value = "/notice/delete.do", 
 					 method = RequestMethod.GET )
 	public ModelAndView deleteForm(NoticeDTO dto) {

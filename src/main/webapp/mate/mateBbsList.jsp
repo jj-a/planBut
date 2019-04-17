@@ -4,7 +4,7 @@
 <html> 
 <head> 
 <meta charset="UTF-8"> 
-<title>notice5/list.jsp</title> 
+<title>mate/mateBbsList.jsp</title> 
 <style type="text/css"> 
 *{ 
   font-family: Consolas; 
@@ -14,27 +14,38 @@
 <link href="../css/style.css" rel="stylesheet" type="text/css">
 </head> 
 <body>
-	<div class="title">공지사항</div>
+	<div class="title">동행 게시판</div>
 	<table>
 	<tr>
 		<th>번호</th>
+		<th>모집자</th>
+		<th>작성일</th>
+		<th>제목</th>
 		<th>내용</th>
-		<th>작성자</th>
-		<th>등록일</th>
+		<th>도시</th>
+		<th>동행날짜</th>
+		<th>성별</th>
+		<th>현재 확정인원</th>
+		<th>정원</th>
 	</tr>
 	
 	<c:forEach var="dto" items="${list }">
 		<tr>
-			<td>${dto.noticeno }</td>
-			<td><a href="../notice/read.do?noticeno=${dto.noticeno }">${dto.title }</a></td>
-			<td>${dto.rname }</td>
-			<td>${dto.rdate.substring(0,10) }</td>
+			<td>${dto.b_no }</td>
+			<td>${dto.mp_id }</td>
+			<td>${dto.regdt.substring(0,10) }</td>
+			<td>${dto.subject }</td>
+			<td>${dto.content }</td>
+			<td>${dto.ct_code }</td>
+			<td>${dto.m_date }</td>
+			<td>${dto.gender }</td>
+			<td>${dto.people } / ${dto.capacity }</td>
 		</tr>
 	</c:forEach>
 	
 	</table>
 	
-	<c:if test="${!(empty requestScope.list)}">
+	<%-- <c:if test="${!(empty requestScope.list)}">
 	<!-- 검색시작 -->
 	<br>
 		<table>
@@ -42,7 +53,7 @@
 			<td style="text-align:center; height:50px">
 				<form method="get" action="search.do">
 					<select name="col">
-						<option value="title">제목
+						<option value="subject">제목
 						<option value="rname">작성자
 						<option value="title_rname">제목 + 작성자
 					</select>
@@ -52,10 +63,10 @@
 			</td>
 		</tr>
 		</table>
-	</c:if>
+	</c:if> --%>
 	
 	<div class="bottom">
-		<input type="button" value="공지사항 등록" onclick="location.href='./create.do'">
+		<input type="button" value="글 등록" onclick="location.href='./create.do'">
 	</div>
 </body> 
 </html> 

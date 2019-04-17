@@ -24,6 +24,10 @@
 	
 	<!-- annotation으로 자동 객체 생성할 대상 설정 -->
 	<context:component-scan base-package="kr.co.planbut" />
+	<context:component-scan base-package="kr.co.planbut.applyBbs" />
+	<context:component-scan base-package="kr.co.planbut.applyRecm" />
+	<context:component-scan base-package="kr.co.planbut.mate" />
+	<context:component-scan base-package="kr.co.planbut.mateBbs" />
 	<context:component-scan base-package="net.utility" />
 	
 	

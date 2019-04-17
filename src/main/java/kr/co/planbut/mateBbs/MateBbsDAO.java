@@ -30,19 +30,14 @@ public class MateBbsDAO {
 		return count;
 	} // create() end
 	
-	/*
-	public ArrayList<NoticeDTO> list() {
-		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);
-		ArrayList<NoticeDTO> list = mapper.list();
+	
+	public ArrayList<MateBbsDTO> list() {
+		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
+		ArrayList<MateBbsDTO> list = mapper.list();
 		return list;
 	} // list() end
 	
-	public NoticeDTO read(NoticeDTO dto) {
-		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);
-		dto = mapper.read(dto);
-		return dto;
-	} // create() end
-	
+	/*
 	public int delete(NoticeDTO dto) {
 		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);
 		int count = mapper.delete(dto);

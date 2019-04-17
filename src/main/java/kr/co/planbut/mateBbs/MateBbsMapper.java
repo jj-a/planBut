@@ -11,10 +11,11 @@ public interface MateBbsMapper {
 	
 	// <insert id="create">
 	public int create(MateBbsDTO dto);
-	/*
+	
 	// <select id="list">
 	public ArrayList<MateBbsDTO> list();
 	
+	/*
 	// <delete id="delete">
 	public int delete(MateBbsDTO dto);
 	

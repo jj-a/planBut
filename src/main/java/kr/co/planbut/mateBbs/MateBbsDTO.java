@@ -10,6 +10,7 @@ public class MateBbsDTO {
 	private String m_date;
 	private String gender;
 	private int capacity;
+	private int people;
 	
 	public MateBbsDTO() {}
 
@@ -84,12 +85,20 @@ public class MateBbsDTO {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
+	
+	public int getPeople() {
+		return people;
+	}
+
+	public void setPeople(int people) {
+		this.people = people;
+	}
 
 	@Override
 	public String toString() {
-		return "MateDTO [b_no=" + b_no + ", mp_id=" + mp_id + ", regdt=" + regdt + ", subject=" + subject + ", content="
-				+ content + ", ct_code=" + ct_code + ", m_date=" + m_date + ", gender=" + gender + ", capacity="
-				+ capacity + "]";
+		return "MateBbsDTO [b_no=" + b_no + ", mp_id=" + mp_id + ", regdt=" + regdt + ", subject=" + subject
+				+ ", content=" + content + ", ct_code=" + ct_code + ", m_date=" + m_date + ", gender=" + gender
+				+ ", capacity=" + capacity + ", people=" + people + "]";
 	}
-	
+
 }

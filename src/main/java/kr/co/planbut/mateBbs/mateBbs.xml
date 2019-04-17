@@ -6,13 +6,11 @@
 
 <!-- MyBatis에서는 namespace를 필수로 설정해야한다 -->
 <!-- namespace = "패키지명.인터페이스" -->
-<mapper namespace="dev.blog.notice5.NoticeMapper">
+<mapper namespace="kr.co.planbut.mateBbs.MateBbsMapper">
 	<!-- 
 	■ 데이터베이스 결과 데이터를 객체에 매핑하는 방법을 정의 
 	■ ResultSet 에서 가져와서 DTO에 담는것과 비슷하다
 	■ 기본키(PK)는 <id>에 지정
-	INSERT INTO mateboard(b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity)
-VALUES((select ifnull(max(b_no),0)+1 from mateboard as TB), 'aaaa', now(), '동행구함제목', '동행구함내용', 'PR', now(), '1', 4);
 	-->
 
 	<insert id="create" parameterType="MateBbsDTO"> <!-- setter 함수가 있기에 parameterType사용 가능 -->
@@ -31,38 +29,35 @@ VALUES((select ifnull(max(b_no),0)+1 from mateboard as TB), 'aaaa', now(), '동�
 		<!-- getter 함수가 있기에 values에 값을 꺼내올 수 있다 -->
 	</insert>
 	
-	<select id="list" resultType="NoticeDTO">
+	<select id="list" resultType="MateBbsDTO">
 		<![CDATA[
-			select noticeno, title, rname, rdate
-			from notice5
-			order by noticeno desc
+		    select b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity, BB.sum(people)  
+		    from(
+			select b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity
+			from mateboard
+			order by b_no desc
+			) AA join mateapply_b as BB
+			on AA.b_no = BB.b_no 
+			
 		]]>
 	</select>
-	
-	<select id="read" parameterType="NoticeDTO" resultType="NoticeDTO">
+	<!-- 	
+	<delete id="delete" parameterType="MateBbsDTO">
 		<![CDATA[
-			select noticeno, title, rname, rdate
-			from notice5
-			where noticeno = #{noticeno}
-		]]>
-	</select>
-	
-	<delete id="delete" parameterType="NoticeDTO">
-		<![CDATA[
-			delete from notice5
-			where noticeno = #{noticeno}
+			delete from mateboard
+			where b_no = #{b_no}
 		]]>
 	</delete>
 	
-	<update id="update" parameterType="NoticeDTO">
+	<update id="update" parameterType="MateBbsDTO">
 		<![CDATA[
-			update notice5
+			update mateboard
 			set title = #{title}, rname = #{rname}, rdate=sysdate
-			where noticeno = #{noticeno}
+			where b_no = #{b_no}
 		]]>
 	</update>
 	
-	<select id="search" resultType="NoticeDTO" parameterType="HashMap">
+	<select id="search" resultType="MateBbsDTO" parameterType="HashMap">
 		select noticeno, title, rname, rdate
 		from notice5
 		<choose>
@@ -77,5 +72,5 @@ VALUES((select ifnull(max(b_no),0)+1 from mateboard as TB), 'aaaa', now(), '동�
 			</when>
 		</choose>
 		order by noticeno desc
-	</select>
+	</select> -->
 </mapper>
