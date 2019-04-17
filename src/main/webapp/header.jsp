@@ -16,22 +16,20 @@
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
-	<nav class="navbar navbar-default navbar-fixed-top">
+	<nav class="navbar navbar-default">
 		<div class="container">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#myNavbar">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="${pageContext.request.contextPath}/">PlanBut</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="${pageContext.request.contextPath}/#">계획짜기</a></li>
-					<li><a href="${pageContext.request.contextPath}/#">동행찾기</a></li>
-					<li><a href="${pageContext.request.contextPath}/#">투어예약</a></li>
-					<li><a href="${pageContext.request.contextPath}/#">여행지</a></li>
+					<li><a href="${pageContext.request.contextPath}/plan/plan.do">계획짜기</a></li>
+					<li><a href="${pageContext.request.contextPath}/mate/mate.do">동행찾기</a></li>
+					<li><a href="${pageContext.request.contextPath}/tour/tour.do">투어예약</a></li>
+					<li><a href="${pageContext.request.contextPath}/place/country.do">여행지</a></li>
 					<li><a href="${pageContext.request.contextPath}/board.do">광장</a></li>
 					<li><a href="${pageContext.request.contextPath}/login.do">로그인</a></li>
 					<li><a href="${pageContext.request.contextPath}/join.do">회원가입</a></li>
@@ -39,9 +37,3 @@
 			</div>
 		</div>
 	</nav>
-	
-	<!-- 
-	<div class="header text-center">
-	  <h1>플랜벗</h1>
-	</div>
-	 -->
