@@ -1,0 +1,25 @@
+
+/planbut/member/*
+회원가입/로그인/로그아웃/정보수정/아이디,비번찾기 페이지
+
+접근권한:
+비회원 - 회원가입, 로그인, 아이디/비밀번호찾기
+회원 - 정보수정, 로그아웃
+
+경로: 
+상단메뉴>회원가입/로그인/로그아웃/회원정보수정
+
+/member/join.do			회원가입
+/member/find.do		아이디/비밀번호찾기
+/member/login.do			로그인
+/member/logout.do		로그아웃
+/member/modify.do		회원정보수정
+
+
+관련 테이블:
+member				회원
+
+
+
+
+

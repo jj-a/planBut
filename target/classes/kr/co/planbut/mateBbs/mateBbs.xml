@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- notice.xml -->
+<!-- 실행할 SQL문을 정의해놓은 파일 -->
+
+<!-- MyBatis에서는 namespace를 필수로 설정해야한다 -->
+<!-- namespace = "패키지명.인터페이스" -->
+<mapper namespace="kr.co.planbut.mateBbs.MateBbsMapper">
+	<!-- 
+	■ 데이터베이스 결과 데이터를 객체에 매핑하는 방법을 정의 
+	■ ResultSet 에서 가져와서 DTO에 담는것과 비슷하다
+	■ 기본키(PK)는 <id>에 지정
+	-->
+
+	<insert id="create" parameterType="MateBbsDTO"> <!-- setter 함수가 있기에 parameterType사용 가능 -->
+		<selectKey keyProperty="b_no" resultType="int" order="BEFORE"> 
+		<!-- keyProperty = "변수명", 변수가 a 라면 밑에 b_no도 a 로 바꿔줘야한다 -->
+		<![CDATA[
+			select ifnull(max(b_no),0)+1 as b_no
+			from mateboard as TB
+		]]>
+		</selectKey>
+		
+		<![CDATA[
+			INSERT INTO mateboard(b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity)
+			values(#{b_no}, #{mp_id}, now(), #{subject}, #{content}, #{ct_code}, #{m_date}, #{gender}, #{capacity}) 
+		]]>
+		<!-- getter 함수가 있기에 values에 값을 꺼내올 수 있다 -->
+	</insert>
+	
+	<select id="list" resultType="MateBbsDTO">
+		<![CDATA[
+		    select b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity
+			from mateboard
+			order by b_no desc
+			
+		]]>
+	</select>
+	<!-- 	
+	<delete id="delete" parameterType="MateBbsDTO">
+		<![CDATA[
+			delete from mateboard
+			where b_no = #{b_no}
+		]]>
+	</delete>
+	
+	<update id="update" parameterType="MateBbsDTO">
+		<![CDATA[
+			update mateboard
+			set title = #{title}, rname = #{rname}, rdate=sysdate
+			where b_no = #{b_no}
+		]]>
+	</update>
+	
+	<select id="search" resultType="MateBbsDTO" parameterType="HashMap">
+		select noticeno, title, rname, rdate
+		from notice5
+		<choose>
+			<when test="col == 'title'">
+				where title like '%' || #{word} || '%'
+			</when>
+			<when test="col == 'rname'">
+				where rname like '%' || #{word} || '%'
+			</when>
+			<when test="col == 'title_rname'">
+				where title like '%' || #{word} || '%' or rname like '%' || #{word} || '%'
+			</when>
+		</choose>
+		order by noticeno desc
+	</select> -->
+</mapper>

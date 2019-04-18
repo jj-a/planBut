@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import kr.co.planbut.common.*;
 
 
 @Component
@@ -19,86 +20,20 @@ public class PlannerDAO {
 	// Constructor
 	
 	public PlannerDAO() {
-		System.out.println("Start NoticeDAO");
+		System.out.println("Start PlannerDAO");
 		
 	}
 	
 	
 	// Method
 	
-	public int create(PlannerDTO dto) {
+	public PlannerDTO home(PlannerDTO dto) {
 
 		PlannerMapper mapper=sqlSession.getMapper(PlannerMapper.class);
-		int result=mapper.create(dto);
+		PlannerDTO planner=mapper.home(dto);
 
-		return result;
+		return planner;
 		
-	} // create() end
-	
-	
-	public ArrayList<PlannerDTO> list() {
-
-		PlannerMapper mapper=sqlSession.getMapper(PlannerMapper.class);
-		ArrayList<PlannerDTO> list=mapper.list();
-
-		return list;
-		
-	} // list() end
-	
-	
-	public ArrayList<PlannerDTO> list(String col, String keyword) {
-
-		PlannerMapper mapper=sqlSession.getMapper(PlannerMapper.class);
-
-		HashMap<String, String> searchMap=new HashMap<String, String>();
-		searchMap.put("col", col);
-		searchMap.put("keyword", keyword);
-		
-		ArrayList<PlannerDTO> list=mapper.search(searchMap);
-
-		return list;
-		
-	} // list() end
-	
-	
-	public PlannerDTO read(PlannerDTO dto) {
-
-		PlannerMapper mapper=sqlSession.getMapper(PlannerMapper.class);
-		dto=mapper.read(dto);
-
-		return dto;
-		
-	} // read() end
-	
-	
-	public int update(PlannerDTO dto) {
-
-		PlannerMapper mapper=sqlSession.getMapper(PlannerMapper.class);
-		int result=mapper.update(dto);
-
-		return result;
-		
-	} // update() end
-	
-
-	public int delete(PlannerDTO dto) {
-
-		PlannerMapper mapper=sqlSession.getMapper(PlannerMapper.class);
-		int result=mapper.delete(dto);
-
-		return result;
-		
-	} // delete() end
-	
-
-	public int count() {
-
-		PlannerMapper mapper=sqlSession.getMapper(PlannerMapper.class);
-		int count=mapper.count();
-
-		return count;
-		
-	} // count() end
-	
+	} // home() end
 	
 }
