@@ -1,26 +1,16 @@
 package kr.co.planbut.plan;
 
+import java.util.ArrayList;
 
 public interface Planmapper {
 	/*
-	  ¸ÅÆÛ(notice.xml)¿¡ µî·ÏµÇ¾îÀÖ´Â id¸¦
-	  ÀÎÅÍÆäÀÌ½º¿¡ µî·Ï ÇÔÀ¸·Î½á MyBatis3¿¡¼­ È£ÃâÇÏ±â Æí¸®ÇÏµµ·Ï Áö¿øÇÔ
-	*/
-	
+	  ë§¤í¼(plan.xml)ì— ë“±ë¡ë˜ì–´ìˆëŠ” idë¥¼
+	  ì¸í„°í˜ì´ìŠ¤ì— ë“±ë¡ í•¨ìœ¼ë¡œì¨ MyBatis3ì—ì„œ í˜¸ì¶œí•˜ê¸° í¸ë¦¬í•˜ë„ë¡ ì§€ì›í•¨
+	 */	
 	//<insert id="create">
-	//public int create(NoticeDTO dto);
-
+	public int create(PlanDTO dto);
 	
 	//<select id="list">
-	//public ArrayList<NoticeDTO> list();
+	public ArrayList<PlanDTO> list();
 	
-	//<update id="update">
-	//public int update(NoticeDTO dto);
-
-	//<delete id="delete">
-	//public int delete(NoticeDTO dto);
-
-	//<select id="search">
-	//public ArrayList<NoticeDTO> search(HashMap searchMap);
-
 }//interface end
