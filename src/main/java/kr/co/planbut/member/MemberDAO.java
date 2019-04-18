@@ -1,15 +1,10 @@
 package kr.co.planbut.member;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import kr.co.planbut.common.*;
-
-
+import kr.co.planbut.common.MemberDTO;
 
 @Component
 public class MemberDAO {
@@ -21,22 +16,22 @@ public class MemberDAO {
 	// Constructor
 	
 	public MemberDAO() {
-		System.out.println("Start MemberDAO");
-		
+		System.out.println("Start MemberDAO");	
 	}
 	
 	
-	// Method
-	
-	
-	public MemberDTO home(MemberDTO dto) {
-
+	public String login(MemberDTO dto) {
 		MemberMapper mapper=sqlSession.getMapper(MemberMapper.class);
-		MemberDTO member=mapper.home(dto);
-
-		return member;
+		MemberDTO member = mapper.login(dto);
+		String result;
+		if (member.getM_id().equals(dto.getM_id())) {
+			result= member.getM_type();
+		}else {
+			result= "fale";
+		}
 		
-	} // home() end
+		return result;
+	}
 	
 	
 }

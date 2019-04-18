@@ -1,15 +1,12 @@
 package kr.co.planbut.member;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.planbut.common.*;
-
+import kr.co.planbut.common.MemberDTO;
 
 @Controller
 public class MemberController {
@@ -27,53 +24,31 @@ public class MemberController {
 	 */
 	
 	// 플래너 홈
-	@RequestMapping(value="/planner/home.do", method=RequestMethod.GET)
-	public ModelAndView home(PlannerDTO dto) {
+	@RequestMapping(value="member/login.do", method=RequestMethod.GET)
+	public ModelAndView loginForm() {
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("planner/home");
+		mav.setViewName("member/loginForm");
 		
 		return mav;
 	} // home() end
-
 	
-	// 캘린더
-	@RequestMapping(value="/planner/calendar.do", method=RequestMethod.GET)
-	public ModelAndView calendar(PlannerDTO dto) {
+	@RequestMapping(value="member/login.do", method=RequestMethod.POST)
+	public ModelAndView loginProc(MemberDTO dto) {
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("planner/calendar");
+		String result = dao.login(dto);
+		
+		System.out.println("로그인 결과(m_type) : " + result);
+		if (result.equals("fale")) {
+			mav.addObject("msg" , "<p>로그인실패</p>");
+			mav.setViewName("member/loginProc");			
+		} else {			
+			mav.addObject("msg" , "<p>로그인성공</p>");
+			mav.setViewName("member/loginProc");			
+		}
 		
 		return mav;
-	} // calendar() end
+	} // home() end
 	
-	
-	// 사진
-	@RequestMapping(value="/planner/gallary.do", method=RequestMethod.GET)
-	public ModelAndView gallary(PlannerDTO dto) {
-		ModelAndView mav=new ModelAndView();
-		mav.setViewName("planner/gallary");
-		
-		return mav;
-	} // gallary() end
-	
-	
-	// 일정
-	@RequestMapping(value="/planner/plan.do", method=RequestMethod.GET)
-	public ModelAndView plan(PlannerDTO dto) {
-		ModelAndView mav=new ModelAndView();
-		mav.setViewName("planner/plan");
-		
-		return mav;
-	} // plan() end
-	
-	
-	// 일일경로
-	@RequestMapping(value="/planner/course.do", method=RequestMethod.GET)
-	public ModelAndView course(PlannerDTO dto) {
-		ModelAndView mav=new ModelAndView();
-		mav.setViewName("planner/course");
-		
-		return mav;
-	} // course() end
 	
 	
 }

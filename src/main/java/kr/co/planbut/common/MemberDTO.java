@@ -1,92 +1,81 @@
 package kr.co.planbut.common;
 
+
+// Member(회원) Table
 public class MemberDTO {
+
+	// Variable
+	private String m_id, password, m_name, email, birth, gender, photo, m_type;
+
 	
-	public MemberDTO() {
-		System.out.println("Start MemberDTO");
+	// Constructor
+	public MemberDTO() {}
+
+	
+	// Getter&Setter
+
+	public String getM_id() {
+		return m_id;
 	}
 
-	
-	// Member(회원) Table
-	public class Member {
-		
-		// Variable
-		private String m_id, password, m_name, email, birth, gender, photo, m_type;
+	public void setM_id(String m_id) {
+		this.m_id = m_id;
+	}
 
+	public String getPassword() {
+		return password;
+	}
 
-		// Constructor
-		public Member() {
-			;
-		}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-		
-		// Getter&Setter
+	public String getM_name() {
+		return m_name;
+	}
 
-		public String getM_id() {
-			return m_id;
-		}
+	public void setM_name(String m_name) {
+		this.m_name = m_name;
+	}
 
-		public void setM_id(String m_id) {
-			this.m_id = m_id;
-		}
+	public String getEmail() {
+		return email;
+	}
 
-		public String getPassword() {
-			return password;
-		}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-		public void setPassword(String password) {
-			this.password = password;
-		}
+	public String getBirth() {
+		return birth;
+	}
 
-		public String getM_name() {
-			return m_name;
-		}
+	public void setBirth(String birth) {
+		this.birth = birth;
+	}
 
-		public void setM_name(String m_name) {
-			this.m_name = m_name;
-		}
+	public String getGender() {
+		return gender;
+	}
 
-		public String getEmail() {
-			return email;
-		}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
-		public void setEmail(String email) {
-			this.email = email;
-		}
+	public String getPhoto() {
+		return photo;
+	}
 
-		public String getBirth() {
-			return birth;
-		}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 
-		public void setBirth(String birth) {
-			this.birth = birth;
-		}
+	public String getM_type() {
+		return m_type;
+	}
 
-		public String getGender() {
-			return gender;
-		}
+	public void setM_type(String m_type) {
+		this.m_type = m_type;
+	}
 
-		public void setGender(String gender) {
-			this.gender = gender;
-		}
-
-		public String getPhoto() {
-			return photo;
-		}
-
-		public void setPhoto(String photo) {
-			this.photo = photo;
-		}
-
-		public String getM_type() {
-			return m_type;
-		}
-
-		public void setM_type(String m_type) {
-			this.m_type = m_type;
-		}
-		
-	} // Member() Class
-
-	
 }
