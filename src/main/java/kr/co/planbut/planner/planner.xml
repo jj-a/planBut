@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL Query -->
+
+<mapper namespace="kr.co.planbut.planner.PlannerMapper">
+
+	<!-- Database 결과 데이터를 객체에 mapping하는 방법 정의 / id=PK -->
+
+	<!-- planner(플래너) 테이블 -->
+	<resultMap type="kr.co.planbut.common.PlannerDTO" id="planner">
+		<result column="plan_code" property="plan_code" />
+		<result column="m_id" property="m_id" />
+		<result column="subject" property="subject" />
+		<result column="people" property="people" />
+	</resultMap>
+
+	<!-- cityplan(도시계획) 테이블 -->
+	<resultMap type="kr.co.planbut.common.CityplanDTO" id="cityplan">
+		<result column="cp_code" property="cp_code" />
+		<result column="plan_code" property="plan_code" />
+		<result column="ct_code" property="ct_code" />
+		<result column="order_code" property="order_code" />
+		<result column="day" property="day" />
+		<result column="trans" property="trans" />
+		<result column="s_date" property="s_date" />
+		<result column="rm_ok" property="rm_ok" />
+	</resultMap>
+
+	<!-- courseplan(경로계획) 테이블 -->
+	<resultMap type="kr.co.planbut.common.CourseplanDTO" id="courseplan">
+		<result column="cos_code" property="cos_code" />
+		<result column="cp_code" property="cp_code" />
+		<result column="course" property="course" />
+		<result column="date" property="date" />
+	</resultMap>
+
+	<!-- country(국가) 테이블 -->
+	<resultMap type="kr.co.planbut.common.CountryDTO" id="country">
+		<result column="c_code" property="c_code" />
+		<result column="c_name" property="c_name" />
+	</resultMap>
+
+	<!-- city(도시) 테이블 -->
+	<resultMap type="kr.co.planbut.common.CityDTO" id="city">
+		<result column="ct_code" property="ct_code" />
+		<result column="c_code" property="c_code" />
+		<result column="ct_name" property="ct_name" />
+	</resultMap>
+
+	<!-- placetype(관광지유형) 테이블 -->
+	<resultMap type="kr.co.planbut.common.PlacetypeDTO" id="placetype">
+		<result column="pt_code" property="pt_code" />
+		<result column="pt_name" property="pt_name" />
+	</resultMap>
+
+	<!-- place(관광지) 테이블 -->
+	<resultMap type="kr.co.planbut.common.PlaceDTO" id="place">
+		<result column="p_code" property="p_code" />
+		<result column="pt_code" property="pt_code" />
+		<result column="ct_code" property="ct_code" />
+		<result column="p_name" property="p_name" />
+		<result column="address" property="address" />
+		<result column="xy" property="xy" />
+		<result column="content" property="content" />
+	</resultMap>
+	
+
+	<!-- SQL -->
+
+	<select id="home" resultType="kr.co.planbut.common.PlannerDTO" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		select plan_code, m_id, subject, people 
+		from planner
+		where plan_code= #{plan_code}
+		]]>
+	</select>
+
+</mapper>
