@@ -29,6 +29,9 @@
 	<context:component-scan base-package="kr.co.planbut.mate" />
 	<context:component-scan base-package="kr.co.planbut.mateBbs" />
 	<context:component-scan base-package="kr.co.planbut.tour" />
+	<context:component-scan base-package="kr.co.planbut.common" />
+	<context:component-scan base-package="kr.co.planbut.planner" />
+	<context:component-scan base-package="kr.co.planbut.member" />
 	<context:component-scan base-package="net.utility" />
 	
 	

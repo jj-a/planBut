@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL Query -->
+
+<mapper namespace="kr.co.planbut.planner.PlannerMapper">
+
+	<!-- Database 결과 데이터를 객체에 mapping하는 방법 정의 / id=PK -->
+
+	<!-- planner(플래너) 테이블 -->
+	<resultMap type="kr.co.planbut.common.PlannerDTO" id="planner">
+		<result column="plan_code" property="plan_code" />
+		<result column="m_id" property="m_id" />
+		<result column="subject" property="subject" />
+		<result column="people" property="people" />
+	</resultMap>
+
+	<!-- SQL -->
+
+	<select id="home" resultType="kr.co.planbut.common.PlannerDTO" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		select plan_code, m_id, subject, people 
+		from planner
+		where plan_code= #{plan_code}
+		]]>
+	</select>
+
+
+</mapper>
