@@ -1,5 +1,6 @@
 package kr.co.planbut.common;
 
+
 // Planner(플래너) Table
 public class PlannerDTO {
 
@@ -10,7 +11,7 @@ public class PlannerDTO {
 
 	// Constructor
 	public PlannerDTO() {
-		System.out.println("Start PlanVO");
+		;
 	}
 
 	
