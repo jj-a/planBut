@@ -71,6 +71,11 @@
 
 <div id="tour4">
 	<p>내 계획에 포함된 도시</p>
+	<table>
+		<tr>
+			<td>파리</td>
+		</tr>
+	</table>
 </div>
 
 <div id="tour5">
