@@ -25,6 +25,24 @@ public class PlannerController {
 	@RequestMapping(value="[요청명령어]", method=RequestMethod.[GET|POST], produces="text/plain; charset='UTF-8'")
 	 */
 	
+	// 마이페이지
+	@RequestMapping(value="/mypage", method=RequestMethod.GET)
+	public ModelAndView mypage(PlannerDTO dto) {
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("redirect:/mypage/planner.do");
+		
+		return mav;
+	} // planner() end
+	
+	// 마이페이지 > 내 플래너 (리스트)
+	@RequestMapping(value="/mypage/planner.do", method=RequestMethod.GET)
+	public ModelAndView planner(PlannerDTO dto) {
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("planner/planner");
+		
+		return mav;
+	} // planner() end
+	
 	
 	// 플래너 홈
 	@RequestMapping(value="/planner/home.do", method=RequestMethod.GET)
@@ -47,23 +65,23 @@ public class PlannerController {
 	
 	
 	// 사진
-	@RequestMapping(value="/planner/gallary.do", method=RequestMethod.GET)
-	public ModelAndView gallary(PlannerDTO dto) {
+	@RequestMapping(value="/planner/gallery.do", method=RequestMethod.GET)
+	public ModelAndView gallery(PlannerDTO dto) {
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("planner/gallary");
+		mav.setViewName("planner/gallery");
 		
 		return mav;
 	} // gallary() end
 	
 	
 	// 일정
-	@RequestMapping(value="/planner/plan.do", method=RequestMethod.GET)
-	public ModelAndView plan(PlannerDTO dto) {
+	@RequestMapping(value="/planner/schedule.do", method=RequestMethod.GET)
+	public ModelAndView schedule(PlannerDTO dto) {
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("planner/plan");
+		mav.setViewName("planner/schedule");
 		
 		return mav;
-	} // plan() end
+	} // schedule() end
 	
 	
 	// 일일경로
