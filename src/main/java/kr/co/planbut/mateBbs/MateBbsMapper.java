@@ -15,10 +15,11 @@ public interface MateBbsMapper {
 	// <select id="list">
 	public ArrayList<MateBbsDTO> list();
 	
-	/*
+	
 	// <delete id="delete">
 	public int delete(MateBbsDTO dto);
 	
+	/*
 	// <select id="read" parameterType="MateBbsDTO" resultType="MateBbsDTO">
 	public MateBbsDTO read(MateBbsDTO dto);
 	

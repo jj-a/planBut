@@ -1,6 +1,9 @@
 package kr.co.planbut.mateBbs;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import javax.xml.ws.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,36 +57,50 @@ public class MateBbsCont {
 	
 		return mav;
 	} // list() end
-	/*
-	@RequestMapping( value = "/notice/delete.do", 
+	
+	@RequestMapping( value = "/mate/delete.do", 
 					 method = RequestMethod.GET )
-	public ModelAndView deleteForm(NoticeDTO dto) {
+	public ModelAndView deleteForm(MateBbsDTO dto) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("notice/deleteForm");
+		mav.setViewName("/mate/mateBbsList");
 		mav.addObject("dto", dto);
-
+		System.out.println(dto);
+		
 		return mav;
 	} // deleteForm() end
-
-	@RequestMapping( value = "/notice/delete.do", 
+	
+	
+	@RequestMapping( value = "/mate/delete.do", 
 				 	 method = RequestMethod.POST )
-	public ModelAndView deleteProc(NoticeDTO dto) {
+	public ModelAndView deleteProc(MateBbsDTO dto) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("notice/msgView");
+		mav.setViewName("mate/msgView");
 		int count = dao.delete(dto);
 		if (count == 0) {
-			mav.addObject("msg1", "<p>공지사항 삭제 실패</p>");
+			mav.addObject("msg1", "<p>동행 게시판 글 삭제 실패</p>");
 			mav.addObject("img", "<img src='../images/fail.jpg' height='300' width='300'>");
 			mav.addObject("link1", "<input type='button' value='다시시도' onclick='javascript:history.back()'>");
 			mav.addObject("link2", "<input type='button' value='그룹목록' onclick='location.href=\"./list.do\"'>");
 		} else {
-			mav.addObject("msg1", "<p>공지사항 삭제 성공</p>");
+			mav.addObject("msg1", "<p>동행 게시판 글 삭제 성공</p>");
 			mav.addObject("img", "<img src='../images/delete.png' height='300' width='300'>");
 			mav.addObject("link2", "<input type='button' value='그룹목록' onclick='location.href=\"./list.do\"'>");
 		} // if end
 		return mav;
 	} // deleteProc() end
-
+	
+	/*@RequestMapping( value  = "/mate/read.do",
+					 method = RequestMethod.GET )
+	public ModelAndView read(MateBbsDTO dto) {
+		ModelAndView mav = new ModelAndView();
+		dto = dao.read(dto);
+		mav.setViewName("mate/mateBbsDel");
+		mav.addObject("dto", dto);
+	
+		return mav;
+	} // read() end	
+*/	
+	/*
 	@RequestMapping( value = "/notice/update.do", 
 					 method = RequestMethod.GET )
 	public ModelAndView updateForm(NoticeDTO dto) {

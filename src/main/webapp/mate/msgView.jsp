@@ -1,14 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %> 
-<!DOCTYPE html> 
-<html> 
-<head> 
-  <meta charset="UTF-8"> 
-  <title>msgView.jsp</title> 
-  <link href="../css/style.css" rel="stylesheet" type="text/css">
-</head> 
-<body>
-  <div class="title">알림</div>
-  <div class="content">
+<%@ include file="../header.jsp"%>
+<!-- 본문 시작 -->
+  <div>알림</div>
+  <div>
+    <input type="text" name="b_no" value="${dto.b_no }">
 	<dl>
 		<dd>${msg1!=null ? img : "" } ${msg1 }</dd>
 		<dd>${msg2!=null ? img : "" } ${msg2 }</dd>
@@ -26,5 +21,5 @@
 	</p>
   </div>
 
-</body> 
-</html> 
+<!-- 본문 끝 -->
+<%@ include file="../footer.jsp"%>

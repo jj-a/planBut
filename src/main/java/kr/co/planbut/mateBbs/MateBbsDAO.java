@@ -38,13 +38,20 @@ public class MateBbsDAO {
 		return list;
 	} // list() end
 	
-	/*
-	public int delete(NoticeDTO dto) {
-		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);
+	
+	public int delete(MateBbsDTO dto) {
+		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
 		int count = mapper.delete(dto);
 		return count;
-	} // create() end
+	} // delete() end
 	
+	/*public MateBbsDTO read(MateBbsDTO dto) {
+		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
+		dto = mapper.read(dto);
+		return dto;
+	} // read() end
+*/	
+	/*
 	public int update(NoticeDTO dto) {
 		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);
 		int count = mapper.update(dto);
