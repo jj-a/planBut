@@ -2,13 +2,16 @@
 <%@ include file="../header.jsp"%>
 <!-- 본문시작 mateBbsList.jsp -->
 
-    <div style="margin: auto;">
+    <div style="margin: auto">
 	<h1>동행 구하기 게시판</h1>
-	<c:forEach var="dto" items="${list }">
 	
 	<form method="POST" action=""> 
+	
 	<table style="text-align: center" border=1>
-	     <tr>
+	<c:forEach var="dto" items="${list }">
+	
+	<input type="hidden" name="b_no" value="">
+	   <tr>
 	        <th>번호</th>
 	        <td>${dto.b_no }</td>
 	        <th>모집자 : ${dto.mp_id }</th>
@@ -21,6 +24,9 @@
 			<th>
             <input type="button" value="글 삭제" onclick="mateBbsDel(this.form, getRowidx(this))">
             </th>
+            <th>
+            <input type="button" value="글 수정" onclick="mateBbsUpdate(this.form, getRowidx(this))">
+            </th>
 		</tr>
 		<tr>
 		    <th>도시</th>
@@ -32,33 +38,12 @@
 			<th>현재확정인원 / 정원</th>
 			<td>${dto.people } / ${dto.capacity }</td>
 		</tr>
-
-	   </table>
-	  
-	   </form>
-	  
-	   <form method="POST" action="./delete.do">
-	   <table>
-	   <tr>
-            <th>
-            <input type="button" value="글 삭제" onclick="mateBbsDel(this.form, getRowidx(this))">
-            </th>
-        </tr>
-        </table>
-        </form>
-        
-       <form method="POST" action="./update.do">
-       <table>
-       <tr>
-            <th>
-            <input type="button" value="글 수정" onclick="location.href='./update.do'">
-            </th>
-        </tr>
-        </table>
+        </c:forEach>
+         </table>
         </form>
         
 	   <br>
-	</c:forEach>
+	
 	
 	</div>
 	<%-- <c:if test="${!(empty requestScope.list)}">
@@ -89,21 +74,30 @@
     
     function mateBbsDel(f, row) {
     	var no = document.getElementsByTagName('tr')[row].children[1].childNodes[0].nodeValue;
+    	
+        alert(no);
+        
+        f.b_no.value = no;
+        
+    	var message="선택한 게시물을 삭제하시겠습니까?";
+        if(confirm(message)) f.submit();
+    } // mateBbsDel() end
+    
+    function mateBbsUpdate(f, row) {
+        var no = document.getElementsByTagName('tr')[row].children[1].childNodes[0].nodeValue;
         
         alert(no);
-        var message="선택한 게시물을 삭제하시겠습니까?";
-
-        if(confirm(message)) {
-        	location.href='./delete.do';
-        } 
-        alert("hello");
-    }
+        
+        f.b_no.value = no;
+        
+        var message="선택한 게시물을 수정하시겠습니까?";
+        if(confirm(message)) f.submit();
+    } // mateBbsUpdate() end
     
     function getRowidx(e) {
-
         return e.parentElement.parentElement.rowIndex;
-
     }
+    
     </script>
    
 <!-- 본문 끝 -->
