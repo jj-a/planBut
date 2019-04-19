@@ -15,11 +15,11 @@
 <input type="hidden" name="ip" value="<%=request.getRemoteAddr()%>">
 <table>
 <tr>
-   <th><input type="text" name="b_no" size="28" maxlength="20" value="${dto.b_no }"'readonly>번 글</th>
+   <th><input type="text" name="b_no" size="28" maxlength="20" value="${dto.b_no }" readonly>번 글</th>
 </tr>
 <tr>
     <th>작성자</th>
-    <td><input type="text" name="mp_id" size="28" maxlength="20" value="${dto.mp_id }"'readonly></td>
+    <td><input type="text" name="mp_id" size="28" maxlength="20" value="${dto.mp_id }" readonly></td>
 </tr> 
 <tr>
     <th>제목</th>

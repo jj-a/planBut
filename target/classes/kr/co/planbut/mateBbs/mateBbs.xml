@@ -65,7 +65,7 @@
     <update id="update" parameterType="MateBbsDTO">
         <![CDATA[
             update mateboard
-            set submit= #{submit}, content= #{content}, gender=#{gender}, ct_code=#{ct_code}, capacity=#{capacity}, m_date=#{m_date}
+            set subject= #{subject}, content= #{content}, gender=#{gender}, ct_code=#{ct_code}, capacity=#{capacity}, m_date=#{m_date}
             where b_no = #{b_no}
         ]]>
     </update>

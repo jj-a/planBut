@@ -5,15 +5,12 @@
     <div style="margin: auto">
 	<h1>동행 구하기 게시판</h1>
 	
-	<form method="POST" action=""> 
-	
+	<form action=""> 
+	<input type="hidden" name="b_no" value="">
 	<table style="text-align: center" border=1>
 	<c:forEach var="dto" items="${list }">
-	
-	<input type="hidden" name="b_no" value="">
 	   <tr>
-	        <th>번호</th>
-	        <td>${dto.b_no }</td>
+	        
 	        <th>모집자 : ${dto.mp_id }</th>
 			<th>작성일</th>
 			<td>${dto.regdt.substring(0,10) }</td>
@@ -21,12 +18,6 @@
 			<td>${dto.subject }</td>
 			<th>내용</th>
 			<td>${dto.content }</td>
-			<th>
-            <input type="button" value="글 삭제" onclick="mateBbsDel(this.form, getRowidx(this))">
-            </th>
-            <th>
-            <input type="button" value="글 수정" onclick="mateBbsUpdate(this.form, getRowidx(this))">
-            </th>
 		</tr>
 		<tr>
 		    <th>도시</th>
@@ -38,6 +29,16 @@
 			<th>현재확정인원 / 정원</th>
 			<td>${dto.people } / ${dto.capacity }</td>
 		</tr>
+		<tr>
+		    <th>번호</th>
+            <td>${dto.b_no }</td>
+            <th>
+            <input type="button" value="글 삭제" onclick="mateBbsDel(this.form, getRowidx(this))">
+            </th>
+            <th>
+            <input type="button" value="글 수정" onclick="mateBbsUpdate(this.form, getRowidx(this))">
+            </th>
+        </tr>
         </c:forEach>
          </table>
         </form>
@@ -74,22 +75,20 @@
     
     function mateBbsDel(f, row) {
     	var no = document.getElementsByTagName('tr')[row].children[1].childNodes[0].nodeValue;
-    	
-        alert(no);
+    	alert(no);
         
         f.b_no.value = no;
-        
+        f.action="./delete.do";
     	var message="선택한 게시물을 삭제하시겠습니까?";
         if(confirm(message)) f.submit();
     } // mateBbsDel() end
     
     function mateBbsUpdate(f, row) {
         var no = document.getElementsByTagName('tr')[row].children[1].childNodes[0].nodeValue;
-        
         alert(no);
         
         f.b_no.value = no;
-        
+        f.action="./update.do";
         var message="선택한 게시물을 수정하시겠습니까?";
         if(confirm(message)) f.submit();
     } // mateBbsUpdate() end

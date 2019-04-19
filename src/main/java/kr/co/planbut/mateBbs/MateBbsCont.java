@@ -79,9 +79,11 @@ public class MateBbsCont {
 					 method = RequestMethod.GET )
 	public ModelAndView deleteForm(MateBbsDTO dto) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/mate/mateBbsList");
+		mav.setViewName("mate/mateBbsList");
 		mav.addObject("dto", dto);
-		System.out.println(dto);
+		mav.addObject("b_no", dto.getB_no());
+		System.out.println(dto.getB_no());
+		
 		return mav;
 	} // deleteForm() end
 	
@@ -89,18 +91,11 @@ public class MateBbsCont {
 				 	 method = RequestMethod.POST )
 	public ModelAndView deleteProc(MateBbsDTO dto) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("mate/msgView");
+		mav.setViewName("redirect:/mate/list.do");
 		int count = dao.delete(dto);
-		if (count == 0) {
-			mav.addObject("msg1", "<p>동행 게시판 글 삭제 실패</p>");
-			mav.addObject("img", "<img src='../images/fail.jpg' height='300' width='300'>");
-			mav.addObject("link1", "<input type='button' value='다시시도' onclick='javascript:history.back()'>");
-			mav.addObject("link2", "<input type='button' value='그룹목록' onclick='location.href=\"./list.do\"'>");
-		} else {
-			mav.addObject("msg1", "<p>동행 게시판 글 삭제 성공</p>");
-			mav.addObject("img", "<img src='../images/delete.png' height='300' width='300'>");
-			mav.addObject("link2", "<input type='button' value='그룹목록' onclick='location.href=\"./list.do\"'>");
-		} // if end
+		mav.addObject("count", count);
+		System.out.println("count");
+		
 		return mav;
 	} // deleteProc() end
 	
