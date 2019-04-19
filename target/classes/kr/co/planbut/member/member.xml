@@ -4,102 +4,11 @@
 <!-- SQL Query -->
 
 <mapper namespace="kr.co.planbut.member.MemberMapper">
-
-	<!-- Database 결과 데이터를 객체에 mapping하는 방법 정의 / id=PK -->
-	<resultMap type="kr.co.planbut.common.MemberDTO" id="rs">
-		<!-- 컬럼 수정해주세요 -->
-		<result column="noticeno" property="noticeno"/>
-		<result column="title" property="title"/>
-		<result column="rname" property="rname"/>
-		<result column="rdate" property="rdate"/>
-	</resultMap>
-
-
-	<!-- SQL -->	<!-- 수정해야함 -->
-
-	<insert id="create" parameterType="NoticeDTO">	<!-- create -->
-		<selectKey keyProperty="noticeno" resultType="int" order="BEFORE">
-			<![CDATA[
-				SELECT NVL(MAX(noticeno), 0)+1 FROM notice5
-			]]>
-		</selectKey>
-		
-		<![CDATA[
-			INSERT INTO notice5(noticeno, title, rname, rdate) 
-			VALUES(#{noticeno}, #{title}, #{rname}, sysdate) 
-		]]>
-	</insert>
-	
-	
-	<select id="list" resultType="NoticeDTO">
-		<![CDATA[
-			SELECT noticeno, title, rname, rdate FROM notice5 
-			ORDER BY noticeno DESC 
-		]]>
+	<select id="login" parameterType="MemberDTO" resultType="MemberDTO">
+        <![CDATA[
+			select m_id, m_type
+			from member
+			where m_id=#{m_id} and password=#{password}
+        ]]>
 	</select>
-	
-	
-	<sql id="tablename">
-		SELECT noticeno, title, rname, rdate FROM notice5 
-	</sql>
-	
-	<sql id="sort">
-		ORDER BY noticeno ASC 
-	</sql>
-	
-	<select id="search" parameterType="HashMap" resultType="NoticeDTO">
-		<!--  || : 문자열 연결의 의미로 쓰임. OR (X) -->
-		<include refid="tablename" />
-		<choose>
-			<when test="col=='all'">
-				WHERE title LIKE '%' || #{keyword} || '%' OR rname LIKE '%' || #{keyword} || '%'
-			</when>
-			<when test="col=='title'">
-				WHERE title LIKE '%' || #{keyword} || '%'
-			</when>
-			<when test="col=='rname'">
-				WHERE rname LIKE '%' || #{keyword} || '%'
-			</when>
-			<!-- 
-			<otherwise>
-				WHERE #{col} LIKE '%' || #{keyword} || '%'
-			</otherwise>
-			 -->
-		</choose>
-		<include refid="sort" />
-	</select>
-	
-	
-	<update id="update" parameterType="NoticeDTO">
-		<![CDATA[
-			UPDATE notice5 
-			SET title=#{title}, rname=#{rname}, rdate=sysdate 
-			WHERE noticeno=#{noticeno} 
-		]]>
-	</update>
-	
-	
-	<select id="read" parameterType="NoticeDTO" resultType="NoticeDTO">
-		<![CDATA[
-			SELECT noticeno, title, rname, rdate FROM notice5 
-			WHERE noticeno=#{noticeno} 
-		]]>
-	</select>
-
-
-	<delete id="delete" parameterType="NoticeDTO">
-		<![CDATA[
-			DELETE FROM notice5 
-			WHERE noticeno=#{noticeno} 
-		]]>
-	</delete>
-	
-	
-	<select id="count" resultType="int">
-		<![CDATA[
-			SELECT COUNT(*) FROM notice5 
-		]]>
-	</select>
-	
-
 </mapper>

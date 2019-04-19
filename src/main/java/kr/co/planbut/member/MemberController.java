@@ -2,13 +2,16 @@ package kr.co.planbut.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.planbut.common.MemberDTO;
 
 @Controller
+@SessionAttributes({"session_m_id","session_m_type"})
 public class MemberController {
 	
 	@Autowired
@@ -38,10 +41,13 @@ public class MemberController {
 		String result = dao.login(dto);
 		
 		System.out.println("로그인 결과(m_type) : " + result);
-		if (result.equals("fale")) {
+		if (result.equals("fale")) {			
 			mav.addObject("msg" , "<p>로그인실패</p>");
 			mav.setViewName("member/loginProc");			
-		} else {			
+		} else {//로그인 성공시 세션 적용			
+			Model model = null;
+			model.addAttribute("session_m_id", dto.getM_id());
+			model.addAttribute("session_m_type", result);
 			mav.addObject("msg" , "<p>로그인성공</p>");
 			mav.setViewName("member/loginProc");			
 		}

@@ -30,9 +30,9 @@
 					<li><a href="${pageContext.request.contextPath}/mate/mate.do">동행찾기</a></li>
 					<li><a href="${pageContext.request.contextPath}/tour/tour.do">투어예약</a></li>
 					<li><a href="${pageContext.request.contextPath}/place/country.do">여행지</a></li>
-					<li><a href="${pageContext.request.contextPath}/board.do">광장</a></li>
-					<li><a href="${pageContext.request.contextPath}/login.do">로그인</a></li>
-					<li><a href="${pageContext.request.contextPath}/join.do">회원가입</a></li>
+					<li><a href="${pageContext.request.contextPath}/board/list.do">광장</a></li>
+					<li><a href="${pageContext.request.contextPath}/member/login.do">로그인</a></li>
+					<li><a href="${pageContext.request.contextPath}/member/join.do">회원가입</a></li>
 				</ul>
 			</div>
 		</div>
