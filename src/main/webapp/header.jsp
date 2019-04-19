@@ -56,8 +56,7 @@
 							</ul>
 						</div>
 					</li>
-
-				</ul>
+					</ul>
 			</div>
 		</div>
 	</nav>
