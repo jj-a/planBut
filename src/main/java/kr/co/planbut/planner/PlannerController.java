@@ -45,6 +45,16 @@ public class PlannerController {
 	
 	
 	// 플래너 홈
+	@RequestMapping(value="/planner/", method=RequestMethod.GET)
+	public ModelAndView plannerhome(PlannerDTO dto) {
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("redirect:/planner/home.do");
+		
+		return mav;
+	} // home() end
+	
+	
+	// 플래너 홈
 	@RequestMapping(value="/planner/home.do", method=RequestMethod.GET)
 	public ModelAndView home(PlannerDTO dto) {
 		ModelAndView mav=new ModelAndView();

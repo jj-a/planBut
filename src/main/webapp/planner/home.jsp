@@ -30,8 +30,8 @@
 <!-- Contents -->
       
 <h3>
-	<a href="${pageContext.request.contextPath}/planner/">마이페이지</a> > 
-	<a href="${pageContext.request.contextPath}/planner/">내 플래너</a> > 
+	<a href="${pageContext.request.contextPath}/mypage/">마이페이지</a> > 
+	<a href="${pageContext.request.contextPath}/mypage/planner.do">내 플래너</a> > 
 	<a href="home.do">홈</a>
 </h3>
 
