@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL Query -->
+
+<mapper namespace="kr.co.planbut.member.MemberMapper">
+	<select id="login" parameterType="MemberDTO" resultType="MemberDTO">
+        <![CDATA[
+			select m_id, m_type
+			from member
+			where m_id=#{m_id} and password=#{password}
+        ]]>
+	</select>
+</mapper>

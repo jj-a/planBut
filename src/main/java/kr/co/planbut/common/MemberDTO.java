@@ -1,6 +1,5 @@
 package kr.co.planbut.common;
 
-
 // Member(회원) Table
 public class MemberDTO {
 
@@ -9,10 +8,8 @@ public class MemberDTO {
 
 	
 	// Constructor
-	public MemberDTO() {
-		;
-	}
-
+	public MemberDTO() {}
+	
 	
 	// Getter&Setter
 
