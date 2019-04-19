@@ -36,7 +36,7 @@ public class MemberController {
 	} // home() end
 	
 	@RequestMapping(value="member/login.do", method=RequestMethod.POST)
-	public ModelAndView loginProc(MemberDTO dto) {
+	public ModelAndView loginProc(MemberDTO dto, Model model) {
 		ModelAndView mav=new ModelAndView();
 		String result = dao.login(dto);
 		
@@ -45,7 +45,6 @@ public class MemberController {
 			mav.addObject("msg" , "<p>로그인실패</p>");
 			mav.setViewName("member/loginProc");			
 		} else {//로그인 성공시 세션 적용			
-			Model model = null;
 			model.addAttribute("session_m_id", dto.getM_id());
 			model.addAttribute("session_m_type", result);
 			mav.addObject("msg" , "<p>로그인성공</p>");
