@@ -14,7 +14,9 @@ public interface MateBbsMapper {
 	
 	// <select id="list">
 	public ArrayList<MateBbsDTO> list();
-	
+
+	// <update id="update">
+	public int update(MateBbsDTO dto);
 	
 	// <delete id="delete">
 	public int delete(MateBbsDTO dto);
@@ -23,9 +25,6 @@ public interface MateBbsMapper {
 	// <select id="read" parameterType="MateBbsDTO" resultType="MateBbsDTO">
 	public MateBbsDTO read(MateBbsDTO dto);
 	
-	// <update id="update">
-	public int update(MateBbsDTO dto);
-
 	// <select id="search">
 	public ArrayList<MateBbsDTO> search(HashMap searchMap);*/
 	

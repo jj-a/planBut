@@ -46,7 +46,6 @@ public class MateBbsCont {
 		return mav;
 	} // createProc() end
 
-	
 	@RequestMapping("/mate/list.do")
 	public ModelAndView list() {
 		ModelAndView mav = new ModelAndView();
@@ -54,9 +53,27 @@ public class MateBbsCont {
 		// ArrayList<MateBbsDTO> list = dao.list();
 		// mav.addObject("list", list); ㅡ▶ 밑에 한줄과 같은 의미
 		mav.addObject("list", dao.list());
-	
 		return mav;
 	} // list() end
+	
+	@RequestMapping( value = "/mate/update.do", 
+			method = RequestMethod.GET )
+	public ModelAndView updateForm(MateBbsDTO dto) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("mate/mateBbsUpdate");
+		mav.addObject("dto", dto);
+		return mav;
+	} // updateForm() end
+		   
+	@RequestMapping( value = "/mate/update.do", 
+			method = RequestMethod.POST )
+	public ModelAndView updateProc(MateBbsDTO dto) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/mate/list.do");
+		int count = dao.update(dto);
+		mav.addObject("count", count);
+		return mav;
+	} // updateProc() end
 	
 	@RequestMapping( value = "/mate/delete.do", 
 					 method = RequestMethod.GET )
@@ -65,10 +82,8 @@ public class MateBbsCont {
 		mav.setViewName("/mate/mateBbsList");
 		mav.addObject("dto", dto);
 		System.out.println(dto);
-		
 		return mav;
 	} // deleteForm() end
-	
 	
 	@RequestMapping( value = "/mate/delete.do", 
 				 	 method = RequestMethod.POST )

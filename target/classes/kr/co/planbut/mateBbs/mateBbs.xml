@@ -62,15 +62,15 @@
         ]]>
     </select> -->
     
-	<!--   
-	<update id="update" parameterType="MateBbsDTO">
-		<![CDATA[
-			update mateboard
-			set title = #{title}, rname = #{rname}, rdate=sysdate
-			where b_no = #{b_no}
-		]]>
-	</update>
-	
+    <update id="update" parameterType="MateBbsDTO">
+        <![CDATA[
+            update mateboard
+            set submit= #{submit}, content= #{content}, gender=#{gender}, ct_code=#{ct_code}, capacity=#{capacity}, m_date=#{m_date}
+            where b_no = #{b_no}
+        ]]>
+    </update>
+    
+	<!--
 	<select id="search" resultType="MateBbsDTO" parameterType="HashMap">
 		select noticeno, title, rname, rdate
 		from notice5
