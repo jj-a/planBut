@@ -64,9 +64,29 @@
 		<result column="xy" property="xy" />
 		<result column="content" property="content" />
 	</resultMap>
+
+	<!-- member(회원) 테이블 -->
+	<resultMap type="kr.co.planbut.common.MemberDTO" id="member">
+		<result column="m_id" property="m_id" />
+		<result column="password" property="password" />
+		<result column="m_name" property="m_name" />
+		<result column="email" property="email" />
+		<result column="birth" property="birth" />
+		<result column="gender" property="gender" />
+		<result column="photo" property="photo" />
+		<result column="m_type" property="m_type" />
+	</resultMap>
 	
 
 	<!-- SQL -->
+
+	<select id="plannerList" resultType="kr.co.planbut.common.PlannerDTO" parameterType="String">
+		<![CDATA[
+		select plan_code, m_id, subject, people 
+		from planner
+		where m_id=  #{m_id}
+		]]>
+	</select>
 
 	<select id="home" resultType="kr.co.planbut.common.PlannerDTO" parameterType="kr.co.planbut.common.PlannerDTO">
 		<![CDATA[
