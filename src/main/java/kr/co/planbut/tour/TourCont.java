@@ -13,19 +13,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class TourCont {
-	/*
+
 	@Autowired
 	TourDAO dao;
-	*/
-	
+
 	public TourCont() {
 		System.out.println("--- PlanButCont 생성");
 	}
 	
-	@RequestMapping(value="/tour/tour.do", method=RequestMethod.GET)
-	public ModelAndView tour() {
+	@RequestMapping(value="/tour/tour.do")
+	public ModelAndView list() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("tour/index");
+		ArrayList<TourDTO> list = dao.list();
+		mav.addObject("list", list);
 		return mav;
 	}//index end
 	
@@ -36,7 +37,6 @@ public class TourCont {
 		return mav;
 	}//index end
 	
-	
 	@RequestMapping(value="/tour/tourinfo.do", method=RequestMethod.GET)
 	public ModelAndView tourinfo() {
 		ModelAndView mav = new ModelAndView();
@@ -44,16 +44,5 @@ public class TourCont {
 		return mav;
 	}//index end
 	
-	
-	/*
-	@RequestMapping("/notice/list.do")
-	public ModelAndView list() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("notice/list");
-		ArrayList<TourDTO> list = dao.list();
-		mav.addObject("list", list);
-		return mav;
-	}//list end
-	*/
-	
+
 }//class end

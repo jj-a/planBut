@@ -50,7 +50,7 @@
 #tour_home{
 	cursor : pointer;
 	text-align : center;
-	margin : 0 39% 0 39%;
+	margin : 0 35% 0 35%;
 }
 </style>
 
@@ -71,17 +71,21 @@
 </div>
 
 <div id="tour3">
-	<p>국가 ▼</p>
+	<h3>국가 ▼</h3>
 	<div>
-	<p>도시 ▼</p>
+		<h3>도시▼</h3>
+		<c:forEach var="dto" items="${list }">
+			<div>
+				<p>${dto.ct_code }</p>
+			</div>
+		</c:forEach>
 	</div>
-	
 </div>
 
 <div id="tour4">
 	<p>내 계획에 포함된 도시</p>
 	<table>
-		<tr >
+		<tr>
 			<td>이미지</td>
 		</tr>
 		<tr>

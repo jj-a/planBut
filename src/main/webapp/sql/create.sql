@@ -311,3 +311,5 @@ SELECT * from place;
 SELECT * from board;
 
 SELECT * from boardreply;
+
+SELECT * from tour;

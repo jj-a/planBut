@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!-- mem.xml -->
+ <!-- 실행할 SQL 문을 정의 해 놓은 파일-->
+
+
+<!-- namespace를 필수로 지정해야함 -->
+ <mapper namespace="kr.co.planbut.tour.TourMapper"> 
+    <!-- 
+                데이터베이스 결과를 객체에 매핑 하는 방법을 정의한다.
+        ResultSet에서 가져와서 dto에 담는것과 비슷
+                기본키는 <id>에 지정한다.
+     -->
+    
+    	<!-- tour/city.jsp 투어 리스트 -->
+    	<select id="list" resultType="TourDTO">
+		<![CDATA[
+			SELECT tour_code, tour_name, ct_code, price, content, s_date, e_date, photo, category, t_time, m_place, capacity, minimum, day
+			FROM tour
+			ORDER BY tour_code
+		]]>
+	</select>
+    
+  	<!-- tour/tourinfo.jsp 투어 상세보기 -->
+     <select id="read" parameterType="TourDTO" resultType="TourDTO">
+         <![CDATA[
+            SELECT tour_code, tour_name, ct_code, price, content, s_date, e_date, photo, category, t_time, m_place, capacity, minimum, day
+            FROM tour
+            WHERE tour_code = #{tour_code}
+            ORDER BY category
+        ]]>
+     </select>
+    
+    <!-- 관리자 페이지 투어 입력 -->
+    <insert id="create" parameterType="TourDTO">
+		<selectKey keyProperty="tour_code" resultType="string"
+			order="BEFORE">
+		<![CDATA[
+			SELECT tour_code
+			FROM tour
+		]]>
+		</selectKey>
+		
+		<![CDATA[
+			INSERT INTO tour(tour_code, tour_name, ct_code, price, content, s_date, e_date, photo, category, t_time, m_place, capacity, minimum, day)
+			VALUES (#{tour_code}, #{tour_name}, #{ct_code}, price, content, s_date, e_date, photo, category, t_time, m_place, capacity, minimum, day)
+		]]>
+	</insert>
+    
+    
+    <!-- 관리자 페이지 투어 정보수정 -->
+    <update id="update" parameterType="TourDTO">
+		<![CDATA[
+			UPDATE tour
+			SET tour_name, price, content, s_date, e_date, photo, category, t_time, m_place, capacity, minimum, day
+			WHERE tour_code=#{tour_code}
+		]]>
+	</update>
+    
+    <!-- 관리자 페이지 투어 삭제 -->
+    	<delete id="delete" parameterType="TourDTO">
+		<![CDATA[
+			DELETE FROM tour
+			WHERE tour_code = #{tour_code}
+		]]>
+	</delete>
+    
+ </mapper>
+ 
