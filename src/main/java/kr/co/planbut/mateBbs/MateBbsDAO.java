@@ -38,19 +38,25 @@ public class MateBbsDAO {
 		return list;
 	} // list() end
 	
-	/*
-	public int delete(NoticeDTO dto) {
-		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);
-		int count = mapper.delete(dto);
-		return count;
-	} // create() end
-	
-	public int update(NoticeDTO dto) {
-		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);
+	public int update(MateBbsDTO dto) {
+		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
 		int count = mapper.update(dto);
 		return count;
 	} // create() end
 	
+	public int delete(MateBbsDTO dto) {
+		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
+		int count = mapper.delete(dto);
+		return count;
+	} // delete() end
+	
+	public MateBbsDTO read(MateBbsDTO dto) {
+		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
+		dto = mapper.read(dto);
+		return dto;
+	} // read() end
+	
+	/*
 	public ArrayList<NoticeDTO> search(String col, String word) {
 		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);
 		HashMap searchMap = new HashMap();

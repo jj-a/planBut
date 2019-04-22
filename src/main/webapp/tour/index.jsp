@@ -50,11 +50,20 @@
 #tour_home{
 	cursor : pointer;
 	text-align : center;
-	margin : 0 135px 0 135px;
+	margin : 0 35% 0 35%;
 }
 </style>
 
 <!-- home -> 투어 예약 -->
+<!-- 임시 버튼  -->
+<table>
+<tr>
+<td><input type="button" value="도시" onclick="location.href='./city.do'"></td>
+<td><input type="button" value="투어정보" onclick="location.href='./tourinfo.do'"></td>
+</tr>
+</table>
+
+
 <div id="tour1"></div>
 
 <div id="tour2">
@@ -62,15 +71,30 @@
 </div>
 
 <div id="tour3">
-	<p>국가 ▼</p>
+	<h3>국가 ▼</h3>
 	<div>
-	<p>도시 ▼</p>
+		<h3>도시▼</h3>
+		<c:forEach var="dto" items="${list }">
+			<div>
+				<p>${dto.ct_code }</p>
+			</div>
+		</c:forEach>
 	</div>
-	
 </div>
 
 <div id="tour4">
 	<p>내 계획에 포함된 도시</p>
+	<table>
+		<tr>
+			<td>이미지</td>
+		</tr>
+		<tr>
+			<td>파리</td>
+		</tr>
+		<tr>
+			<td>프랑스</td>
+		</tr>
+	</table>
 </div>
 
 <div id="tour5">

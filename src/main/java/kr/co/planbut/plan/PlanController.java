@@ -1,6 +1,7 @@
 package kr.co.planbut.plan;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,7 +17,7 @@ public class PlanController {
 	}// planController() end
 	
 	@RequestMapping(value="/plan/plan.do", method=RequestMethod.GET)
-	public ModelAndView createForm() {
+	public ModelAndView plan(Model model) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/plan");
 		return mav;

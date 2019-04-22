@@ -19,6 +19,5 @@ public class HomeController {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("index");
 		return mav;
-	}
-	
+	}	
 }

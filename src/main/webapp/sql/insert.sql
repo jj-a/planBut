@@ -155,5 +155,7 @@ VALUES('Q001', 'Q001-01', '답변내용이요', now());
 INSERT INTO treview(rv_code, re_code, m_id, content, star, regdt)
 VALUES('RE001', '20190317-11', 'aaaa', '리뷰입니다', 4, now());
 
-SELECT * from treview;
+SELECT * from country;
+
+
 

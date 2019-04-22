@@ -23,6 +23,7 @@
 <br />
 <br />
 <br />
+
 <div id="map"></div>
     <div id="legend"><h3>Legend</h3></div>
     <script>
