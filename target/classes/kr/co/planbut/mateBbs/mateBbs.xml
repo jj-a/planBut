@@ -30,29 +30,42 @@
 	</insert>
 	
 	<select id="list" resultType="MateBbsDTO">
-		<![CDATA[
-		    select b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity
-			from mateboard
-			order by b_no desc
-			
+	    <![CDATA[
+		    select if(aa.pp=null,0,aa.pp) people, BB.b_no, BB.mp_id, BB.regdt, BB.subject, BB.content, BB.ct_code, BB.m_date, BB.gender, BB.capacity
+            from(
+                select b_no, sum(people) pp
+                from mateapply_b TB
+                order by b_no desc
+            ) AA right join mateboard BB
+            on AA.b_no = BB.b_no
+            order by b_no desc
 		]]>
 	</select>
-	<!-- 	
+	
 	<delete id="delete" parameterType="MateBbsDTO">
-		<![CDATA[
+	    <![CDATA[
 			delete from mateboard
 			where b_no = #{b_no}
 		]]>
 	</delete>
 	
-	<update id="update" parameterType="MateBbsDTO">
-		<![CDATA[
-			update mateboard
-			set title = #{title}, rname = #{rname}, rdate=sysdate
-			where b_no = #{b_no}
-		]]>
-	</update>
-	
+	<select id="read" parameterType="MateBbsDTO" resultType="MateBbsDTO">
+        <![CDATA[
+            select b_no, mp_id, subject, content, ct_code, m_date, gender, capacity, regdt
+	        from mateboard as TB
+	        where b_no=#{b_no}
+        ]]>
+    </select>
+    
+    <update id="update" parameterType="MateBbsDTO">
+        <![CDATA[
+            update mateboard
+            set subject= #{subject}, content= #{content}, gender=#{gender}, ct_code=#{ct_code}, capacity=#{capacity}, m_date=#{m_date}
+            where b_no = #{b_no}
+        ]]>
+    </update>
+    
+	<!--
 	<select id="search" resultType="MateBbsDTO" parameterType="HashMap">
 		select noticeno, title, rname, rdate
 		from notice5
