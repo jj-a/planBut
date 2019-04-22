@@ -27,6 +27,15 @@ public class PlannerDAO {
 	
 	// Method
 	
+	public ArrayList<PlannerDTO> plannerList(String m_id) {
+
+		PlannerMapper mapper=sqlSession.getMapper(PlannerMapper.class);
+		ArrayList<PlannerDTO> list=mapper.plannerList(m_id);
+
+		return list;
+		
+	} // plannerList() end
+	
 	public PlannerDTO home(PlannerDTO dto) {
 
 		PlannerMapper mapper=sqlSession.getMapper(PlannerMapper.class);
