@@ -22,4 +22,19 @@ public class PlanController {
 		mav.setViewName("plan/plan");
 		return mav;
 	}//creatForm end
+	
+	@RequestMapping(value="/plan/planTest.do", method=RequestMethod.GET)
+	public ModelAndView planTest(Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("plan/planTest");
+		return mav;
+	}//creatForm end
+	
+	@RequestMapping(value="/plan/planTest.do", method=RequestMethod.POST)
+	public ModelAndView planTestResult(Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("plan/planTestResult");
+		return mav;
+	}//creatForm end
+	
 }// class end
