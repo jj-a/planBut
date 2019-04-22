@@ -30,39 +30,26 @@ public class MemberController {
 	@RequestMapping(value="[요청명령어]", method=RequestMethod.[GET|POST], produces="text/plain; charset='UTF-8'")
 	 */
 	
-	// 플래너 홈
-	@RequestMapping(value="member/login.do", method=RequestMethod.GET)
-	public ModelAndView loginForm() {
-		ModelAndView mav=new ModelAndView();
-		mav.setViewName("member/loginForm");
-		
-		return mav;
-	} // home() end
-	
 	@RequestMapping(value="member/login.do", method=RequestMethod.POST )
 	public ModelAndView loginProc(MemberDTO dto, Model model, HttpServletRequest request) {
-		String result = dao.login(dto);
-		
-		//http://localhost:9090/planbut/plan/plan.do
-		System.out.println(request.getHeader("referer"));
+		String result = dao.login(dto);//로그인 result는 m_type		
+		ModelAndView mav;
 		String url = request.getHeader("referer");
 		int start = url.lastIndexOf("/planbut/");
-		//int end = url.indexOf(".do");
-		String addr = url.substring(start);
-		System.out.println(addr);
-		System.out.println("로그인 결과(m_type) : " + result);
-		RedirectView rv = new RedirectView(addr);
-		rv.setExposeModelAttributes(false);
-		ModelAndView mav=new ModelAndView(rv);	
+		String addr = url.substring(start); //이전페이지 주소(~~.do)
 		
-		if (result.equals("fale")) {
-			mav.addObject("msg", "<script type=\"text/javascript\">alert(\"로그인실패\");javascript:history.back()</script>");
-			mav.setViewName("redirect:"+addr);			
+		if (result.equals("fale")) {//로그인 실패시 msg넘김
+			mav=new ModelAndView();	
+			mav.setViewName("msgView");
+			mav.addObject("msg", "<h3>로그인에 '실패' 했습니다.</h3>");	
+			mav.addObject("msg1", "<h4>아이디 또는 비밀번호를 확인해 주세요</h4>");	
+			mav.addObject("msg2", "<button onclick='javascript:history.back()'>다시시도</button> ");		
 		} else {//로그인 성공시 세션 적용			
+			RedirectView rv = new RedirectView(addr);
+			rv.setExposeModelAttributes(false);
+			mav=new ModelAndView(rv);	
 			model.addAttribute("session_m_id", dto.getM_id());
-			model.addAttribute("session_m_type", result);
-			mav.addObject("msg", "<script type=\"text/javascript\">alert(\"로그인 되었습니다.\");</script>");	
-			
+			model.addAttribute("session_m_type", result);			
 		}
 		
 		return mav;
@@ -72,11 +59,9 @@ public class MemberController {
 	public ModelAndView logout(MemberDTO dto, SessionStatus status, HttpServletRequest request) {
 		status.setComplete();//세션 지우기
 		
-		System.out.println(request.getHeader("referer"));
 		String url = request.getHeader("referer");
 		int start = url.lastIndexOf("/planbut/");
-		String addr = url.substring(start);
-		System.out.println(addr);
+		String addr = url.substring(start); //이전페이지 주소(~~.do)
 		
 		RedirectView rv = new RedirectView(addr);
 		rv.setExposeModelAttributes(false);

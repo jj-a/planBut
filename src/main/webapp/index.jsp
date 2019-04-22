@@ -112,6 +112,7 @@
 			</div>
 		</div>
 	</nav>
+	${msgh }
 	
 	<!-- 
 	<div class="header text-center">
@@ -170,7 +171,6 @@
 			</form>
 		</div>
 	</div>
-	${msg }
 
 	<footer class="container-fluid text-center">
 		<a href="#myPage" title="To Top"> <span class="glyphicon glyphicon-chevron-up"></span></a>

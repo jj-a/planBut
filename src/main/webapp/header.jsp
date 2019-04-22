@@ -111,6 +111,8 @@
 			</div>
 		</div>
 	</nav>
+	${msgh }
+
 	<div id="loginmodal" class="modalDialog"> <!-- 로그인 모달 -->
 		<div>
 			<a href="#close" title="Close" class="close">X</a>
@@ -144,4 +146,3 @@
 			</form>
 		</div>
 	</div>
-	${msg }
