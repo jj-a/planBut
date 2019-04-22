@@ -11,6 +11,8 @@
 <br />
 <br />
 <div class="item">hello!!</div>
+<div class="item">${session_m_id }</div>
+<div class="item">${session_m_type }</div>
 <div id="map"></div>
 <script>
 	// Initialize and add the map
