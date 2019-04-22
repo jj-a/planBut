@@ -3,8 +3,7 @@
 <!-- 본문 시작 -->
   <div>알림</div>
   <div>
-    <input type="text" name="b_no" value="<%=request.getParameter("b_no")%>">
-	<dl>
+    <dl>
 		<dd>${msg1!=null ? img : "" } ${msg1 }</dd>
 		<dd>${msg2!=null ? img : "" } ${msg2 }</dd>
 		<dd>${msg3!=null ? img : "" } ${msg3 }</dd>

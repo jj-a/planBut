@@ -33,36 +33,36 @@
 </tr> 
 <tr>
     <th>성별</th>
-    <td><select name="gender"  id="gender" value="${dto.gender }">
-          <option value="F">여자</option>
-          <option value="M">남자</option>
+    <td><select name="gender"  id="gender">
+          <option value="F" <c:if test="${dto.gender == 'F' }">selected</c:if>>여자</option>
+          <option value="M" <c:if test="${dto.gender == 'M' }">selected</c:if>>남자</option>
         </select>
      </td>
 </tr>
 <tr>
     <th>도시</th>
-    <td><select name="ct_code"  id="ct_code" value="${dto.ct_code }">
-          <option value="0">선택하세요.</option>
-          <option value="NY">뉴욕</option>
-          <option value="NS">니스</option>
-          <option value="LD">런던</option>
-          <option value="RM">로마</option>
-          <option value="LA">로스엔젤레스</option>
-          <option value="LS">리스본</option>
-          <option value="MD">마드리드</option>
-          <option value="MS">마르세유</option>
-          <option value="MH">뮌헨</option>
-          <option value="BR">바르셀로나</option>
-          <option value="BL">베를린</option>
-          <option value="BS">부산</option>
-          <option value="BU">브뤼셀</option>
-          <option value="SO">서울</option>
-          <option value="AM">암스테르담</option>
-          <option value="ED">에든버러</option>
-          <option value="IN">인터라켄</option>
-          <option value="ZU">취리히</option>
-          <option value="PR">파리</option>
-          <option value="FL">피렌체</option>
+    <td><select name="ct_code"  id="ct_code">
+          <option value="0" <c:if test="${dto.ct_code == '0' }">selected</c:if>>선택하세요.</option>
+          <option value="NY" <c:if test="${dto.ct_code == 'NY' }">selected</c:if>>뉴욕</option>
+          <option value="NS" <c:if test="${dto.ct_code == 'NS' }">selected</c:if>>니스</option>
+          <option value="LD" <c:if test="${dto.ct_code == 'LD' }">selected</c:if>>런던</option>
+          <option value="RM" <c:if test="${dto.ct_code == 'RM' }">selected</c:if>>로마</option>
+          <option value="LA" <c:if test="${dto.ct_code == 'LA' }">selected</c:if>>로스엔젤레스</option>
+          <option value="LS" <c:if test="${dto.ct_code == 'LS' }">selected</c:if>>리스본</option>
+          <option value="MD" <c:if test="${dto.ct_code == 'MD' }">selected</c:if>>마드리드</option>
+          <option value="MS" <c:if test="${dto.ct_code == 'MS' }">selected</c:if>>마르세유</option>
+          <option value="MH" <c:if test="${dto.ct_code == 'MH' }">selected</c:if>>뮌헨</option>
+          <option value="BR" <c:if test="${dto.ct_code == 'BR' }">selected</c:if>>바르셀로나</option>
+          <option value="BL" <c:if test="${dto.ct_code == 'BL' }">selected</c:if>>베를린</option>
+          <option value="BS" <c:if test="${dto.ct_code == 'BS' }">selected</c:if>>부산</option>
+          <option value="BU" <c:if test="${dto.ct_code == 'BU' }">selected</c:if>>브뤼셀</option>
+          <option value="SO" <c:if test="${dto.ct_code == 'SO' }">selected</c:if>>서울</option>
+          <option value="AM" <c:if test="${dto.ct_code == 'AM' }">selected</c:if>>암스테르담</option>
+          <option value="ED" <c:if test="${dto.ct_code == 'ED' }">selected</c:if>>에든버러</option>
+          <option value="IN" <c:if test="${dto.ct_code == 'IN' }">selected</c:if>>인터라켄</option>
+          <option value="ZU" <c:if test="${dto.ct_code == 'ZU' }">selected</c:if>>취리히</option>
+          <option value="PR" <c:if test="${dto.ct_code == 'PR' }">selected</c:if>>파리</option>
+          <option value="FL" <c:if test="${dto.ct_code == 'FL' }">selected</c:if>>피렌체</option>
         </select></td>
 </tr>
 <tr>
@@ -71,7 +71,7 @@
 </tr> 
 <tr>
     <th>동행날짜</th>
-    <td><input type="text" name="m_date" size="28" maxlength="100" value="${dto.m_date }"  required></td>
+    <td><input type="text" name="m_date" size="28" maxlength="100" value="${dto.m_date.substring(0,10) }"  required></td>
 </tr> 
 <tr>
     <td colspan="2" align="center">

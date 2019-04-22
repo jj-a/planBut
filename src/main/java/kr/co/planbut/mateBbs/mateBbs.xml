@@ -44,7 +44,7 @@
 	
 	<delete id="delete" parameterType="MateBbsDTO">
 	    <![CDATA[
-			delete from mateboard as TB
+			delete from mateboard
 			where b_no = #{b_no}
 		]]>
 	</delete>
