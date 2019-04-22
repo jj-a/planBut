@@ -56,30 +56,41 @@ public class MateBbsCont {
 		return mav;
 	} // list() end
 	
-	@RequestMapping( value = "/mate/update.do", 
-			method = RequestMethod.GET )
-	public ModelAndView updateForm(MateBbsDTO dto) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("mate/mateBbsUpdate");
-		mav.addObject("dto", dto);
-		return mav;
-	} // updateForm() end
-		   
-	@RequestMapping( value = "/mate/update.do", 
-			method = RequestMethod.POST )
-	public ModelAndView updateProc(MateBbsDTO dto) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/mate/list.do");
-		int count = dao.update(dto);
-		mav.addObject("count", count);
-		return mav;
-	} // updateProc() end
+
+   @RequestMapping(value="/mate/read.do", method=RequestMethod.GET)
+   public ModelAndView read(MateBbsDTO dto) {
+      ModelAndView mav=new ModelAndView();
+      mav.setViewName("mate/read");
+      dto=dao.read(dto);
+      mav.addObject("dto", dto);
+      return mav;
+   }//list() end
+   
+   @RequestMapping( value = "/mate/update.do", 
+		   			method = RequestMethod.GET )
+   public ModelAndView updateForm(MateBbsDTO dto) {
+      ModelAndView mav = new ModelAndView();
+      mav.setViewName("mate/mateBbsUpdate");
+      dto=dao.read(dto);
+      mav.addObject("dto", dto);
+      return mav;
+   } // updateForm() end
+         
+    @RequestMapping( value = "/mate/update.do", 
+    				 method = RequestMethod.POST )
+    public ModelAndView updateProc(MateBbsDTO dto) {
+      ModelAndView mav = new ModelAndView();
+      mav.setViewName("redirect:/mate/list.do");
+      int count = dao.update(dto);
+      mav.addObject("count", count);
+      return mav;
+    } // updateProc() end
 	
 	@RequestMapping( value = "/mate/delete.do", 
 					 method = RequestMethod.GET )
 	public ModelAndView deleteForm(MateBbsDTO dto) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("mate/mateBbsList");
+		mav.setViewName("mate/msgView");
 		mav.addObject("dto", dto);
 		mav.addObject("b_no", dto.getB_no());
 		System.out.println(dto.getB_no());
@@ -91,10 +102,19 @@ public class MateBbsCont {
 				 	 method = RequestMethod.POST )
 	public ModelAndView deleteProc(MateBbsDTO dto) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/mate/list.do");
+		mav.setViewName("mate/delete.do");
 		int count = dao.delete(dto);
-		mav.addObject("count", count);
 		System.out.println("count");
+		if (count == 0) {
+			mav.addObject("msg1", "<p>동행 게시글 삭제 실패</p>");
+			mav.addObject("img", "<img src='../images/fail.jpg' height='300' width='300'>");
+			mav.addObject("link1", "<input type='button' value='다시시도' onclick='javascript:history.back()'>");
+			mav.addObject("link2", "<input type='button' value='그룹목록' onclick='location.href=\"./list.do\"'>");
+		} else {
+			mav.addObject("msg1", "<p>동행 게시글 삭제 성공</p>");
+			mav.addObject("img", "<img src='../images/delete.png' height='300' width='300'>");
+			mav.addObject("link2", "<input type='button' value='그룹목록' onclick='location.href=\"./list.do\"'>");
+		} // if end
 		
 		return mav;
 	} // deleteProc() end

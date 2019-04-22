@@ -21,10 +21,10 @@ public interface MateBbsMapper {
 	// <delete id="delete">
 	public int delete(MateBbsDTO dto);
 	
-	/*
 	// <select id="read" parameterType="MateBbsDTO" resultType="MateBbsDTO">
 	public MateBbsDTO read(MateBbsDTO dto);
 	
+	/*
 	// <select id="search">
 	public ArrayList<MateBbsDTO> search(HashMap searchMap);*/
 	

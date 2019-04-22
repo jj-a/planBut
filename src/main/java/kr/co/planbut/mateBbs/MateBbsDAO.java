@@ -50,12 +50,12 @@ public class MateBbsDAO {
 		return count;
 	} // delete() end
 	
-	/*public MateBbsDTO read(MateBbsDTO dto) {
+	public MateBbsDTO read(MateBbsDTO dto) {
 		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
 		dto = mapper.read(dto);
 		return dto;
 	} // read() end
-*/	
+	
 	/*
 	public ArrayList<NoticeDTO> search(String col, String word) {
 		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);

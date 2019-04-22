@@ -10,7 +10,6 @@
 	<table style="text-align: center" border=1>
 	<c:forEach var="dto" items="${list }">
 	   <tr>
-	        
 	        <th>모집자 : ${dto.mp_id }</th>
 			<th>작성일</th>
 			<td>${dto.regdt.substring(0,10) }</td>
@@ -75,8 +74,7 @@
     
     function mateBbsDel(f, row) {
     	var no = document.getElementsByTagName('tr')[row].children[1].childNodes[0].nodeValue;
-    	alert(no);
-        
+    	
         f.b_no.value = no;
         f.action="./delete.do";
     	var message="선택한 게시물을 삭제하시겠습니까?";
@@ -85,10 +83,9 @@
     
     function mateBbsUpdate(f, row) {
         var no = document.getElementsByTagName('tr')[row].children[1].childNodes[0].nodeValue;
-        alert(no);
         
         f.b_no.value = no;
-        f.action="./update.do";
+        f.action="./update.do?b_no="+no;
         var message="선택한 게시물을 수정하시겠습니까?";
         if(confirm(message)) f.submit();
     } // mateBbsUpdate() end
