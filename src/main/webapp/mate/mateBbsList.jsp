@@ -5,7 +5,13 @@
     <div style="margin: auto">
         <h3>동행 추천</h3>
         <c:forEach var="dto" items="${recmList }">
-            <input type="button" name="ct_code" value="${dto.ct_code }">
+            <input type="button" name="ct_code" value="${dto.ct_code }" onclick="mateRecm()">
+                <div id="recm" style="display: none;">
+                    <c:forEach var="dto" items="${recmPeople }">
+                        <input type="text" name="s_date" id="s_date" value="${dto.s_date }">
+                        <input type="text" name="day" id="day" value="${dto.day }">
+                    </c:forEach>
+                </div>
         </c:forEach>
     </div>
     
@@ -99,7 +105,11 @@
     
     function getRowidx(e) {
         return e.parentElement.parentElement.rowIndex;
-    }
+    } // getRowidx() end
+    
+    function mateRecm() {
+    	document.getElementById("recm").style.display = "block";
+    } // mateRecm() end
     
     </script>
    

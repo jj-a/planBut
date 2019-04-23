@@ -65,6 +65,11 @@ public class MateBbsDAO {
 	    return recmList;
 	} // recmList() end
 	
+	public ArrayList<CityplanDTO> recmPeople() {
+	    MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
+	    ArrayList<CityplanDTO> recmPeople = mapper.recmPeople();
+	    return recmPeople;
+	} // recmList() end
 	/*
 	public ArrayList<NoticeDTO> search(String col, String word) {
 		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);

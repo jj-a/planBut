@@ -56,7 +56,7 @@ public class MateBbsCont {
 		// mav.addObject("list", list); ㅡ▶ 밑에 한줄과 같은 의미
 		mav.addObject("list", dao.list());
 		mav.addObject("recmList", dao.recmList());
-		System.out.println(dao.recmList());
+		mav.addObject("recmPeople", dao.recmPeople());
 		
 		return mav;
 	} // list() end

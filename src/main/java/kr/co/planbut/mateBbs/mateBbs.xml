@@ -67,12 +67,27 @@
     
     <select id="recmList" parameterType="CityPlanDTO" resultType="CityPlanDTO">
         <![CDATA[
-            select aa.ct_code, aa.s_date
-            from(select plan_code, ct_code, s_date
-            from cityplan
-            where rm_ok='Y')aa join planner bb
-            on aa.plan_code=bb.plan_code
-            where bb.m_id='aaaa' and aa.s_date>=now()
+            select aa.ct_code, aa.s_date, bb.m_id, `day`
+			from(
+		    select plan_code, ct_code, s_date, `day`
+		    from cityplan
+		    where rm_ok='Y')aa join planner bb
+		    on aa.plan_code=bb.plan_code
+		    where m_id = 'aaaa' and date_add(aa.s_date, interval `day`-1 day) >= now()
+		    order by aa.s_date
+        ]]>
+    </select>
+    
+    <select id="recmPeople" parameterType="CityPlanDTO" resultType="CityPlanDTO">
+        <![CDATA[
+            select `day`, aa.s_date, m_id, ct_code
+			from(
+			select *, date_add(s_date, interval `day`-1 day)
+			from cityplan
+			where s_date between s_date and date_add(s_date, interval `day`-1 day)
+			) AA join planner as BB
+			on AA.plan_code = BB.plan_code
+			where AA.rm_ok = 'Y' and AA.ct_code = 'PR' and m_id <> 'aaaa' and date_add(aa.s_date, interval `day`-1 day) >= now()    
         ]]>
     </select>
     
