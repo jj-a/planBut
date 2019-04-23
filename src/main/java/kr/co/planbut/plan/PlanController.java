@@ -21,7 +21,21 @@ public class PlanController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/plan");
 		return mav;
-	}//creatForm end
+	}// plan() end
+	
+	@RequestMapping(value="/plan/calendar.do", method=RequestMethod.GET)
+	public ModelAndView calendar(Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("plan/calendar");
+		return mav;
+	}// calendar() end
+	
+	@RequestMapping(value="/plan/course.do", method=RequestMethod.GET)
+	public ModelAndView course(Model model) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("plan/course");
+		return mav;
+	}// course() end
 	
 	@RequestMapping(value="/plan/planTest.do", method=RequestMethod.GET)
 	public ModelAndView planTest(Model model) {
