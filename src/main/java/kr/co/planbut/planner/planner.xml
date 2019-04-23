@@ -13,6 +13,7 @@
 		<result column="m_id" property="m_id" />
 		<result column="subject" property="subject" />
 		<result column="people" property="people" />
+		<result column="s_date" property="s_date" />
 	</resultMap>
 
 	<!-- cityplan(도시계획) 테이블 -->
@@ -80,20 +81,37 @@
 
 	<!-- SQL -->
 
+
+	<!-- 플래너 조회 (리스트) -->
 	<select id="plannerList" resultType="kr.co.planbut.common.PlannerDTO" parameterType="String">
 		<![CDATA[
-		select plan_code, m_id, subject, people 
+		select plan_code, m_id, subject, people, s_date 
 		from planner
 		where m_id=  #{m_id}
 		]]>
 	</select>
 
+
+	<!-- 플래너 조회 (상세) -->
 	<select id="home" resultType="kr.co.planbut.common.PlannerDTO" parameterType="kr.co.planbut.common.PlannerDTO">
 		<![CDATA[
-		select plan_code, m_id, subject, people 
+		select plan_code, m_id, subject, people, s_date 
 		from planner
 		where plan_code= #{plan_code}
 		]]>
 	</select>
+	
+
+	<!-- 플래너 카운트 -->
+	<select id="count" resultType="int" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+			select count(plan_code) from (
+				select plan_code, m_id from planner 
+			) as PLAN join member as MEM
+			on PLAN.m_id = MEM.m_id 
+			where PLAN.m_id= #{m_id}
+		]]>
+	</select>
+	
 
 </mapper>

@@ -24,14 +24,9 @@
 	vertical-align: middle;
 }
 
-div {
+div.row div {
 padding-left: 0px  !important;
 padding-right: 0px !important;
-}
-
-div.row{
-margin-right: 0px;
-margin-left: 0px;
 }
 
 
@@ -39,34 +34,59 @@ margin-left: 0px;
 
 <!-- Contents -->
 
-<div class="container-fluid">
+<div class="container-fluid non-scrollable-menu">
 	<div class="row">
 
 
 		<!-- 좌측 메뉴 -->
 		<div class="sub-menu col-xs-4 col-md-3">
-
-			<ul class="list-group">
+		
+			<!-- 플래너 정보 출력 -->
+			<ul class="list-group" style="margin-bottom: 0;">
 				<li class="list-group-item">
-					<h3 class="root-city">런던</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport"></span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">파리</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[기차
-						이동]</span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">뮌헨</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[항공
-						이동]</span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">베를린</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[버스
-						이동]</span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">프라하</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[기차
-						이동]</span>
+					<h3>${article.subject }</h3>
+					<span>여행 시작일: ${fn:substring(article.s_date, 0,10)}</span> 
+					<span>인원: ${article.people }</span>
+					<span>아이디: ${article.m_id }</span>
+					<span>플래너코드: ${article.plan_code }</span>
 				</li>
 			</ul>
+			
+			<!-- 플래너 루트 리스트 -->
+			<div class="scrollable-menu">
+				<ul class="list-group">
+					<li class="list-group-item">
+						<h3 class="root-city">런던</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport"></span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">파리</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[기차 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">뮌헨</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[항공 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">베를린</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[버스 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">프라하</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[기차 이동]</span>
+					</li>
+				</ul>
+			</div>
 
 
 			<!-- 경로 부분 sample -->
@@ -176,6 +196,33 @@ margin-left: 0px;
 </div>
 
 
+
+
+<!-- 플래너 생성 창 -->
+<div id="plannermodal" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>새 플래너 생성</h2>
+		<form name="planFrm" method="post" action="${pageContext.request.contextPath}/plan/plan.do" onsubmit="return loginCheck(this)">
+			<input type="hidden" name="m_id" value="${session_m_id }">
+			<div>
+				<label for="">플래너 명</label>&nbsp;<input type="text" name="subject" id="subject" placeholder="ex) 나의 여행 플래너" required>
+			</div>
+			<div>
+				<label for="">여행 시작일</label>&nbsp;<input type="text" name="s_date" id="s_date" placeholder="ex) 2019-05-01" required>
+			</div>
+			<div>
+				<label for="">인원</label>&nbsp;<input type="text" name="people" id="people" placeholder="ex) 1" required>
+			</div>
+			<p>
+				<input type="submit" value="플래너 생성" style="cursor: pointer">
+			</p>
+		</form>
+	</div>
+</div>
+
+
+<!-- Script 스크립트 -->
 
 
 <script>
@@ -318,8 +365,29 @@ margin-left: 0px;
 	}
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBM_-xOIwPL0F_UknEZ1m-uLVM28-Wt_Ao&callback=initMap">
-	
+<!-- api key --><!-- 사용할 때만 활성화 -->
+<!-- 
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBM_-xOIwPL0F_UknEZ1m-uLVM28-Wt_Ao&callback=initMap">	
+</script>
+ -->
+
+
+<script>
+
+/* 플래너 추가 폼 (plannermodal) 동작 제어 */
+$(function(){
+	var plancode='${article.plan_code}';
+	if(plancode==""){
+		//$("#plannermodal").show();
+		location.href="#plannermodal";
+	}
+});
+
+/* 화면 스크롤 제거 */
+$(function(){
+	$("body").css("overflow", 'hidden');
+});
+
 </script>
 
 

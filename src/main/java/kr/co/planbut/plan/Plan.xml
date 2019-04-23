@@ -6,6 +6,7 @@
 <!-- namespace를 필수로 지정해야함 -->
 <mapper namespace="kr.co.planbut.plan.PlanMapper">
 
+	<!-- resultMap -->
 	<!-- Database 결과 데이터를 객체에 mapping하는 방법 정의 / id=PK -->
 
 	<!-- planner(플래너) 테이블 -->
@@ -14,6 +15,7 @@
 		<result column="m_id" property="m_id" />
 		<result column="subject" property="subject" />
 		<result column="people" property="people" />
+		<result column="s_date" property="s_date" />
 	</resultMap>
 
 	<!-- cityplan(도시계획) 테이블 -->
@@ -79,12 +81,81 @@
 	</resultMap>
 
 
+
 	<!-- SQL -->
 
-	<!-- <insert id="create" parameterType="PlanDTO"> <selectKey keyProperty="noticeno" resultType="int" order="BEFORE"> <![CDATA[ SELECT nvl(max(noticeno),0)+1 
-		AS noticeno FROM notice5 ]]> </selectKey> <![CDATA[ insert into notice5(noticeno, title, rname, rdate) values(#{noticeno}, #{title}, #{rname}, sysdate) 
-		]]> </insert> -->
+	<!-- 플래너 추가 -->
+	<insert id="create" parameterType="kr.co.planbut.common.PlannerDTO">
+		<!-- 일련번호 생성 -->
+		<selectKey keyProperty="plan_code" resultType="String" order="BEFORE"> 
+			<![CDATA[ 
+			select if(
+				isnull(plan_code), 
+				'P001', 
+				concat('P', lpad(substring(max(plan_code),2)+1,3,0))
+			) as plan_code 
+			from planner as P
+			]]>
+		</selectKey> 
 		
-		
+		<![CDATA[ 
+		insert into planner(plan_code, m_id, subject, people, s_date) 
+		values(#{plan_code}, #{m_id}, #{subject}, #{people}, #{s_date}) 
+		]]>
+
+	</insert>
+
+
+	<!-- 플래너 조회 (리스트) -->
+	<select id="list" resultType="kr.co.planbut.common.PlannerDTO" parameterType="String">
+		<![CDATA[
+		select plan_code, m_id, subject, people, s_date 
+		from planner
+		where m_id=  #{m_id}
+		]]>
+	</select>
+
+
+	<!-- 플래너 조회 (상세) -->
+	<select id="read" parameterType="kr.co.planbut.common.PlannerDTO" resultType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		select plan_code, m_id, subject, people, s_date  
+		from planner 
+		where plan_code= #{plan_code}
+		]]>
+	</select>
+
+
+	<!-- 플래너 수정 -->
+	<update id="update" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		update planner
+		set subject=#{subject}, people=#{people}, s_date=#{s_date} 
+		where plan_code=#{plan_code} and m_id=#{m_id} 
+		]]>
+	</update>
+
+
+	<!-- 플래너 삭제 -->
+	<delete id="delete" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		delete from planner 
+		where plan_code= #{plan_code} and m_id=#{m_id}
+		]]>
+	</delete>
+	
+
+	<!-- 플래너 카운트 -->
+	<select id="count" resultType="int" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+			select count(plan_code) from (
+				select plan_code, m_id from planner 
+			) as PLAN join member as MEM
+			on PLAN.m_id = MEM.m_id 
+			where PLAN.m_id= #{m_id}
+		]]>
+	</select>
+
+
 </mapper>
  

@@ -24,14 +24,13 @@
 	vertical-align: middle;
 }
 
-div {
+div.row div {
 padding-left: 0px  !important;
 padding-right: 0px !important;
 }
 
-div.row{
-margin-right: 0px;
-margin-left: 0px;
+h4 {
+	margin-bottom: 15px;
 }
 
 
@@ -42,98 +41,195 @@ margin-left: 0px;
 <div class="container-fluid">
 	<div class="row">
 
-
 		<!-- 좌측 메뉴 -->
-		<div class="sub-menu col-xs-4 col-md-3">
-
-			<ul class="list-group">
+		<div class="sub-menu col-xs-4 col-md-4" >
+		
+			<!-- 플래너 정보 출력 -->
+			<ul class="list-group" style="margin-bottom: 0;">
 				<li class="list-group-item">
-					<h3 class="root-city">런던</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport"></span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">파리</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[기차
-						이동]</span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">뮌헨</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[항공
-						이동]</span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">베를린</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[버스
-						이동]</span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">프라하</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[기차
-						이동]</span>
+					<h3>${article.subject }</h3>
+					<span>여행 시작일: ${fn:substring(article.s_date, 0,10)}</span> 
+					<span>인원: ${article.people }</span>
+					<span>아이디: ${article.m_id }</span>
+					<span>플래너코드: ${article.plan_code }</span>
 				</li>
 			</ul>
-
-
-			<!-- 경로 부분 sample -->
-			<div id="cityblock1" class="cityblock" style="position: relative; top: 0px; left: 0px;">
-				<p class="trsinfo">
-				<div style="padding-top: 0px; padding-bottom: 0px">
-					<div style="float: left; width: 29px; height: 40px; border-right: 3px solid #3ad195;">&nbsp;</div>
-					<div style="float: left; width: 150px; height: 40px; padding-top: 10px; margin-left: -25px;">
-						<div
-							style="border-radius: 3px; display: inline-block; text-align: center; padding-top: 2px; padding-bottom: 2px; margin-right: 3px; width: 50px; background: #3ad195; cursor: pointer;"
-							class="div_btnTrsTool" onclick="showTrsTool('181071004','181071001','2019-05-22',1)">
-							<font style="font-size: 9pt; color: #fff" id="trstype_txt_1">버스 <i class="fa fa-chevron-circle-down"></i></font>
-						</div>
-						&nbsp;<font style="font-size: 8pt; color: #c0c0c0"></font>
-					</div>
-					<div style="clear: both"></div>
-				</div>
-				</p>
-				<div class="cityinfo">
-					<div style="width: 29px; border-right: 3px solid #3ad195; height: 7px;"></div>
-					<input type="hidden" class="cityserial" value="181071001">
-					<div width="100%;overflow-x:hidden">
-						<div
-							style="float: left; width: 53px; height: 53px; padding-left: 7px; background: #fff; padding-top: 13px; border-radius: 100px; border: 3px solid #3ad195; cursor: pointer"
-							class="div_mngSlp" onclick="mngSlp('아부다비','181071001',0,1)">
-							<a class="a_mngSlp" href="javascript:mngSlp('아부다비','181071001',0,1)"><font style="color: #696969; font-size: 10pt; font-weight: bold"
-								class="nights">1박 <i class="fa fa-angle-down"></i></font></a>
-						</div>
-						<div style="float: left; width: 215px; padding-left: 10px; padding-top: 7px;">
-							<div style="float: left; width: 148px">
-								<div>
-									<font class="stubby_s_black"> 아부다비</font>&nbsp;<a class="btnDel" href="javascript:delCity(1)"><font
-										style="font-size: 9pt; color: #c0c0c0"><i class="fa fa-times-circle"></i></font></a>
-								</div>
-								<div class="date_in_out">5월23일(목)~24일(금)</div>
+		
+			<!-- 좌측 메뉴 1 -->
+			<div class="sub-menu col-xs-4 col-md-4" >
+				
+				<!-- 1단계 플래너 루트 리스트 -->
+			<div class="scrollable-menu">
+				<ul class="list-group">
+					<li class="list-group-item">
+						<h4 class="root-city">런던</h4> 
+						<h6 class="root-date">MM-DD ~ MM-DD (3박)</h6> 
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 1</h4>
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 2</h4>
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 3</h4>
+					</li>
+					<li class="list-group-item">
+						<h4 class="root-city">파리</h4> 
+						<h6 class="root-date">MM-DD ~ MM-DD (3박)</h6> 
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 1</h4>
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 2</h4>
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 3</h4>
+					</li>
+					<li class="list-group-item">
+						<h4 class="root-city">뮌헨</h4> 
+						<h6 class="root-date">MM-DD ~ MM-DD (3박)</h6> 
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 1</h4>
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 2</h4>
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 3</h4>
+					</li>
+					<li class="list-group-item">
+						<h4 class="root-city">베를린</h4> 
+						<h6 class="root-date">MM-DD ~ MM-DD (3박)</h6> 
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 1</h4>
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 2</h4>
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 3</h4>
+					</li>
+					<li class="list-group-item">
+						<h4 class="root-city">프라하</h4> 
+						<h6 class="root-date">MM-DD ~ MM-DD (3박)</h6> 
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 1</h4>
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 2</h4>
+					</li>
+					<li class="list-group-item"> 
+						<h4 class="root-day">DAY 3</h4>
+					</li>
+				</ul>
+			</div>
+	
+	
+				<!-- 경로 부분 sample -->
+				<div id="cityblock1" class="cityblock" style="position: relative; top: 0px; left: 0px;">
+					<p class="trsinfo">
+					<div style="padding-top: 0px; padding-bottom: 0px">
+						<div style="float: left; width: 29px; height: 40px; border-right: 3px solid #3ad195;">&nbsp;</div>
+						<div style="float: left; width: 150px; height: 40px; padding-top: 10px; margin-left: -25px;">
+							<div
+								style="border-radius: 3px; display: inline-block; text-align: center; padding-top: 2px; padding-bottom: 2px; margin-right: 3px; width: 50px; background: #3ad195; cursor: pointer;"
+								class="div_btnTrsTool" onclick="showTrsTool('181071004','181071001','2019-05-22',1)">
+								<font style="font-size: 9pt; color: #fff" id="trstype_txt_1">버스 <i class="fa fa-chevron-circle-down"></i></font>
 							</div>
-							<div style="float: left; padding-right: 5px; width: 57px;">
-								<div id="cp_0"
-									style="height: 52px; margin-top: -8px; text-align: center; padding-top: 3px; padding-bottom: 3px; border: 1px solid #efefef; background: #fff; border-radius: 8px;"
-									onclick="showBucketList('0','아부다비','181071001',0)">
-									<div>
-										<font style="font-size: 19pt; color: #3ad195" id="cp_heart_0"><i class="fa fa-info-circle" aria-hidden="true"></i></font>
-									</div>
-									<div style="margin-top: -8px;">
-										<span id="span_schd_cnt_0" style="font-size: 8pt; display: none;">0</span>
-									</div>
-								</div>
-							</div>
+							&nbsp;<font style="font-size: 8pt; color: #c0c0c0"></font>
 						</div>
 						<div style="clear: both"></div>
 					</div>
-					<div style="width: 29px; border-right: 3px solid #3ad195; height: 7px;"></div>
+					</p>
+					<div class="cityinfo">
+						<div style="width: 29px; border-right: 3px solid #3ad195; height: 7px;"></div>
+						<input type="hidden" class="cityserial" value="181071001">
+						<div width="100%;overflow-x:hidden">
+							<div
+								style="float: left; width: 53px; height: 53px; padding-left: 7px; background: #fff; padding-top: 13px; border-radius: 100px; border: 3px solid #3ad195; cursor: pointer"
+								class="div_mngSlp" onclick="mngSlp('아부다비','181071001',0,1)">
+								<a class="a_mngSlp" href="javascript:mngSlp('아부다비','181071001',0,1)"><font style="color: #696969; font-size: 10pt; font-weight: bold"
+									class="nights">1박 <i class="fa fa-angle-down"></i></font></a>
+							</div>
+							<div style="float: left; width: 215px; padding-left: 10px; padding-top: 7px;">
+								<div style="float: left; width: 148px">
+									<div>
+										<font class="stubby_s_black"> 아부다비</font>&nbsp;<a class="btnDel" href="javascript:delCity(1)"><font
+											style="font-size: 9pt; color: #c0c0c0"><i class="fa fa-times-circle"></i></font></a>
+									</div>
+									<div class="date_in_out">5월23일(목)~24일(금)</div>
+								</div>
+								<div style="float: left; padding-right: 5px; width: 57px;">
+									<div id="cp_0"
+										style="height: 52px; margin-top: -8px; text-align: center; padding-top: 3px; padding-bottom: 3px; border: 1px solid #efefef; background: #fff; border-radius: 8px;"
+										onclick="showBucketList('0','아부다비','181071001',0)">
+										<div>
+											<font style="font-size: 19pt; color: #3ad195" id="cp_heart_0"><i class="fa fa-info-circle" aria-hidden="true"></i></font>
+										</div>
+										<div style="margin-top: -8px;">
+											<span id="span_schd_cnt_0" style="font-size: 8pt; display: none;">0</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div style="clear: both"></div>
+						</div>
+						<div style="width: 29px; border-right: 3px solid #3ad195; height: 7px;"></div>
+					</div>
 				</div>
-			</div>
-
-
-		</div>	<!-- 좌측메뉴 end -->
+	
+	
+			</div>	<!-- 좌측메뉴 1 end -->
+			
+	
+			<!-- 좌측 메뉴 2 -->
+			<div class="sub-menu col-xs-8 col-md-8" >
+				
+				<!-- 2단계 플래너 루트 리스트 -->
+				<div class="scrollable-menu">
+					<ul class="list-group">
+						<li class="list-group-item">
+							<h3 class="root-city"><span class="num" style="margin-right: 20px;">1</span>국회의사당</h3> 
+							<span class="root-addr">주소</span>
+						</li>
+						<li class="list-group-item">
+							<h3 class="select-root-city"><span class="num" style="margin-right: 20px;">2</span>대영미술관</h3> 
+							<span class="root-addr">주소</span>
+						</li>
+						<li class="list-group-item">
+							<h3 class="select-root-city"><span class="num" style="margin-right: 20px;">3</span>쉑쉑버거</h3>
+							<span class="root-addr">주소</span>
+						</li>
+						<li class="list-group-item">
+							<h3 class="select-root-city"><span class="num" style="margin-right: 20px;">4</span>내셔널갤러리</h3>
+							<span class="root-addr">주소</span>
+						</li>
+						<li class="list-group-item">
+							<h3 class="select-root-city"><span class="num" style="margin-right: 20px;">5</span>던트북스</h3>
+							<span class="root-addr">주소</span>
+						</li>
+					</ul>
+				</div>
+				
+			</div>	<!-- 좌측메뉴 2 end -->
+		</div>
+		<!-- 좌측메뉴 end -->
+		
 
 		<!-- 우측 컨텐츠 -->
-		<div class="row-fluid col-xs-8 col-md-9">
+		<div class="row-fluid col-xs-8 col-md-8">
 		
 			<!-- 상단 메뉴 -->
 			<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
 				<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code}" class="btn btn-default" role="button">루트</a>
 				<a href="${pageContext.request.contextPath}/plan/calendar.do?plan_code=${article.plan_code}" class="btn btn-default" role="button">일정</a> 
 				<a class="btn btn-default" role="button"></a>
-				<a class="btn btn-default" role="button"></a>
+				<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code}" class="btn btn-warning" role="button">이전단계로</a>
 				<a href="${pageContext.request.contextPath}/plan/create.do?plan_code=${article.plan_code}" class="btn btn-success" role="button">저장</a>
 			</div>
 
@@ -318,9 +414,21 @@ margin-left: 0px;
 	}
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBM_-xOIwPL0F_UknEZ1m-uLVM28-Wt_Ao&callback=initMap">
-	
+<!-- api key --><!-- 사용할 때만 활성화 -->
+<!-- 
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBM_-xOIwPL0F_UknEZ1m-uLVM28-Wt_Ao&callback=initMap">	
 </script>
+ -->
+
+<script>
+
+/* 화면 스크롤 제거 */
+$(function(){
+	$("body").css("overflow", 'hidden');
+});
+
+</script>
+
 
 
 <!-- end Contents -->

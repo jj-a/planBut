@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?ver=0.01">
 <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/script.js?ver=0.00"></script>
 <style>
 .modalDialog {
 	position: fixed;
