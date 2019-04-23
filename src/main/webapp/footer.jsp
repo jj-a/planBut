@@ -2,10 +2,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+<!-- footer -->
+
 <footer class="container-fluid text-center">
-	<a href="#" title="To Top"> <span class="glyphicon glyphicon-chevron-up"></span>
+	<a href="#" title="To Top"> 
+		<span class="glyphicon glyphicon-chevron-up"></span>
 	</a>
-	<p>Copyright © <a href="${pageContext.request.contextPath}">PlanBut</a> 2019. All rights reserved.</p>
+	<p>
+		Copyright © <a href="${pageContext.request.contextPath}">PlanBut</a> 2019. All rights reserved.
+	</p>
 	<p>
 		<a href="${pageContext.request.contextPath}/admin/">관리자</a>
 	</p>
@@ -47,6 +52,9 @@
 		});
 	})
 </script>
+
+
+<!-- footer end -->
 
 </body>
 </html>

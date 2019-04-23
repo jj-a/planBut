@@ -237,7 +237,7 @@
 
 /* 좋아요 버튼 클릭 시 로그인 페이지로 이동 */
 function toggleLike() {
-	window.location="/login.jsp";
+	location.href="#loginmodal";
 }
 
 </script>
