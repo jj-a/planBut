@@ -2,7 +2,7 @@ package kr.co.planbut.plan;
 
 import java.util.ArrayList;
 
-public interface Planmapper {
+public interface PlanMapper {
   
 	//<insert id="create">
 	public int create(PlanDTO dto);

@@ -133,8 +133,8 @@ margin-left: 0px;
 				<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code}" class="btn btn-default" role="button">루트</a>
 				<a href="${pageContext.request.contextPath}/plan/calendar.do?plan_code=${article.plan_code}" class="btn btn-default" role="button">일정</a> 
 				<a class="btn btn-default" role="button"></a>
+				<a class="btn btn-default" role="button"></a>
 				<a href="${pageContext.request.contextPath}/plan/create.do?plan_code=${article.plan_code}" class="btn btn-success" role="button">저장</a>
-				<a href="${pageContext.request.contextPath}/plan/course.do?plan_code=${article.plan_code}" class="btn btn-info" role="button">다음단계로</a>
 			</div>
 
 			<!-- 버튼 형태 상단 메뉴 -->

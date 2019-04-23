@@ -14,7 +14,7 @@ public class PlanDAO {
 	}
 	
 	public int create(PlanDTO dto) {		
-		Planmapper mapper = sqlSession.getMapper(Planmapper.class);		
+		PlanMapper mapper = sqlSession.getMapper(PlanMapper.class);		
 		int res = mapper.create(dto);
 		return res;
 	}// create end
