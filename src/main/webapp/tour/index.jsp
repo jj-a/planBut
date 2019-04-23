@@ -76,7 +76,7 @@
 		<h3>도시▼</h3>
 		<c:forEach var="dto" items="${list }">
 			<div>
-				<p>${dto.ct_code }</p>
+				<p>${dto.ct_code}</p>
 			</div>
 		</c:forEach>
 	</div>

@@ -1,35 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <!-- mem.xml -->
+ <!-- tour.xml -->
  <!-- 실행할 SQL 문을 정의 해 놓은 파일-->
 
 
 <!-- namespace를 필수로 지정해야함 -->
  <mapper namespace="kr.co.planbut.tour.TourMapper"> 
-    <!-- 
-                데이터베이스 결과를 객체에 매핑 하는 방법을 정의한다.
-        ResultSet에서 가져와서 dto에 담는것과 비슷
-                기본키는 <id>에 지정한다.
-     -->
-    
-    	<!-- tour/city.jsp 투어 리스트 -->
-    	<select id="list" resultType="TourDTO">
+
+	
+	<resultMap type="kr.co.planbut.common.CityDTO" id="cityDTO">
+		<result column="ct_code" property="ct_code" />
+		<result column="ct_name" property="ct_name" />
+		<result column="c_code" property="c_code"/>
+	</resultMap>
+	
+	<resultMap type="kr.co.planbut.tour.TourDTO" id="tourDTO">
+		<result column="tour_name" property="tour_name" />
+		<result column="ct_code" property="ct_code" />
+		<result column="tour_code" property="tour_code" />
+		<result column="price" property="price" />
+		<result column="content" property="content" />
+		<result column="s_date" property="s_date" />
+		<result column="e_date" property="e_date" />
+		<result column="photo" property="photo" />
+		<result column="category" property="category" />
+		<result column="t_time" property="t_time" />
+		<result column="m_place" property="m_place" />
+		<result column="capacity" property="capacity" />
+		<result column="minimum" property="minimum" />
+		<result column="day" property="day" />
+		<collection property="cityDTO" resultMap="cityDTO"></collection>
+	</resultMap>
+
+
+    	
+    	<!-- tour/index.jsp, city.jsp 도시 리스트 -->
+    	<select id="list" resultMap="tourDTO">
 		<![CDATA[
-			SELECT tour_code, tour_name, ct_code, price, content, s_date, e_date, photo, category, t_time, m_place, capacity, minimum, day
-			FROM tour
-			ORDER BY tour_code
+			select BB.ct_name, BB.ct_code, BB.c_code
+			from tour AA
+			left join city BB on AA.ct_code = BB.ct_code
+			group by ct_name
 		]]>
 	</select>
     
+    <!-- 	   	tour/index.jsp 국가 리스트
+    	<select id="list" resultType="tourDTO">
+		<![CDATA[
+			select CC.c_code, CC.c_name 
+			from tour AA
+			join city BB on AA.ct_code = BB.ct_code
+			join country CC on BB.c_code = CC.c_code
+			group by CC.c_name
+		]]>
+	</select> -->
+ 
   	<!-- tour/tourinfo.jsp 투어 상세보기 -->
      <select id="read" parameterType="TourDTO" resultType="TourDTO">
          <![CDATA[
             SELECT tour_code, tour_name, ct_code, price, content, s_date, e_date, photo, category, t_time, m_place, capacity, minimum, day
             FROM tour
             WHERE tour_code = #{tour_code}
-            ORDER BY category
         ]]>
      </select>
+    
+    <!-- tour/city.jsp  -->
+    
+    <!-- tour/tourinfo.jsp 문의 -->
     
     <!-- 관리자 페이지 투어 입력 -->
     <insert id="create" parameterType="TourDTO">

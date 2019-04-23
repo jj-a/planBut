@@ -23,4 +23,11 @@ public class TourDAO {
 		return list;
 	}// list end
 
+
+	public TourDTO read(TourDTO dto) {
+		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
+		dto = mapper.read(dto);  
+		return dto;
+	}
+
 }

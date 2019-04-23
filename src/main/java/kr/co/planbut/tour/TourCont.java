@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 
-
 @Controller
 public class TourCont {
 
@@ -26,6 +25,12 @@ public class TourCont {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("tour/index");
 		ArrayList<TourDTO> list = dao.list();
+
+/*		
+		for(int idx=0; idx<list.size();idx++) {
+			System.out.println(list.get(idx));
+		}
+*/		
 		mav.addObject("list", list);
 		return mav;
 	}//index end
@@ -38,11 +43,13 @@ public class TourCont {
 	}//index end
 	
 	@RequestMapping(value="/tour/tourinfo.do", method=RequestMethod.GET)
-	public ModelAndView tourinfo() {
+		public ModelAndView read(TourDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("tour/tourinfo");
+		dto = dao.read(dto);
+		mav.addObject("dto", dto);
 		return mav;
 	}//index end
-	
 
+	
 }//class end

@@ -10,10 +10,10 @@ public interface TourMapper {
 
 	// <select id="list">
 	public ArrayList<TourDTO> list();
+
+	public TourDTO read(TourDTO dto);
 	
 //	public TourDTO create(TourDTO dto);
-	
-//	public TourDTO read(TourDTO dto);
 	
 //	public TourDTO update(TourDTO dto);
 
