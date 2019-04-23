@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.planbut.common.CityplanDTO;
+import kr.co.planbut.common.PlannerDTO;
 import net.utility.Utility;
 
 @Controller
@@ -47,12 +49,15 @@ public class MateBbsCont {
 	} // createProc() end
 
 	@RequestMapping("/mate/list.do")
-	public ModelAndView list() {
+	public ModelAndView list(PlannerDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("mate/mateBbsList");
 		// ArrayList<MateBbsDTO> list = dao.list();
 		// mav.addObject("list", list); ㅡ▶ 밑에 한줄과 같은 의미
 		mav.addObject("list", dao.list());
+		mav.addObject("recmList", dao.recmList());
+		System.out.println(dao.recmList());
+		
 		return mav;
 	} // list() end
 	
@@ -98,17 +103,7 @@ public class MateBbsCont {
 		return mav;
 	} // deleteProc() end
 	
-	/*@RequestMapping( value  = "/mate/read.do",
-					 method = RequestMethod.GET )
-	public ModelAndView read(MateBbsDTO dto) {
-		ModelAndView mav = new ModelAndView();
-		dto = dao.read(dto);
-		mav.setViewName("mate/mateBbsDel");
-		mav.addObject("dto", dto);
 	
-		return mav;
-	} // read() end	
-*/	
 	/*
 	@RequestMapping( value = "/notice/update.do", 
 					 method = RequestMethod.GET )

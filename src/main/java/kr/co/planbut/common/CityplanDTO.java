@@ -8,7 +8,7 @@ public class CityplanDTO {
 	private String cp_code, plan_code, ct_code;
 	private int order_code, day;
 	private String trans, s_date, rm_ok;
-
+	private String m_id;
 
 	// Constructor
 	public CityplanDTO() {
@@ -80,6 +80,14 @@ public class CityplanDTO {
 
 	public void setRm_ok(String rm_ok) {
 		this.rm_ok = rm_ok;
+	}
+	
+	public String getM_id() {
+		return m_id;
+	}
+
+	public void setM_id(String m_id) {
+		this.m_id = m_id;
 	}
 
 }

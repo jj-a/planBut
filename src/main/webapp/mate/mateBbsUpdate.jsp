@@ -4,9 +4,9 @@
 <!-- 본문시작 template.jsp -->
 <h1>★ 게시글 수정 ★</h1>
   <p>
-     <a href="mateBbsList.jsp">★ 게시글 목록★</a>
+     <a href="./list.do">★ 게시글 목록★</a>
      <br>
-      <a href="mateBbsForm.jsp">★ 글 쓰기 ★</a>
+      <a href="./create.do">★ 글 쓰기 ★</a>
   </p>
 <form name="matebbsfrm" 
      method="post" 

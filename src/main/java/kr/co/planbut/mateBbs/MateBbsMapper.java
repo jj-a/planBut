@@ -3,6 +3,9 @@ package kr.co.planbut.mateBbs;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.planbut.common.CityplanDTO;
+import kr.co.planbut.common.PlannerDTO;
+
 public interface MateBbsMapper {
 	/*
 		매퍼(mateBbs.xml)에 등록되어 있는 id를 인터페이스의 메소드에 다시 한번 등록함으로써 
@@ -23,6 +26,9 @@ public interface MateBbsMapper {
 	
 	// <select id="read" parameterType="MateBbsDTO" resultType="MateBbsDTO">
 	public MateBbsDTO read(MateBbsDTO dto);
+	
+	// <select id="recmList" parameterType="CityplanDTO" resultType="CityplanDTO">
+	public ArrayList<CityplanDTO> recmList();
 	
 	/*
 	// <select id="search">

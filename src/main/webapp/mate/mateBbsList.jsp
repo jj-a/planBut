@@ -3,7 +3,14 @@
 <!-- 본문시작 mateBbsList.jsp -->
 
     <div style="margin: auto">
-	<h1>동행 구하기 게시판</h1>
+        <h3>동행 추천</h3>
+        <c:forEach var="dto" items="${recmList }">
+            <input type="button" name="ct_code" value="${dto.ct_code }">
+        </c:forEach>
+    </div>
+    
+    <div style="margin: auto">
+	<h3>동행 구하기 게시판</h3>
 	
 	<form action=""> 
 	<input type="hidden" name="b_no" value="">

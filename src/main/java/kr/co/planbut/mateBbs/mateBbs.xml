@@ -65,6 +65,17 @@
         ]]>
     </update>
     
+    <select id="recmList" parameterType="CityPlanDTO" resultType="CityPlanDTO">
+        <![CDATA[
+            select aa.ct_code, aa.s_date
+            from(select plan_code, ct_code, s_date
+            from cityplan
+            where rm_ok='Y')aa join planner bb
+            on aa.plan_code=bb.plan_code
+            where bb.m_id='aaaa' and aa.s_date>=now()
+        ]]>
+    </select>
+    
 	<!--
 	<select id="search" resultType="MateBbsDTO" parameterType="HashMap">
 		select noticeno, title, rname, rdate

@@ -11,6 +11,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import kr.co.planbut.common.CityplanDTO;
+import kr.co.planbut.common.PlannerDTO;
+
 @Component
 public class MateBbsDAO {
 	
@@ -55,6 +58,12 @@ public class MateBbsDAO {
 		dto = mapper.read(dto);
 		return dto;
 	} // read() end
+	
+	public ArrayList<CityplanDTO> recmList() {
+	    MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
+	    ArrayList<CityplanDTO> recmList = mapper.recmList();
+	    return recmList;
+	} // recmList() end
 	
 	/*
 	public ArrayList<NoticeDTO> search(String col, String word) {
