@@ -123,7 +123,7 @@
 
 .info_sp{
 	background-color: #c5b2d7;
-    margin : -20px 0 0 0;
+    margin : -25px 0 0 0;
     height : 60px;
 }
 
@@ -132,13 +132,11 @@
 	float : left;
  	width: 350px;
  	height: 60px;
- 	line-height: 2.5;
 }
 
 .price{
  	float : right;
  	height : 60px;
- 	line-height: 2.5;
 }
 
 
@@ -148,17 +146,44 @@
 }
 
 .info_img{
-   
+   height : 70px;
+   width : 50px;
+   padding : 5px;
+   float : left;
 }
 
 .info_personnel{
-
+	margin : 0 10px;
+	padding : 5px;
+	display: inline-block;
 }
 .info_ipt{
-
+	padding-left: 5%;
+    padding-right: 5%;
+    border-top: inset;
+    border-bottom: inset;
+    border-color: black;
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 20px;
+}
 }
 .info_re_time{
 
+}
+
+.glyphicon{
+    position: relative;
+    top: 1px;
+    font-size: 35px;
+    display: inline-block;
+    font-family: "Glyphicons Halflings";
+    font-style: normal;
+    font-weight: 400;
+    line-height: 2;
+    margin: 0 15px;
+    float: left;
+    -webkit-font-smoothing: antialiased;
 }
 
 #btn_like{
@@ -271,20 +296,29 @@
 					<p>&#92; ${ dto.price}&nbsp; 1인</p>
 				</div>
 			</div>
-			
-			<div class="info_ipt">
-				<div class="info_img">이미지</div>
-				<div class="info_personnel">
-					<p>인원</p>
-					<p>${dto.minimum }~ ${dto.capacity } 명</p>
+
+			<div class="info_ipt col-md-12">
+				<div class="col-md-6">
+					<div>
+						<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+					</div>
+					<div class="info_personnel">
+						<p>인원</p>
+						<p>${dto.minimum }~${dto.capacity }명</p>
+					</div>
 				</div>
-				<div class="info_ipt">
-					<div class="info_re_time">
+				<div class="col-md-6">
+					<div>
+						<span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+					</div>
+					<div class="info_personnel">
 						<p>소요시간</p>
 						<p>${dto.t_time }시간</p>
 					</div>
 				</div>
 			</div>
+		<button type="button" class="btn btn-lg btn-primary" onclick="location.href='cart.do'">장바구니</button>
+		<button type="button" class="btn btn-lg btn-primary" onclick="">간편예약</button>
 		</div>
 	</div>
 </section>

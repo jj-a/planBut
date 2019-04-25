@@ -3,6 +3,7 @@ package kr.co.planbut.tour;
 import java.util.List;
 
 import kr.co.planbut.common.CityDTO;
+import kr.co.planbut.common.CountryDTO;
 
 public class TourDTO {
 	private String tour_code;
@@ -20,6 +21,8 @@ public class TourDTO {
 	private int minimum;
 	private String day;
 	private List<CityDTO> cityDTO;
+	private List<CountryDTO> countryDTO;
+	
 	
 	public TourDTO() {}
 
@@ -171,6 +174,16 @@ public class TourDTO {
 
 	public void setCityDTO(List<CityDTO> cityDTO) {
 		this.cityDTO = cityDTO;
+	}
+
+	
+	public List<CountryDTO> getCountryDTO() {
+		return countryDTO;
+	}
+
+
+	public void setCountryDTO(List<CountryDTO> countryDTO) {
+		this.countryDTO = countryDTO;
 	}
 
 

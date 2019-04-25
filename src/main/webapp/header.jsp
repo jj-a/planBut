@@ -86,7 +86,7 @@
 					<li><a href="${pageContext.request.contextPath}/tour/tour.do">투어예약</a></li>
 					<li><a href="${pageContext.request.contextPath}/place/country.do">여행지</a></li>
 					<li><a href="${pageContext.request.contextPath}/board.do">광장</a></li>
-					<li><a href="${pageContext.request.contextPath}/cart.do">장바구니</a></li>
+					<li><a href="${pageContext.request.contextPath}/tour/cart.do">장바구니</a></li>
 					<c:if test="${empty session_m_id}">
 						<li><a href="#loginmodal">로그인</a></li>
 						<li><a href="${pageContext.request.contextPath}/member/register.do">회원가입</a></li>

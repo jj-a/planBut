@@ -72,14 +72,18 @@
 
 <div id="tour3">
 	<h3>국가 ▼</h3>
-	<div>
-		<h3>도시▼</h3>
-		<c:forEach var="dto" items="${list }">
-			<div>
-				<p>${dto.ct_code}</p>
-			</div>
-		</c:forEach>
-	</div>
+	<c:forEach var="dto" items="${countrylist }">
+		<div>
+			<p>${dto.c_name }</p>
+		</div>
+	</c:forEach>
+	<h3>도시▼</h3>
+	<c:forEach var="dto" items="${citylist }">
+		<div>
+			<p>${dto.ct_name}</p>
+		</div>
+	</c:forEach>
+</div>
 </div>
 
 <div id="tour4">

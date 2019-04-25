@@ -9,7 +9,9 @@ public interface TourMapper {
 	 */
 
 	// <select id="list">
-	public ArrayList<TourDTO> list();
+	public ArrayList<TourDTO> countrylist();
+
+	public ArrayList<TourDTO> citylist();
 
 	public TourDTO read(TourDTO dto);
 	

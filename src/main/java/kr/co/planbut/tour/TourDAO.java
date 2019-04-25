@@ -16,13 +16,17 @@ public class TourDAO {
 		System.out.println("--- TourDAO 생성");
 	}
 
-	
-	public ArrayList<TourDTO> list() {
+	public ArrayList<TourDTO> countrylist() {
 		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
-		ArrayList<TourDTO> list = mapper.list();
-		return list;
+		ArrayList<TourDTO> countrylist = mapper.countrylist();
+		return countrylist;
+	}
+	
+	public ArrayList<TourDTO> citylist() {
+		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
+		ArrayList<TourDTO> citylist = mapper.citylist();
+		return citylist;
 	}// list end
-
 
 	public TourDTO read(TourDTO dto) {
 		TourMapper mapper = sqlSession.getMapper(TourMapper.class);

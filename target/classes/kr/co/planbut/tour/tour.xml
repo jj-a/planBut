@@ -7,17 +7,10 @@
 <!-- namespace를 필수로 지정해야함 -->
  <mapper namespace="kr.co.planbut.tour.TourMapper"> 
 
-	
-	<resultMap type="kr.co.planbut.common.CityDTO" id="cityDTO">
-		<result column="ct_code" property="ct_code" />
-		<result column="ct_name" property="ct_name" />
-		<result column="c_code" property="c_code"/>
-	</resultMap>
-	
 	<resultMap type="kr.co.planbut.tour.TourDTO" id="tourDTO">
+		<id property="tour_code" column="tour_code" />
 		<result column="tour_name" property="tour_name" />
 		<result column="ct_code" property="ct_code" />
-		<result column="tour_code" property="tour_code" />
 		<result column="price" property="price" />
 		<result column="content" property="content" />
 		<result column="s_date" property="s_date" />
@@ -29,31 +22,71 @@
 		<result column="capacity" property="capacity" />
 		<result column="minimum" property="minimum" />
 		<result column="day" property="day" />
-		<collection property="cityDTO" resultMap="cityDTO"></collection>
+	</resultMap>
+	
+	<resultMap type="kr.co.planbut.common.CityDTO" id="cityDTO">
+		<collection property="cityDTO" column="ct_code" resultMap="cityDTO">
+		<id property="ct_code" column="ct_code" />
+		<result column="ct_name" property="ct_name" />
+		<result column="c_code" property="c_code"/>
+		</collection>
+	</resultMap>
+	
+	<resultMap type="kr.co.planbut.common.CountryDTO" id="countryDTO">
+		<collection property="countryDTO" column="c_code" resultMap="countryDTO">
+		<id property="c_code" column="c_code" />
+		<result column="c_name" property="c_name" />
+		</collection>
 	</resultMap>
 
-
+	<resultMap type="kr.co.planbut.common.CityplanDTO" id="cityplanDTO">
+		<collection property="cityplanDTO" column="cp_code" resultMap="cityplanDTO">
+			<id property="cp_code" column="cp_code" />
+			<result property="plan_code" column="plan_code" />
+		</collection>
+	</resultMap>
+    
+    <resultMap type="kr.co.planbut.common.PlannerDTO" id="plannerDTO">
+		<collection property="plannerDTO" column="cp_code" resultMap="plannerDTO">
+			<id property="plan_code" column="plan_code" />
+			<result property="m_id" column="m_id" />
+		</collection>
+	</resultMap>
     	
     	<!-- tour/index.jsp, city.jsp 도시 리스트 -->
-    	<select id="list" resultMap="tourDTO">
+    	<select id="citylist" resultType="cityDTO">
 		<![CDATA[
-			select BB.ct_name, BB.ct_code, BB.c_code
+			select ct_name, AA.ct_code 
 			from tour AA
 			left join city BB on AA.ct_code = BB.ct_code
 			group by ct_name
 		]]>
 	</select>
     
-    <!-- 	   	tour/index.jsp 국가 리스트
-    	<select id="list" resultType="tourDTO">
+    	<!-- tour/index.jsp 국가 리스트 -->
+    	<select id="countrylist" resultType="countryDTO">
 		<![CDATA[
-			select CC.c_code, CC.c_name 
+			select BB.c_code, c_name 
+			from tour AA
+			left join city BB on AA.ct_code = BB.ct_code
+			left join country CC on BB.c_code = CC.c_code
+			group by c_name
+		]]>
+	</select>
+ 
+ 		<!-- tour/index.jsp 내 계획에 있는 도시 리스트 -->
+ 		<select id="">
+ 		<![CDATA[
+ 			select BB.ct_name, tour_name, c_name, cp_code, EE.plan_code
 			from tour AA
 			join city BB on AA.ct_code = BB.ct_code
 			join country CC on BB.c_code = CC.c_code
-			group by CC.c_name
-		]]>
-	</select> -->
+			join cityplan DD on BB.ct_code = DD.ct_code
+			join planner EE on DD.plan_code = EE.plan_code
+ 		]]>
+ 		
+ 		</select>
+ 		
  
   	<!-- tour/tourinfo.jsp 투어 상세보기 -->
      <select id="read" parameterType="TourDTO" resultType="TourDTO">
