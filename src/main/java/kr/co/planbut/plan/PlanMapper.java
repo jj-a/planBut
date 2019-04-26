@@ -21,5 +21,8 @@ public interface PlanMapper {
 	
 	// cityplan
 	public ArrayList<CityplanDTO> cityplanList(PlannerDTO dto);
+	public ArrayList<CourseplanDTO> courseplanList(PlannerDTO dto);
+
+	public ArrayList<PlaceDTO> placeList();	// 관광지리스트
 	
 } // PlanMapper end

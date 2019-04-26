@@ -61,7 +61,6 @@ padding-right: 0px !important;
 					<!-- cplist를 불러왔다면 주석을 보여주세요 -->
 					<li class="list-group-item">
 						
-						
 						<!-- 이동일 계산 -->
 						
 						<!-- 하루 단위 숫자 -->
@@ -103,7 +102,6 @@ padding-right: 0px !important;
 						<h4>이동일: ${e_date }</h4>
 						 --%>
 						<!-- 이동일 계산 -->
-						
 						
 						<h3 class="root-city">${cp.city.ct_name }</h3> 
 						<span class="root-day">${cp. day }박</span> 

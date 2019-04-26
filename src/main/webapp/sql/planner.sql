@@ -148,10 +148,13 @@ values('CP002', 'P001', 'LD', 2, '3', '항공', '2019-04-19 00:00')
 
 -- courseplan 조회 (리스트)
 -- city, cityplan, place 테이블 join, plan_code로 조회
-select cp_code, plan_code, CP.ct_code, CITY.ct_name, order_code, day, trans, s_date, rm_ok 
-from cityplan as CP join city as CITY
-on CP.ct_code = CITY.ct_code 
-where plan_code=#{plan_code}
+select  cos_code, CP.cp_code, CP.plan_code, CP.ct_code, CITY.ct_name, CP.order_code, CP.day, course, date
+from courseplan as CSP
+join cityplan as CP
+on CSP.cp_code = CP.cp_code 
+join city as CITY
+on CP.ct_code = CITY.ct_code
+where plan_code= #{plan_code}
 order by order_code asc
 ;
 -- (ex)
@@ -165,7 +168,7 @@ on CP.ct_code = CITY.ct_code
 -- join place as P
 -- on CITY.ct_code = P.ct_code
 where plan_code='P001'
-order by order_code asc
+order by date asc, cos_code asc
 ;
 
 
@@ -190,6 +193,24 @@ insert into cityplan(cp_code, plan_code, ct_code, order_code, day, trans, s_date
 values('CP002', 'P001', 'LD', 2, '3', '항공', '2019-04-19 00:00') 
 ;
 
+
+
+
+-- place (관광지)
+
+-- place 조회 (리스트)
+-- placetype 테이블 join, 전체 조회 (유형O)
+select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, xy, content 
+from place as PL
+join placetype as PLT
+on PL.pt_code = PLT.pt_code 
+order by p_code asc
+;
+-- 관광지만 조회 (유형X)
+select p_code, pt_code, ct_code, p_name, address, xy, content 
+from place as PL
+order by p_code asc
+;
 
 
 

@@ -46,6 +46,7 @@
 		<result column="cp_code" property="cp_code" />
 		<result column="course" property="course" />
 		<result column="date" property="date" />
+		<association property="cityplan" javaType="kr.co.planbut.common.CityplanDTO" resultMap="cityplan"/>
 	</resultMap>
 
 	<!-- country(국가) 테이블 -->
@@ -91,6 +92,7 @@
 		<result column="address" property="address" />
 		<result column="xy" property="xy" />
 		<result column="content" property="content" />
+		<association property="placetype" javaType="kr.co.planbut.common.PlacetypeDTO" resultMap="placetype"/>
 	</resultMap>
 
 	<!-- member(회원) 테이블 -->
@@ -199,6 +201,43 @@
 		on CP.ct_code = CITY.ct_code 
 		where plan_code=#{plan_code}
 		order by order_code asc
+		]]>
+	</select>
+	
+	
+
+	<!-- 2단계 경로계획 조회 (리스트) -->
+	<select id="courseplanList" resultMap="courseplan" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		select  cos_code, 
+			CP.cp_code, 
+			CP.plan_code, 
+			CP.ct_code, 
+			CITY.ct_name, 
+			CP.order_code, 
+			CP.day, 
+			course, 
+			date
+		from courseplan as CSP
+		join cityplan as CP
+		on CSP.cp_code = CP.cp_code 
+		join city as CITY
+		on CP.ct_code = CITY.ct_code
+		where plan_code= #{plan_code}
+		order by date asc, cos_code asc
+		]]>
+	</select>
+	
+	
+
+	<!-- 관광지 조회 (리스트) -->
+	<select id="placeList" resultMap="place">
+		<![CDATA[
+		select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, xy, content 
+		from place as PL
+		join placetype as PLT
+		on PL.pt_code = PLT.pt_code 
+		order by p_code asc
 		]]>
 	</select>
 	

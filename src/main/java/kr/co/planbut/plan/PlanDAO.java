@@ -74,6 +74,22 @@ public class PlanDAO {
 		ArrayList<CityplanDTO> list=mapper.cityplanList(dto);
 		return list;		
 	} // cityplanList() end
+
+	
+	// 1단계 도시계획 조회 (리스트)
+	public ArrayList<CourseplanDTO> courseplanList(PlannerDTO dto) {
+		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
+		ArrayList<CourseplanDTO> list=mapper.courseplanList(dto);
+		return list;		
+	} // courseplanList() end
+
+	
+	// 관광지 조회 (리스트)
+	public ArrayList<PlaceDTO> placeList() {
+		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
+		ArrayList<PlaceDTO> list=mapper.placeList();
+		return list;		
+	} // placeList() end
 	
 	
 }// PlanDAO end
