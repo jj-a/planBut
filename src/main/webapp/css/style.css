@@ -38,6 +38,20 @@ nav {
 	background-image: url("../images/main2.jpg");
 }
 
+.scrollable-menu {
+	max-height: 88vh;
+	/*overflow-x: hidden;*/
+	overflow-y: scroll;
+}
+
+.non-scrollable-menu {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+
+
+
 /* bootstrap sample css */
 body {
 	font: 400 15px Lato, sans-serif;

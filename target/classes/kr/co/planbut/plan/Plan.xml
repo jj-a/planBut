@@ -1,28 +1,208 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
- <!-- mem.xml -->
- <!-- 실행할 SQL 문을 정의 해 놓은 파일-->
 
+<!-- 실행할 SQL 문을 정의 해 놓은 파일 -->
 
 <!-- namespace를 필수로 지정해야함 -->
- <mapper namespace="kr.co.planbut.plan"> 
-    <!-- 
-                데이터베이스 결과를 객체에 매핑 하는 방법을 정의한다.
-        ResultSet에서 가져와서 dto에 담는것과 비슷
-                기본키는 <id>에 지정한다.
-     -->
-    <!-- 
-     <insert id="create" parameterType="PlanDTO">
-        <selectKey keyProperty="noticeno" resultType="int" order="BEFORE">
-         <![CDATA[
-            SELECT nvl(max(noticeno),0)+1 AS noticeno FROM notice5
-        ]]>
-        </selectKey>
-         <![CDATA[
-            insert into notice5(noticeno, title, rname, rdate)
-            values(#{noticeno}, #{title}, #{rname}, sysdate)
-        ]]>      
-     </insert>
-      -->
- </mapper>
+<mapper namespace="kr.co.planbut.plan.PlanMapper">
+
+	<!-- resultMap -->
+	<!-- Database 결과 데이터를 객체에 mapping하는 방법 정의 / id=PK -->
+
+	<!-- planner(플래너) 테이블 -->
+	<resultMap type="kr.co.planbut.common.PlannerDTO" id="planner">
+		<id column="plan_code" property="plan_code" />
+		<result column="m_id" property="m_id" />
+		<result column="subject" property="subject" />
+		<result column="people" property="people" />
+		<result column="s_date" property="s_date" />
+	</resultMap>
+
+	<!-- cityplan(도시계획) 테이블 -->
+	<resultMap type="kr.co.planbut.common.CityplanDTO" id="cityplan">
+		<id column="cp_code" property="cp_code" />
+		<result column="plan_code" property="plan_code" />
+		<result column="ct_code" property="ct_code" />
+		<result column="order_code" property="order_code" />
+		<result column="day" property="day" />
+		<result column="trans" property="trans" />
+		<result column="s_date" property="s_date" />
+		<result column="rm_ok" property="rm_ok" />
+ 
+		<!-- <association property="city" columnPrefix="city_" javaType="kr.co.planbut.common.CityDTO" resultMap="city"/> -->
+		<association property="city" javaType="kr.co.planbut.common.CityDTO" resultMap="city"/>
+
+		 <!-- 
+		<association property="city" column="ct_code" resultMap="city">
+			<id column="ct_code" property="ct_code" />
+			<result column="ct_name" property="ct_name" />
+		</association>
+		 -->
+	</resultMap>
+
+	<!-- courseplan(경로계획) 테이블 -->
+	<resultMap type="kr.co.planbut.common.CourseplanDTO" id="courseplan">
+		<id column="cos_code" property="cos_code" />
+		<result column="cp_code" property="cp_code" />
+		<result column="course" property="course" />
+		<result column="date" property="date" />
+	</resultMap>
+
+	<!-- country(국가) 테이블 -->
+	<resultMap type="kr.co.planbut.common.CountryDTO" id="country">
+		<result column="c_code" property="c_code" />
+		<result column="c_name" property="c_name" />
+	</resultMap>
+	
+	<!-- city(도시) 테이블 -->
+<!-- 
+	<resultMap type="kr.co.planbut.common.CityDTO" id="city">
+		<association property="city" column="ct_code" resultMap="city">
+			<id column="ct_code" property="ct_code" />
+			<result column="c_code" property="c_code" />
+			<result column="ct_name" property="ct_name" />
+			<result column="lat" property="lat" />
+			<result column="lng" property="lng" />
+		</association>
+	</resultMap>
+ -->
+	<!-- city(도시) 테이블 -->
+	
+	<resultMap type="kr.co.planbut.common.CityDTO" id="city">
+		<id column="ct_code" property="ct_code" />
+		<result column="c_code" property="c_code" />
+		<result column="ct_name" property="ct_name" />
+		<result column="lat" property="lat" />
+		<result column="lng" property="lng" />
+	</resultMap>
+
+	<!-- placetype(관광지유형) 테이블 -->
+	<resultMap type="kr.co.planbut.common.PlacetypeDTO" id="placetype">
+		<id column="pt_code" property="pt_code" />
+		<result column="pt_name" property="pt_name" />
+	</resultMap>
+
+	<!-- place(관광지) 테이블 -->
+	<resultMap type="kr.co.planbut.common.PlaceDTO" id="place">
+		<id column="p_code" property="p_code" />
+		<result column="pt_code" property="pt_code" />
+		<result column="ct_code" property="ct_code" />
+		<result column="p_name" property="p_name" />
+		<result column="address" property="address" />
+		<result column="xy" property="xy" />
+		<result column="content" property="content" />
+	</resultMap>
+
+	<!-- member(회원) 테이블 -->
+	<resultMap type="kr.co.planbut.common.MemberDTO" id="member">
+		<id column="m_id" property="m_id" />
+		<result column="password" property="password" />
+		<result column="m_name" property="m_name" />
+		<result column="email" property="email" />
+		<result column="birth" property="birth" />
+		<result column="gender" property="gender" />
+		<result column="photo" property="photo" />
+		<result column="m_type" property="m_type" />
+	</resultMap>
+
+
+
+	<!-- SQL -->
+
+	<!-- 플래너 추가 -->
+	<insert id="create" parameterType="kr.co.planbut.common.PlannerDTO">
+		<!-- 일련번호 생성 -->
+		<selectKey keyProperty="plan_code" resultType="String" order="BEFORE"> 
+			<![CDATA[ 
+			select if(
+				isnull(plan_code), 
+				'P001', 
+				concat('P', lpad(substring(max(plan_code),2)+1,3,0))
+			) as plan_code 
+			from planner as P
+			]]>
+		</selectKey> 
+		
+		<![CDATA[ 
+		insert into planner(plan_code, m_id, subject, people, s_date) 
+		values(#{plan_code}, #{m_id}, #{subject}, #{people}, #{s_date}) 
+		]]>
+
+	</insert>
+
+
+	<!-- 플래너 조회 (리스트) -->
+	<select id="list" resultType="kr.co.planbut.common.PlannerDTO" parameterType="String">
+		<![CDATA[
+		select plan_code, m_id, subject, people, s_date 
+		from planner
+		where m_id=  #{m_id}
+		]]>
+	</select>
+
+
+	<!-- 플래너 조회 (상세) -->
+	<select id="read" parameterType="kr.co.planbut.common.PlannerDTO" resultType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		select plan_code, m_id, subject, people, s_date  
+		from planner 
+		where plan_code= #{plan_code}
+		]]>
+	</select>
+
+
+	<!-- 플래너 수정 -->
+	<update id="update" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		update planner
+		set subject=#{subject}, people=#{people}, s_date=#{s_date} 
+		where plan_code=#{plan_code} and m_id=#{m_id} 
+		]]>
+	</update>
+
+
+	<!-- 플래너 삭제 -->
+	<delete id="delete" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		delete from planner 
+		where plan_code= #{plan_code} and m_id=#{m_id}
+		]]>
+	</delete>
+	
+
+	<!-- 플래너 카운트 -->
+	<select id="count" resultType="int" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		select count(plan_code) from (
+			select plan_code, m_id from planner 
+		) as PLAN join member as MEM
+		on PLAN.m_id = MEM.m_id 
+		where PLAN.m_id= #{m_id}
+		]]>
+	</select>
+	
+	
+
+	<!-- 1단계 도시계획 조회 (리스트) -->
+	<select id="cityplanList" resultMap="cityplan" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		select cp_code, 
+			plan_code, 
+			CP.ct_code, 
+			ct_name, 
+			order_code, 
+			day, 
+			trans, 
+			s_date, 
+			rm_ok 
+		from cityplan as CP join city as CITY
+		on CP.ct_code = CITY.ct_code 
+		where plan_code=#{plan_code}
+		order by order_code asc
+		]]>
+	</select>
+	
+
+
+</mapper>
  

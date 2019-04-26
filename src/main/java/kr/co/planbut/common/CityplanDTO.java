@@ -8,6 +8,7 @@ public class CityplanDTO {
 	private String cp_code, plan_code, ct_code;
 	private int order_code, day;
 	private String trans, s_date, rm_ok;
+	private CityDTO city;	// city 테이블 조인
 
 
 	// Constructor
@@ -80,6 +81,14 @@ public class CityplanDTO {
 
 	public void setRm_ok(String rm_ok) {
 		this.rm_ok = rm_ok;
+	}
+
+	public CityDTO getCity() {
+		return city;
+	}
+
+	public void setCity(CityDTO city) {
+		this.city = city;
 	}
 
 }
