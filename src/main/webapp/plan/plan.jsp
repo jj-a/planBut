@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.Date" %>
 <%@include file="../header.jsp"%>
 <style>
 /* Set the size of the div element that contains the map */
@@ -55,6 +56,63 @@ padding-right: 0px !important;
 			<!-- 플래너 루트 리스트 -->
 			<div class="scrollable-menu">
 				<ul class="list-group">
+				
+					<c:forEach var="cp" items="${cplist }">
+					<!-- cplist를 불러왔다면 주석을 보여주세요 -->
+					<li class="list-group-item">
+						
+						
+						<!-- 이동일 계산 -->
+						
+						<!-- 하루 단위 숫자 -->
+						<fmt:parseNumber var="dayUnit" value="${1000*60*60*24 }" /> 
+						<%--
+						<c:set var="e_date" value="<%=new Date(new Date().getTime() + 1000*60*60*24) %>"/>
+						<h5>${e_date }</h5>
+						<h5>${dayUnit }</h5>
+						--%>
+						<!-- 시작일 -->
+						<c:set var="s_date" value="${fn:substring(cp.s_date, 0,10)}" property="time" />
+						<%--
+						<h5>시작일: ${s_date }</h5>
+						--%>
+						<fmt:parseDate var="s_date" value="${s_date}" pattern="yyyy-MM-dd" /> <!-- String to Date -->
+						<%--
+						<h5>시작일(Date): ${s_date }</h5>
+						<h5>시작일( time): ${s_date.time }</h5>
+						<fmt:parseDate var="dayDate" value="${cp.day }" pattern="dd" />
+						<h5>기간(Date): ${dayDate }</h5>
+						<fmt:parseNumber var="dayNum" value="${dayUnit*cp.day }"/> <!-- Date to Number -->
+						<h5>기간(Number): ${dayNum }</h5>
+						<fmt:parseNumber var="sdateNum" value="${s_date.time / dayUnit}" integerOnly="true"/> <!-- Date to Number --> <!-- 일수 출력 -->
+						<h5>시작일(Number): ${sdateNum }</h5>
+						<fmt:parseNumber var="e_date" value="${(s_date.time + dayNum)/dayUnit}" integerOnly="true"/>						
+						 --%>
+						<%--<fmt:parseNumber var="e_date" value="<%=new Date((pageContext.getAttribute(s_date)).getTime() + 1000*60*60*24*3)) %>"/>--%>
+						<%--
+						<h5>이동일(Number): ${e_date }</h5>
+						<fmt:parseDate var="e_date" value="${e_date}" pattern="yyyy-MM-dd" /> <!-- Date to String -->
+						<h5>이동일(Date): ${e_date }</h5>
+						 --%>
+						
+						<!-- 최종 포맷 -->
+						<fmt:formatDate var="s_date" value="${s_date}" pattern="yyyy-MM-dd"  /> <!-- Date to String -->
+						<%--
+						<fmt:formatDate var="e_date" value="${e_date}" pattern="yyyy-MM-dd" /> <!-- Date to String -->
+						<h4>시작일: ${s_date }</h4>
+						<h4>이동일: ${e_date }</h4>
+						 --%>
+						<!-- 이동일 계산 -->
+						
+						
+						<h3 class="root-city">${cp.city.ct_name }</h3> 
+						<span class="root-day">${cp. day }박</span> 
+						<span class="root-date">${fn:substring(s_date, 5,10)} ~ ${e_date} </span> 
+						<span class="root-transport">${cp.trans }</span>
+					</li>
+					</c:forEach>
+				
+					<!-- 샘플 -->
 					<li class="list-group-item">
 						<h3 class="root-city">런던</h3> 
 						<span class="root-day">3박</span> 

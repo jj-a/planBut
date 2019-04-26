@@ -19,4 +19,7 @@ public interface PlanMapper {
 	public int delete(PlannerDTO dto);
 	public int count(PlannerDTO dto);
 	
+	// cityplan
+	public ArrayList<CityplanDTO> cityplanList(PlannerDTO dto);
+	
 } // PlanMapper end

@@ -30,7 +30,10 @@ public class PlanController {
 			// parameter가 있을 때 (폼 전송)
 			System.out.println("★생성된 플래너 불러오기");
 			System.out.println(dto.getPlan_code());
-			mav.addObject("article", dao.read(dto));
+			
+			mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
+			mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트 -> 수정 시
+			
 		}else {
 			// parameter가 없을 때
 			System.out.println("★플래너 추가 시작");

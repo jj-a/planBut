@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import kr.co.planbut.common.PlannerDTO;
+import kr.co.planbut.common.*;
 
 
 @Component
@@ -66,6 +66,14 @@ public class PlanDAO {
 		int cnt = mapper.count(dto);
 		return cnt;
 	} // count() end
+
+	
+	// 1단계 도시계획 조회 (리스트)
+	public ArrayList<CityplanDTO> cityplanList(PlannerDTO dto) {
+		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
+		ArrayList<CityplanDTO> list=mapper.cityplanList(dto);
+		return list;		
+	} // cityplanList() end
 	
 	
 }// PlanDAO end
