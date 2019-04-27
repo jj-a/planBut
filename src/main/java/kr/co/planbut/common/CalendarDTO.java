@@ -6,8 +6,10 @@ public class CalendarDTO {
 
 	// Variable
 	private String cal_code, cp_code, ct_code, memo, date;
+	private CityplanDTO cityplan;
+	private CityDTO city;
 
-	
+
 	// Constructor
 	public CalendarDTO() {
 		;
@@ -54,6 +56,22 @@ public class CalendarDTO {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public CityplanDTO getCityplan() {
+		return cityplan;
+	}
+
+	public void setCityplan(CityplanDTO cityplan) {
+		this.cityplan = cityplan;
+	}
+	
+	public CityDTO getCity() {
+		return city;
+	}
+
+	public void setCity(CityDTO city) {
+		this.city = city;
 	}
 
 }

@@ -144,6 +144,32 @@ values('CP002', 'P001', 'LD', 2, '3', '항공', '2019-04-19 00:00')
 
 
 
+-- calendar (캘린더)
+
+-- calendar 조회 (리스트)
+-- cityplan, city 테이블 join, plan_code로 조회
+select cal_code, CAL.cp_code, CP.order_code, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
+from calendar as CAL 
+join cityplan CP 
+on CAL.cp_code = CP.cp_code
+join city CITY
+on CAL.ct_code = CITY.ct_code
+where plan_code= #{plan_code}
+order by order_code asc, date asc, cal_code asc
+;
+-- (ex)
+select cal_code, CAL.cp_code, CP.order_code, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
+from calendar as CAL 
+join cityplan CP 
+on CAL.cp_code = CP.cp_code
+join city CITY
+on CAL.ct_code = CITY.ct_code
+where plan_code='P001'
+order by order_code asc, date asc
+;
+
+
+
 -- courseplan (경로계획)
 
 -- courseplan 조회 (리스트)
@@ -155,7 +181,7 @@ on CSP.cp_code = CP.cp_code
 join city as CITY
 on CP.ct_code = CITY.ct_code
 where plan_code= #{plan_code}
-order by order_code asc
+order by order_code asc, date asc
 ;
 -- (ex)
 -- select cos_code, CP.cp_code, plan_code, CP.ct_code, CITY.ct_name, order_code, day, course, trans, s_date, rm_ok
@@ -168,7 +194,7 @@ on CP.ct_code = CITY.ct_code
 -- join place as P
 -- on CITY.ct_code = P.ct_code
 where plan_code='P001'
-order by date asc, cos_code asc
+order by order_code asc, date asc
 ;
 
 

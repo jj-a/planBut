@@ -45,7 +45,7 @@ h4 {
 		<div class="sub-menu col-xs-4 col-md-4" >
 		
 			<!-- 플래너 정보 출력 -->
-			<ul class="list-group" style="margin-bottom: 0;">
+			<ul class="plan-info list-group" style="margin-bottom: 0;">
 				<li class="list-group-item">
 					<h3>${article.subject }</h3>
 					<span>여행 시작일: ${fn:substring(article.s_date, 0,10)}</span> 
@@ -85,7 +85,7 @@ h4 {
 							<h4 class="root-city">${ct_name }</h4> 
 							<h6 class="root-date">${s_date } ~ ${e_date } (${cp.day }박)</h6> 
 						</li>
-						<fmt:parseNumber var="dayNum" value="${cp.day }" />
+						<fmt:parseNumber var="dayNum" value="${cp.day }" /> <!-- 도시별 일수 -->
 						<c:forEach var="i" begin="1" end="${dayNum }">
 							<li class="list-group-item"> 
 								<h4 class="root-day">DAY ${i }</h4>
@@ -262,7 +262,7 @@ h4 {
 		
 			<!-- 상단 메뉴 -->
 			<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
-				<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code}" class="btn btn-default" role="button">루트</a>
+				<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code}" class="btn btn-primary" role="button">루트</a>
 				<a href="${pageContext.request.contextPath}/plan/calendar.do?plan_code=${article.plan_code}" class="btn btn-default" role="button">일정</a> 
 				<a class="btn btn-default" role="button"></a>
 				<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code}" class="btn btn-warning" role="button">이전단계로</a>
@@ -308,9 +308,12 @@ h4 {
 </div>
 
 
+<!-- Script 스크립트 -->
 
 
 <script>
+	//////////////////// 지도 관련 Script ////////////////////
+	
 	var map;
 	function initMap() {
 		map = new google.maps.Map(document.getElementById('map'), {//지도에 띄우기
@@ -455,16 +458,63 @@ h4 {
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBM_-xOIwPL0F_UknEZ1m-uLVM28-Wt_Ao&callback=initMap">	
 </script>
  -->
+ 
+ 
+ <script>
+	//////////////////// 비동기통신(Ajax) Script ////////////////////
+	
+	$( document ).ready(function() {
+	function getContextPath() {
+		var hostIndex = location.href.indexOf( location.host ) + location.host.length;
+		return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
+	};
+
+	$("#btn").bind("click",function(){
+		if($('#bookCode').val()==""){
+			alert('값입력해요');
+		}
+	    $.ajax({
+	        url : getContextPath()+"/getRental",
+	        type: "POST",
+	        data : { "bookCode" : $("#bookCode").val() },
+	        success : function(responseData){
+	            var data = JSON.parse(responseData);
+	            if(!data){
+	                alert("해당도서의 대여정보가 없습니다.");
+	                return false;
+	            }
+	            $("#bookName").val(data.bookName);
+	            $("#memberName").val(data.memberName);
+	            $("#totalPrice").val(data.totalPrice);
+	            $("#rentalPayment").val(data.rentalPayment);
+	            $("#willPay").val(data.willPay);
+	            $("#rentalCode").val(data.rentalCode);
+	            $("#bookTotalDay").val(data.bookTotalDay);
+	        }
+	    });
+	});
+});
+ 
+ </script>
+
 
 <script>
+	//////////////////// 부가 기능 Script ////////////////////
 
-/* 화면 스크롤 제거 */
-$(function(){
-	$("body").css("overflow", 'hidden');
-});
+	/* 플래너 미생성 시 동작 제어 */
+	$(function(){
+		var plancode='${article.plan_code}';
+		if(plancode==""){
+			//location.href="${pageContext.request.contextPath}/plan.do";
+		}
+	});
+
+	/* 화면 스크롤 제거 */
+	$(function(){
+		$("body").css("overflow", 'hidden');
+	});
 
 </script>
-
 
 
 <!-- end Contents -->

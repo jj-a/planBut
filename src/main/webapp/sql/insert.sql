@@ -88,7 +88,7 @@ INSERT INTO cityplan(cp_code, plan_code, ct_code, order_code, day, trans, s_date
 VALUES('CP001', 'P001', 'PR', 1, 3, '기차', now(), 'Y');
 
 -- 캘린더-------------------------------------------
-INSERT INTO calender(cal_code, cp_code, ct_code, memo, date)
+INSERT INTO calendar(cal_code, cp_code, ct_code, memo, date)
 VALUES('CAL001', 'CP001', 'PR', '메모입니다', now());
 
 -- 경로계획-------------------------------------------

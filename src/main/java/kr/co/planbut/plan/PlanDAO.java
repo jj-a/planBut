@@ -76,7 +76,15 @@ public class PlanDAO {
 	} // cityplanList() end
 
 	
-	// 1단계 도시계획 조회 (리스트)
+	// 일정(캘린더) 조회 (리스트)
+	public ArrayList<CalendarDTO> calendar(PlannerDTO dto) {
+		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
+		ArrayList<CalendarDTO> list=mapper.calendar(dto);
+		return list;		
+	} // courseplanList() end
+
+	
+	// 2단계 경로계획 조회 (리스트)
 	public ArrayList<CourseplanDTO> courseplanList(PlannerDTO dto) {
 		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
 		ArrayList<CourseplanDTO> list=mapper.courseplanList(dto);

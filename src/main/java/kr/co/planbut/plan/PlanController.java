@@ -36,8 +36,8 @@ public class PlanController {
 	public ModelAndView plan(PlannerDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/plan");
-		
-		if(dto.getPlan_code()!=null) {
+
+		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
 			// parameter가 있을 때 (폼 전송)
 			System.out.println("★생성된 플래너 불러오기");
 			System.out.println(dto.getPlan_code());
@@ -75,11 +75,22 @@ public class PlanController {
 	}// planproc() end
 	
 	
-	// 계획짜기 > 일정
+	// 계획짜기 > 일정 (캘린더)
 	@RequestMapping(value="/plan/calendar.do", method=RequestMethod.GET)
-	public ModelAndView calendar(Model model) {
+	public ModelAndView calendar(PlannerDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/calendar");
+
+		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
+		mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
+		mav.addObject("calendar", dao.calendar(dto));	// 캘린더(calendar) 리스트
+		mav.addObject("placelist", dao.placeList());	// 관광지(place) 리스트
+
+		}else {
+			// parameter가 없을 때
+			
+		}
+		
 		return mav;
 	}// calendar() end
 	
@@ -90,7 +101,7 @@ public class PlanController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/course");
 
-		if(dto.getPlan_code()!=null) {
+		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
 		mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
 		mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트 -> 수정 시
 		mav.addObject("csplist", dao.courseplanList(dto));	// 경로계획(cityplan) 리스트 -> 수정 시
@@ -101,6 +112,7 @@ public class PlanController {
 			System.out.println("★플래너 추가 화면으로 이동");
 			mav.setViewName("redirect:/plan/plan.do");
 		}
+		
 		return mav;
 	}// course() end
 	

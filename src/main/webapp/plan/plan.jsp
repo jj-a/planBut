@@ -43,7 +43,7 @@ padding-right: 0px !important;
 		<div class="sub-menu col-xs-4 col-md-3">
 		
 			<!-- 플래너 정보 출력 -->
-			<ul class="list-group" style="margin-bottom: 0;">
+			<ul class="plan-info list-group" style="margin-bottom: 0;">
 				<li class="list-group-item">
 					<h3>${article.subject }</h3>
 					<span>여행 시작일: ${fn:substring(article.s_date, 0,10)}</span> 
@@ -56,9 +56,9 @@ padding-right: 0px !important;
 			<!-- 플래너 루트 리스트 -->
 			<div class="scrollable-menu">
 				<ul class="list-group">
-				
+					
+					<!-- 저장된 도시계획 리스트 -->
 					<c:forEach var="cp" items="${cplist }">
-					<!-- cplist를 불러왔다면 주석을 보여주세요 -->
 					<li class="list-group-item">
 						
 						<!-- 이동일 계산 -->
@@ -206,11 +206,21 @@ padding-right: 0px !important;
 		
 			<!-- 상단 메뉴 -->
 			<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
-				<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code}" class="btn btn-default" role="button">루트</a>
+				<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code}" class="btn btn-primary" role="button">루트</a>
 				<a href="${pageContext.request.contextPath}/plan/calendar.do?plan_code=${article.plan_code}" class="btn btn-default" role="button">일정</a> 
 				<a class="btn btn-default" role="button"></a>
-				<a href="${pageContext.request.contextPath}/plan/create.do?plan_code=${article.plan_code}" class="btn btn-success" role="button">저장</a>
-				<a href="${pageContext.request.contextPath}/plan/course.do?plan_code=${article.plan_code}" class="btn btn-info" role="button">다음단계로</a>
+				<c:choose>
+					<c:when test="${session_m_id!=null}">	<!-- 로그인 시 -->
+					<a href="${pageContext.request.contextPath}/plan/create.do?plan_code=${article.plan_code}" class="btn btn-success" role="button">저장</a>
+					<a href="${pageContext.request.contextPath}/plan/course.do?plan_code=${article.plan_code}" class="btn btn-info" role="button">다음단계로</a>
+					</c:when>
+					<c:when test="${empty session_m_id}">	<!-- 비회원일 시 -->
+					<a class="btn btn-default" role="button"></a>
+					<a href="#loginmodal" class="btn btn-danger" role="button">
+						<span class="glyphicon glyphicon-lock"></span>&nbsp;비회원으로 작업중
+					</a>
+					</c:when>
+				</c:choose>
 			</div>
 
 			<!-- 버튼 형태 상단 메뉴 -->
@@ -255,9 +265,8 @@ padding-right: 0px !important;
 
 
 <!-- 플래너 생성 창 -->
-<div id="plannermodal" class="modalDialog">
+<div id="newplanner" class="modalDialog">
 	<div>
-		<a href="#close" title="Close" class="close">X</a>
 		<h2>새 플래너 생성</h2>
 		<form name="planFrm" method="post" action="${pageContext.request.contextPath}/plan/plan.do" onsubmit="return loginCheck(this)">
 			<input type="hidden" name="m_id" value="${session_m_id }">
@@ -271,7 +280,8 @@ padding-right: 0px !important;
 				<label for="">인원</label>&nbsp;<input type="text" name="people" id="people" placeholder="ex) 1" required>
 			</div>
 			<p>
-				<input type="submit" value="플래너 생성" style="cursor: pointer">
+				<input type="submit" value="플래너 생성">
+				<input type="button" value="취소" onclick="javascript:history.go(-2)">
 			</p>
 		</form>
 	</div>
@@ -282,6 +292,8 @@ padding-right: 0px !important;
 
 
 <script>
+//////////////////// 지도 관련 Script ////////////////////
+
 	var map;
 	function initMap() {
 		map = new google.maps.Map(document.getElementById('map'), {//지도에 띄우기
@@ -429,13 +441,14 @@ padding-right: 0px !important;
 
 
 <script>
+//////////////////// 부가 기능 Script ////////////////////
 
-/* 플래너 추가 폼 (plannermodal) 동작 제어 */
+/* 플래너 추가 폼 (newplan) 동작 제어 */
 $(function(){
 	var plancode='${article.plan_code}';
-	if(plancode==""){
-		//$("#plannermodal").show();
-		location.href="#plannermodal";
+	var m_id='${session_m_id}';
+	if(plancode==""&&m_id!=""){
+		location.href="#newplanner";
 	}
 });
 

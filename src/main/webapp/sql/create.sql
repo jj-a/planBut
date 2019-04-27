@@ -90,7 +90,7 @@ CREATE TABLE cityplan(
 );
 
 -- 캘린더 ---------------------------------------------
-CREATE TABLE calender(
+CREATE TABLE calendar(
 	cal_code char(7) NOT NULL PRIMARY KEY,
 	cp_code char(5) NOT NULL,
 	ct_code char(2) NOT NULL,
