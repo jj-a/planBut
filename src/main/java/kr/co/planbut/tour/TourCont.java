@@ -26,8 +26,10 @@ public class TourCont {
 		mav.setViewName("tour/index");
 		ArrayList<TourDTO> countrylist = dao.countrylist();
 		ArrayList<TourDTO> citylist = dao.citylist();
+		ArrayList<TourDTO> plannerlist = dao.plannerlist();
 		mav.addObject("countrylist", countrylist);
 		mav.addObject("citylist", citylist);
+		mav.addObject("plannerlist", plannerlist);
 		return mav;
 	}//index end
 	
@@ -53,6 +55,26 @@ public class TourCont {
 		mav.setViewName("tour/cart");
 		return mav;
 	}//index end
+	
+	@RequestMapping(value="/tour/reserve.do", method=RequestMethod.GET)
+	public ModelAndView reserve() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("tour/reserve");
+		return mav;
+	}//index end
+	
+	@RequestMapping(value="/tour/tourlist.do", method=RequestMethod.GET)
+	public ModelAndView tourlist(TourDTO dto) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("tour/tourlist");
+		ArrayList<TourDTO> tourlist = dao.tourlist();
+		int total = dao.tourtotal(dto);
+		mav.addObject("tourlist", tourlist);
+		mav.addObject("total", total);
+		return mav;
+	}//index end
+	
+	
 	
 	
 }//class end

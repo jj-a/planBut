@@ -7,7 +7,6 @@ public class PlannerDTO {
 	// Variable
 	private String plan_code, m_id, subject;
 	private int people;
-	
 
 	// Constructor
 	public PlannerDTO() {

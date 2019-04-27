@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file='../header.jsp'%>
+<script src="${pageContext.request.contextPath }/js/tour_submenu.js"></script>
+<script src="${pageContext.request.contextPath }/css/tour.css"></script>
+
 
 <style>
 #tour1 {
@@ -14,10 +17,12 @@
 }
 
 #tour2 {
-	width : 20%;
 	background-color: #fcb076;
 	font-size: 25px;
 	color: black;
+	float : left;
+	height : 150px;
+	width : 20%;
 }
 
 #tour3 {
@@ -52,52 +57,93 @@
 	text-align : center;
 	margin : 0 35% 0 35%;
 }
+
+.search__container{
+	height : 160px;
+}
+
+
 </style>
 
 <!-- home -> 투어 예약 -->
 <!-- 임시 버튼  -->
 <table>
-<tr>
-<td><input type="button" value="도시" onclick="location.href='./city.do'"></td>
-<td><input type="button" value="투어정보" onclick="location.href='./tourinfo.do'"></td>
-</tr>
+	<tr>
+		<td><input type="button" value="도시리스트" onclick="location.href='./city.do'"></td>
+		<td><input type="button" value="투어정보" onclick="location.href='./tourinfo.do'"></td>
+		<td><input type="button" value="투어리스트" onclick="location.href='./tourlist.do'"></td>
+		<td><input type="button" value="예약페이지" onclick="location.href='./reserve.do'"></td>
+		<td><input type="button" value="장바구니" onclick="location.href='./cart.do'"></td>
+	</tr>
 </table>
 
 
 <div id="tour1"></div>
 
 <div id="tour2">
-	<p id="tour_home" onClick="window.location.reload()">투어예약 홈</p>
+	<div>
+		<p id="tour_home" onClick="window.location.reload()">투어예약 홈</p>
+	</div>
 </div>
 
-<div id="tour3">
-	<h3>국가 ▼</h3>
-	<c:forEach var="dto" items="${countrylist }">
-		<div>
-			<p>${dto.c_name }</p>
-		</div>
-	</c:forEach>
-	<h3>도시▼</h3>
-	<c:forEach var="dto" items="${citylist }">
-		<div>
-			<p>${dto.ct_name}</p>
-		</div>
-	</c:forEach>
+<div class="search__container">
+	<input class="search__input" type="text" placeholder="Search">
 </div>
+
+<div class="credits__container"></div>
+
+<div id="tour3">
+	<div>
+		<div class="main-title">
+			<div>
+				<h2>국가</h2>
+			</div>
+			<div>
+				<h2>▼</h2>
+			</div>
+		</div>
+		<div>
+			<c:forEach var="dto" items="${countrylist }">
+				<ul>
+					<li><a>${dto.countryDTO.c_name }</a></li>
+				</ul>
+			</c:forEach>
+		</div>
+	</div>
+
+	<div>
+		<div>
+			<div>
+				<h2>도시</h2>
+			</div>
+			<div>
+				<h2>▼</h2>
+			</div>
+		</div>
+		<div>
+			<c:forEach var="dto" items="${citylist }">
+				<ul>
+					<li><a>${dto.cityDTO.ct_name}</a></li>
+				</ul>
+			</c:forEach>
+		</div>
+	</div>
 </div>
 
 <div id="tour4">
 	<p>내 계획에 포함된 도시</p>
 	<table>
-		<tr>
-			<td>이미지</td>
-		</tr>
-		<tr>
-			<td>파리</td>
-		</tr>
-		<tr>
-			<td>프랑스</td>
-		</tr>
+		<c:forEach var="dto" items="${plannerlist }">
+			<tr>
+				<!-- <td>이미지</td> -->
+				<td>
+					<%-- ${dto.photo} --%>도시테이블 사진 칼럼 추가합시다
+				</td>
+			</tr>
+			<tr>
+				<td>${dto.cityDTO.ct_name }</td>
+			</tr>
+		</c:forEach>
 	</table>
 </div>
 
@@ -107,7 +153,7 @@
 
 
 <script>
-y7
+
 </script>
 
 <%@ include file='../footer.jsp'%>
