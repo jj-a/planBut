@@ -36,6 +36,9 @@ public interface MateBbsMapper {
 	// <select id="recmPeople" parameterType="CityplanDTO" resultType="CityplanDTO">
 	public ArrayList<RecmPeopleDTO> recmPeople(RecmDTO recmDTO);
 	
+	// <insert id="applyBbs">
+	public int applyBbs(MateBbsDTO dto);
+	
 	/*
 	// <select id="search">
 	public ArrayList<MateBbsDTO> search(HashMap searchMap);*/

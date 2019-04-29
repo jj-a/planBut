@@ -134,6 +134,24 @@ public class MateBbsCont {
 		return mav;
 	} // deleteProc() end
 	
+	@RequestMapping( value = "/mate/applyBbs.do", 
+			 method = RequestMethod.GET )
+	public ModelAndView applyBbsForm(MateBbsDTO dto) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("mate/applyBbsForm");
+		mav.addObject("b_no", dto.getB_no());
+		return mav;
+	} // createForm() end
+	
+	@RequestMapping( value = "/mate/applyBbs.do", 
+				 method = RequestMethod.POST )
+	public ModelAndView applyBbsProc(MateBbsDTO dto) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/mate/list.do");
+		int count = dao.create(dto);
+		mav.addObject("count", count);
+		return mav;
+	} // createProc() end
 	
 	/*
 	@RequestMapping( value = "/notice/update.do", 

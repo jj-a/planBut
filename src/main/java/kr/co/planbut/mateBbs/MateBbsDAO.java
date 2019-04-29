@@ -34,7 +34,6 @@ public class MateBbsDAO {
 		return count;
 	} // create() end
 	
-	
 	public ArrayList<MateBbsDTO> list() {
 		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
 		ArrayList<MateBbsDTO> list = mapper.list();
@@ -77,6 +76,13 @@ public class MateBbsDAO {
 	    ArrayList<RecmPeopleDTO> recmPeople = mapper.recmPeople(recmDTO);
 	    return recmPeople;
 	} // recmPeople() end
+	
+	public int applyBbs(MateBbsDTO dto) {
+		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
+		int count = mapper.applyBbs(dto);
+		return count;
+	} // create() end
+	
 	/*
 	public ArrayList<NoticeDTO> search(String col, String word) {
 		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);

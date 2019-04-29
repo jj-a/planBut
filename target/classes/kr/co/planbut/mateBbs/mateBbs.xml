@@ -123,6 +123,14 @@
         ]]>
     </select>
     
+    <insert id="applyBbs" parameterType="MateBbsDTO">		
+		<![CDATA[
+			insert into mateapply_b(ma_code, b_no, sp_id, people, mate_code)
+			values('B20190429-1', #{b_no}, #{subject}, #{sp_id}, #{people}, #{mate_code}) 
+		]]>
+		<!-- getter 함수가 있기에 values에 값을 꺼내올 수 있다 -->
+	</insert>
+    
 	<!--
 	<select id="search" resultType="MateBbsDTO" parameterType="HashMap">
 		select noticeno, title, rname, rdate
