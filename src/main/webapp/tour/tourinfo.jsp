@@ -338,6 +338,7 @@
 <div class="tour_product">
 	<div class="tour_p tour_content">
 		<p>투어소개</p>
+		<p>${dto.content }</p>
 	</div>
 
 	<div class="tour_p tour_review">
