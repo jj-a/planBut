@@ -49,19 +49,50 @@ public class MateBbsCont {
 	} // createProc() end
 
 	@RequestMapping("/mate/list.do")
-	public ModelAndView list(PlannerDTO dto) {
+	public ModelAndView list(CityplanDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("mate/mateBbsList");
 		// ArrayList<MateBbsDTO> list = dao.list();
 		// mav.addObject("list", list); ㅡ▶ 밑에 한줄과 같은 의미
+		ArrayList<RecmDTO> recmDTOList = dao.recmList();
+		ArrayList<RecmPeopleDTO> recmPeopleDTOList = new ArrayList<RecmPeopleDTO>();
+		for(int idx=0; idx<recmDTOList.size(); idx++) {
+			RecmDTO recmDTO = recmDTOList.get(idx);
+			System.out.println("ct_code: "+recmDTO.getCt_code());
+			System.out.println("m_id: "+recmDTO.getM_id());
+			ArrayList<RecmPeopleDTO> recmPeopleDTOList1 = dao.recmPeople(recmDTO);
+			recmPeopleDTOList.addAll(recmPeopleDTOList1);
+			
+		}//for end
+		for(int a = 0; a<recmPeopleDTOList.size();a++) {
+			RecmPeopleDTO ddttoo = recmPeopleDTOList.get(a);
+			System.out.println("recmpeople 목록:"+ddttoo.toString());
+		}
+		System.out.println("recmpeople합:" + recmPeopleDTOList.size());
+		mav.addObject("recmPeople", recmPeopleDTOList);
 		mav.addObject("list", dao.list());
-		mav.addObject("recmList", dao.recmList());
-		mav.addObject("recmPeople", dao.recmPeople());
-		
+		mav.addObject("recmList", recmDTOList);
+		//mav.addObject("recmPeople", recmPeopleDTOList);
 		return mav;
 	} // list() end
 	
-
+//	@RequestMapping( value="/mate/search.do", 
+//					 method=RequestMethod.GET )
+//	public ModelAndView recmList2(CityplanDTO dto) {
+//		ModelAndView mav=new ModelAndView();
+//		mav.setViewName("mate/mateBbsList");
+//		
+//		// dto = dao.recmList2(dto);
+//		// mav.addObject("ct_code", dto.getCt_code());
+//		
+//		mav.addObject("recmPeoPle", dao.recmPeople());
+//		
+//		// System.out.println(dto.getCt_code());
+//		
+//		System.out.println(dao.recmPeople());
+//		
+//		return mav;
+//	}//list() end			
    @RequestMapping( value="/mate/read.do", 
 		   			method=RequestMethod.GET )
    public ModelAndView read(MateBbsDTO dto) {

@@ -28,10 +28,14 @@ public interface MateBbsMapper {
 	public MateBbsDTO read(MateBbsDTO dto);
 	
 	// <select id="recmList" parameterType="CityplanDTO" resultType="CityplanDTO">
-	public ArrayList<CityplanDTO> recmList();
+	public ArrayList<RecmDTO> recmList();
 	
+	// <select id="read" parameterType="MateBbsDTO" resultType="MateBbsDTO">
+	public CityplanDTO recmList2(CityplanDTO dto);
+		
 	// <select id="recmPeople" parameterType="CityplanDTO" resultType="CityplanDTO">
-	public ArrayList<CityplanDTO> recmPeople();
+	public ArrayList<RecmPeopleDTO> recmPeople(RecmDTO recmDTO);
+	
 	/*
 	// <select id="search">
 	public ArrayList<MateBbsDTO> search(HashMap searchMap);*/

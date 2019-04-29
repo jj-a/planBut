@@ -59,17 +59,24 @@ public class MateBbsDAO {
 		return dto;
 	} // read() end
 	
-	public ArrayList<CityplanDTO> recmList() {
+	public ArrayList<RecmDTO> recmList() {
 	    MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
-	    ArrayList<CityplanDTO> recmList = mapper.recmList();
+	    ArrayList<RecmDTO> recmList = mapper.recmList();
+	    System.out.println("recmList 수: "+recmList.size());
 	    return recmList;
 	} // recmList() end
 	
-	public ArrayList<CityplanDTO> recmPeople() {
+	public CityplanDTO recmList2(CityplanDTO dto) {
+		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
+		dto = mapper.recmList2(dto);
+		return dto;
+	} // recmList2() end
+	
+	public ArrayList<RecmPeopleDTO> recmPeople(RecmDTO recmDTO) {
 	    MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
-	    ArrayList<CityplanDTO> recmPeople = mapper.recmPeople();
+	    ArrayList<RecmPeopleDTO> recmPeople = mapper.recmPeople(recmDTO);
 	    return recmPeople;
-	} // recmList() end
+	} // recmPeople() end
 	/*
 	public ArrayList<NoticeDTO> search(String col, String word) {
 		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);
