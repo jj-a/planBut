@@ -40,12 +40,24 @@
 		 -->
 	</resultMap>
 
+	<!-- calendar(캘린더) 테이블 -->
+	<resultMap type="kr.co.planbut.common.CalendarDTO" id="calendar">
+		<id column="cal_code" property="cal_code" />
+		<result column="cp_code" property="cp_code" />
+		<result column="ct_code" property="ct_code" />
+		<result column="memo" property="memo" />
+		<result column="date" property="date" />
+		<association property="cityplan" javaType="kr.co.planbut.common.CityplanDTO" resultMap="cityplan"/>
+		<association property="city" javaType="kr.co.planbut.common.CityDTO" resultMap="city"/>
+	</resultMap>
+
 	<!-- courseplan(경로계획) 테이블 -->
 	<resultMap type="kr.co.planbut.common.CourseplanDTO" id="courseplan">
 		<id column="cos_code" property="cos_code" />
 		<result column="cp_code" property="cp_code" />
 		<result column="course" property="course" />
 		<result column="date" property="date" />
+		<association property="cityplan" javaType="kr.co.planbut.common.CityplanDTO" resultMap="cityplan"/>
 	</resultMap>
 
 	<!-- country(국가) 테이블 -->
@@ -55,19 +67,6 @@
 	</resultMap>
 	
 	<!-- city(도시) 테이블 -->
-<!-- 
-	<resultMap type="kr.co.planbut.common.CityDTO" id="city">
-		<association property="city" column="ct_code" resultMap="city">
-			<id column="ct_code" property="ct_code" />
-			<result column="c_code" property="c_code" />
-			<result column="ct_name" property="ct_name" />
-			<result column="lat" property="lat" />
-			<result column="lng" property="lng" />
-		</association>
-	</resultMap>
- -->
-	<!-- city(도시) 테이블 -->
-	
 	<resultMap type="kr.co.planbut.common.CityDTO" id="city">
 		<id column="ct_code" property="ct_code" />
 		<result column="c_code" property="c_code" />
@@ -91,6 +90,7 @@
 		<result column="address" property="address" />
 		<result column="xy" property="xy" />
 		<result column="content" property="content" />
+		<association property="placetype" javaType="kr.co.planbut.common.PlacetypeDTO" resultMap="placetype"/>
 	</resultMap>
 
 	<!-- member(회원) 테이블 -->
@@ -181,7 +181,6 @@
 		]]>
 	</select>
 	
-	
 
 	<!-- 1단계 도시계획 조회 (리스트) -->
 	<select id="cityplanList" resultMap="cityplan" parameterType="kr.co.planbut.common.PlannerDTO">
@@ -208,6 +207,56 @@
 			select *
 			from city
         ]]>
+	</select>
+	
+
+	<!-- 일정(캘린더) 조회 (리스트) -->
+	<select id="calendar" resultMap="calendar" parameterType="kr.co.planbut.common.CalendarDTO">
+		<![CDATA[
+		select cal_code, CAL.cp_code, CP.order_code, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
+		from calendar as CAL 
+		join cityplan CP 
+		on CAL.cp_code = CP.cp_code
+		join city CITY
+		on CAL.ct_code = CITY.ct_code
+		where plan_code= #{plan_code}
+		order by order_code asc, date asc, cal_code asc
+		]]>
+	</select>
+	
+
+	<!-- 2단계 경로계획 조회 (리스트) -->
+	<select id="courseplanList" resultMap="courseplan" parameterType="kr.co.planbut.common.PlannerDTO">
+		<![CDATA[
+		select  cos_code, 
+			CP.cp_code, 
+			CP.plan_code, 
+			CP.ct_code, 
+			CITY.ct_name, 
+			CP.order_code, 
+			CP.day, 
+			course, 
+			date
+		from courseplan as CSP
+		join cityplan as CP
+		on CSP.cp_code = CP.cp_code 
+		join city as CITY
+		on CP.ct_code = CITY.ct_code
+		where plan_code= #{plan_code}
+		order by order_code asc, date asc
+		]]>
+	</select>
+	
+
+	<!-- 관광지 조회 (리스트) -->
+	<select id="placeList" resultMap="place">
+		<![CDATA[
+		select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, xy, content 
+		from place as PL
+		join placetype as PLT
+		on PL.pt_code = PLT.pt_code 
+		order by p_code asc
+		]]>
 	</select>
 	
 

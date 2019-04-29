@@ -22,14 +22,25 @@ public class PlanController {
 	public PlanController() {
 		;
 	}// planController() end
+
 	
+	// 계획짜기 (플래너 생성 연결)
+	@RequestMapping(value="/plan", method=RequestMethod.GET)
+	public ModelAndView mypage(PlannerDTO dto) {
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("redirect:/plan/plan.do");
+		
+		return mav;
+	} // planner() end
 	
+
+	// 계획짜기 > 1단계 플래너 (플래너 생성&도시계획)
 	@RequestMapping(value="/plan/plan.do", method=RequestMethod.GET)
 	public ModelAndView plan(PlannerDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/plan");
-		
-		if(dto.getPlan_code()!=null) {
+
+		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
 			// parameter가 있을 때 (폼 전송)
 			System.out.println("★생성된 플래너 불러오기");
 			System.out.println(dto.getPlan_code());
@@ -45,17 +56,18 @@ public class PlanController {
 		return mav;
 	}// plan() end
 	
-	
+
+	// 계획짜기 > 1단계 플래너 (플래너 생성&도시계획) - 플래너 생성
 	@RequestMapping(value="/plan/plan.do", method=RequestMethod.POST)
 	public ModelAndView planproc(PlannerDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/plan");
 
-		int count=dao.create(dto);
+		int count=dao.create(dto);	// 플래너(planner) 추가
 		
 		if(count!=0) {
 			System.out.println("★추가 성공");
-			dto=dao.read(dto);
+			dto=dao.read(dto);	// 플래너(planner) 정보
 			mav.addObject("article", dto);
 			mav.setViewName("redirect:/plan/plan.do?plan_code="+dto.getPlan_code());
 		}else {
@@ -66,20 +78,44 @@ public class PlanController {
 	}// planproc() end
 	
 	
+	// 계획짜기 > 일정 (캘린더)
 	@RequestMapping(value="/plan/calendar.do", method=RequestMethod.GET)
-	public ModelAndView calendar(Model model) {
+	public ModelAndView calendar(PlannerDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/calendar");
+
+		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
+		mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
+		mav.addObject("calendar", dao.calendar(dto));	// 캘린더(calendar) 리스트
+		mav.addObject("placelist", dao.placeList());	// 관광지(place) 리스트
+
+		}else {
+			// parameter가 없을 때
+			
+		}
+		
 		return mav;
 	}// calendar() end
 	
-	
+
+	// 계획짜기 > 2단계 플래너 (경로계획)
 	@RequestMapping(value="/plan/course.do", method=RequestMethod.GET)
 	public ModelAndView course(PlannerDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/course");
-		dto=dao.read(dto);
-		mav.addObject("article", dto);
+
+		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
+		mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
+		mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트 -> 수정 시
+		mav.addObject("csplist", dao.courseplanList(dto));	// 경로계획(cityplan) 리스트 -> 수정 시
+		mav.addObject("placelist", dao.placeList());	// 관광지(place) 리스트
+
+		}else {
+			// parameter가 없을 때
+			System.out.println("★플래너 추가 화면으로 이동");
+			mav.setViewName("redirect:/plan/plan.do");
+		}
+		
 		return mav;
 	}// course() end
 	
