@@ -38,8 +38,12 @@ public class PlanController {
 	@RequestMapping(value="/plan/plan.do", method=RequestMethod.GET)
 	public ModelAndView plan(PlannerDTO dto) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("plan/plan");
 
+		mav.setViewName("plan/plan");
+/*
+		ArrayList<CityDTO> CityDTOs = dao.getCitys(); //좌표찍을 도시들 정보
+		mav.addObject("CityDTOs", CityDTOs);// 좌표찍을 도시들 mav에 담기
+*/
 		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
 			// parameter가 있을 때 (폼 전송)
 			System.out.println("★생성된 플래너 불러오기");

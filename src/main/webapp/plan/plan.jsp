@@ -9,6 +9,10 @@
 	width: 100%;
 }
 
+.root-info {
+	height: 88vh;
+}
+
 #legend {
 	font-family: Arial, sans-serif;
 	background: #fff;
@@ -55,7 +59,7 @@ padding-right: 0px !important;
 			
 			<!-- 플래너 루트 리스트 -->
 			<div class="scrollable-menu">
-				<ul class="list-group">
+				<ul class="root-info list-group">
 					
 					<!-- 저장된 도시계획 리스트 -->
 					<c:forEach var="cp" items="${cplist }">
@@ -110,37 +114,14 @@ padding-right: 0px !important;
 					</li>
 					</c:forEach>
 				
-					<!-- 샘플 -->
+					<!-- 샘플 --><!-- 
 					<li class="list-group-item">
 						<h3 class="root-city">런던</h3> 
 						<span class="root-day">3박</span> 
 						<span class="root-date">MM-DD ~ MM-DD</span> 
 						<span class="root-transport"></span>
-					</li>
-					<li class="list-group-item">
-						<h3 class="root-city">파리</h3> 
-						<span class="root-day">3박</span> 
-						<span class="root-date">MM-DD ~ MM-DD</span> 
-						<span class="root-transport">[기차 이동]</span>
-					</li>
-					<li class="list-group-item">
-						<h3 class="root-city">뮌헨</h3> 
-						<span class="root-day">3박</span> 
-						<span class="root-date">MM-DD ~ MM-DD</span> 
-						<span class="root-transport">[항공 이동]</span>
-					</li>
-					<li class="list-group-item">
-						<h3 class="root-city">베를린</h3> 
-						<span class="root-day">3박</span> 
-						<span class="root-date">MM-DD ~ MM-DD</span> 
-						<span class="root-transport">[버스 이동]</span>
-					</li>
-					<li class="list-group-item">
-						<h3 class="root-city">프라하</h3> 
-						<span class="root-day">3박</span> 
-						<span class="root-date">MM-DD ~ MM-DD</span> 
-						<span class="root-transport">[기차 이동]</span>
-					</li>
+					</li> -->
+					
 				</ul>
 			</div>
 
