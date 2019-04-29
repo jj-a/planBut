@@ -160,6 +160,13 @@
         }
 
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+        
+        var poly = new google.maps.Polyline({
+            strokeColor: '#000000',
+            strokeOpacity: 1.0,
+            strokeWeight: 3
+          });
+          poly.setMap(map);
       }
     </script>
 

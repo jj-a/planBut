@@ -201,6 +201,14 @@
 		order by order_code asc
 		]]>
 	</select>
+
+    <!-- getCitys -->
+    <select id="getCitys" resultType="CityDTO">
+        <![CDATA[
+			select *
+			from city
+        ]]>
+	</select>
 	
 
 

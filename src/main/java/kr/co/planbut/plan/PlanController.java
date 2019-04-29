@@ -1,5 +1,7 @@
 package kr.co.planbut.plan;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.planbut.common.CityDTO;
 import kr.co.planbut.common.PlannerDTO;
 
 
@@ -84,7 +87,10 @@ public class PlanController {
 	@RequestMapping(value="/plan/planTest.do", method=RequestMethod.GET)
 	public ModelAndView planTest(Model model) {
 		ModelAndView mav = new ModelAndView();
+		ArrayList<CityDTO> CityDTOs = dao.getCitys();
+		
 		mav.setViewName("plan/planTest");
+		mav.addObject("CityDTOs", CityDTOs);
 		return mav;
 	}//planTest end
 	

@@ -75,5 +75,11 @@ public class PlanDAO {
 		return list;		
 	} // cityplanList() end
 	
+	public ArrayList<CityDTO> getCitys() { 
+		PlanMapper mapper = sqlSession.getMapper(PlanMapper.class);		
+		ArrayList<CityDTO> CityDTOs = mapper.getCitys();
+		return CityDTOs;
+	}
+	
 	
 }// PlanDAO end

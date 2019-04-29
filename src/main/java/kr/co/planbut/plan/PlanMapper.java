@@ -22,4 +22,7 @@ public interface PlanMapper {
 	// cityplan
 	public ArrayList<CityplanDTO> cityplanList(PlannerDTO dto);
 	
+	//<select id="getCitys">
+	public ArrayList<CityDTO> getCitys();
+	
 } // PlanMapper end

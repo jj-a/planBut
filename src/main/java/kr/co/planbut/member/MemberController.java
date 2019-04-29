@@ -59,9 +59,9 @@ public class MemberController {
 	public ModelAndView logout(MemberDTO dto, SessionStatus status, HttpServletRequest request) {
 		status.setComplete();//세션 지우기
 		
-		String url = request.getHeader("referer");
+		String url = request.getHeader("referer"); //이전페이지 URL 가져옴
 		int start = url.lastIndexOf("/planbut/");
-		String addr = url.substring(start); //이전페이지 주소(~~.do)
+		String addr = url.substring(start); //이전페이지(명령어만 뽑기)
 		
 		RedirectView rv = new RedirectView(addr);
 		rv.setExposeModelAttributes(false);
