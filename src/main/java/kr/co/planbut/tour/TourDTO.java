@@ -22,6 +22,7 @@ public class TourDTO {
 	private ReplyDTO replyDTO;
 	private TreviewDTO treviewDTO;
 	private int cnt;
+	private int sum;
 	
 	public TourDTO() {}
 
@@ -244,6 +245,14 @@ public class TourDTO {
 
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
+	}
+	
+	public int getSum() {
+		return sum;
+	}
+
+	public void setSum(int sum) {
+		this.sum = sum;
 	}
 
 	@Override

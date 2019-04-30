@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import kr.co.planbut.common.CityDTO;
 
 @Component
 public class TourDAO {
@@ -30,9 +29,9 @@ public class TourDAO {
 		return citylist;
 	}// list end
 	
-	public ArrayList<TourDTO> tourlist() {
+	public ArrayList<TourDTO> tourlist(TourDTO dto) {
 		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
-		ArrayList<TourDTO> tourlist = mapper.tourlist();
+		ArrayList<TourDTO> tourlist = mapper.tourlist(dto);
 		return tourlist;
 	}
 	
@@ -40,6 +39,12 @@ public class TourDAO {
 		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
 		ArrayList<TourDTO> plannerlist = mapper.plannerlist();
 		return plannerlist;
+	}
+
+	public ArrayList<TourDTO> cartlist(String m_id) {
+		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
+		ArrayList<TourDTO> cartlist = mapper.cartlist(m_id);
+		return cartlist;
 	}
 	
 	public TourDTO read(TourDTO dto) {
@@ -53,6 +58,13 @@ public class TourDAO {
 		int total = mapper.tourtotal(dto);
 		return total;
 	}
+/*
+	public int cart(CartDTO dto) {
+		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
+		int res = mapper.cart(dto);
+		return res;
+	}
+*/
 
 
 }

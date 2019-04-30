@@ -16,15 +16,20 @@ public interface TourMapper {
 
 	public ArrayList<TourDTO> plannerlist();
 
-	public ArrayList<TourDTO> tourlist();
+	public ArrayList<TourDTO> tourlist(TourDTO dto);
 
+	public ArrayList<TourDTO> cartlist(String m_id);
+	
 	public TourDTO read(TourDTO dto);
 
 	public int tourtotal(TourDTO dto);
+
+//	public int cart(CartDTO dto);
 	
 //	public TourDTO create(TourDTO dto);
 	
 //	public TourDTO update(TourDTO dto);
 
 //	public TourDTO delete(TourDTO dto);
+
 }

@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ include file='../header.jsp'%>
+<link rel="stylesheet" href="./css/calendar.css">
+<script src="./js/pureJSCalendar.js"></script>
+
 
 
 
@@ -252,13 +255,12 @@
 							data-holder-rendered="true">
 					</div>
 				</div>
-				<a class="left carousel-control" href="#carousel-example-generic"
-					role="button" data-slide="prev"> <span
-					class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"> 
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 					<span class="sr-only">Previous</span>
-				</a> <a class="right carousel-control" href="#carousel-example-generic"
-					role="button" data-slide="next"> <span
-					class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</a>
+				 <a class="right carousel-control" href="#carousel-example-generic"	role="button" data-slide="next">
+				 	<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 					<span class="sr-only">Next</span>
 				</a>
 			</div>
@@ -268,8 +270,7 @@
 				<!-- <dt><button id="btn_like"></button></dt> -->
 				<!-- 로그인 했을 때 (버튼 클릭 시 좋아요 ) -->
 				<dt>
-					<button id="btn_like" class="ico_like1" type="button"
-						onclick="location.href='javascript:toggleLike()'"></button>
+					<button id="btn_like" class="ico_like1" type="button" onclick="location.href='javascript:toggleLike()'"></button>
 				</dt>
 			</dl>
 		</div>
@@ -322,8 +323,8 @@
 					</div>
 				</div>
 			</div>
-		<button type="button" class="btn btn-lg btn-primary" onclick="location.href='cart.do'">장바구니</button>
-		<button type="button" class="btn btn-lg btn-primary" onclick="">간편예약</button>
+		<button type="button" id="cartbutton" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#modal-fechacap">장바구니</button>
+		<button type="button" id="reservebutton" class="btn btn-lg btn-primary" onclick="">간편예약</button>
 		</div>
 	</div>
 </section>
@@ -350,6 +351,63 @@
 	</div>
 </div>
 
+
+<!-- Cart Modal -->
+<div id="calendarmodal" class="container">
+
+        <div class="modal fade" id="modal-fechacap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+             <div class="modal-dialog">
+                <div class="modal-content">
+                     <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">장바구니</h4>
+                     </div>
+				<div class="modal-body">
+
+					
+					<input type="hidden" name="horario" id="horario" value="" />
+					<p>
+						<label>${dto.tour_name }</label>
+					</p>
+					<form name="cartlist" method="POST" action="./cart.do">
+					<p>
+						<label>인원: </label> 
+						<!-- + - 버튼 넣어서 인원 추가 삭제 readonly -->
+						<!-- <input type="text" name="unidad" id="unidad" value="" size='5' maxlength='2' readonly /> -->
+						<input type="text" name="people" id="people" size='5' maxlength='3' />
+					</p>
+					<p>
+						<input type="button" value="달력" onclick="pureJSCalendar.open('dd.MM.yyyy', 20, 30, 1, '2018-5-5', '2019-8-20', 'txtTest', 20)" class="btn btn-primary">
+						<label>예약날짜</label>
+						<input type="text" id="tourday" name="tourday" class="form-controller" size='13'>
+					</p>
+					</form>
+				</div>
+				
+				<div class="modal-footer">
+                          <div style="margin-left:10px">
+                           <button type="button" class="fechacap btn btn-success btn-sm" id="fechacap">
+                           <i class="glyphicon glyphicon-pencil" onclick="location.href='./cart.do'"></i> 담기
+                           </button> 
+                           <a href="" class="btn btn-danger btn-sm" data-dismiss="modal">
+                           <i class="glyphicon glyphicon-ban-circle"></i>닫기</a>
+                          </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+<!-- Calendar Modal -->
+<div id="cal" style="top: 30px; left: 20px; z-index: 20;">
+	<div class="header">
+		<span class="left button" id="prev"> ⟨ </span> <span class="left hook"></span><span
+			class="month-year" id="label">April 2019</span> <span
+			class="right hook"></span> <span class="right button" id="next">
+			⟩ </span>
+	</div>
+</div>
+
 </main>
 
 
@@ -361,7 +419,14 @@ function toggleLike() {
 	location.href="#loginmodal";
 }
 
+
+$("#cartbutton").click(function(){
+$('#cartbutton').modal('hide')
+});
+
+
 </script>
+
 
 
 <%@ include file='../footer.jsp'%>

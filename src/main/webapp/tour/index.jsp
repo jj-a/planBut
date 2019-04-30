@@ -123,7 +123,7 @@
 		<div>
 			<c:forEach var="dto" items="${citylist }">
 				<ul>
-					<li><a>${dto.cityDTO.ct_name}</a></li>
+					<li><a href="./tourlist.do?ct_code=${dto.ct_code }">${dto.cityDTO.ct_name}</a></li>
 				</ul>
 			</c:forEach>
 		</div>

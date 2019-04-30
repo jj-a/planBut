@@ -1,36 +1,41 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file='../header.jsp'%>
 
 <style>
-	#list{
-		background-color : #a5bde5;
-		height : 300px;
-		text-align : center;
-		margin-top : 30px;
-	}
-	
-	.tour_list{
-	 	float : left;
-	 	height : 1000px
-	}
-	
-	.list1{
-		width : 30%;
-	}
-	
-	.list2{
-		width : 70%;
-	}	
+#list {
+	background-color: #a5bde5;
+	height: 300px;
+	text-align: center;
+	margin-top: 30px;
+}
+
+.tour_list {
+	float: left;
+	height: 1000px
+}
+
+.list1 {
+	width: 30%;
+}
+
+.list2 {
+	width: 70%;
+}
 </style>
 
 <!-- 임시 버튼  -->
 <table>
 	<tr>
-		<td><input type="button" value="투어홈" onclick="location.href='./tour.do'"></td>
-		<td><input type="button" value="도시리스트" onclick="location.href='./city.do'"></td>
-		<td><input type="button" value="투어정보" onclick="location.href='./tourinfo.do'"></td>
-		<td><input type="button" value="예약페이지" onclick="location.href='./reserve.do'"></td>
-		<td><input type="button" value="장바구니" onclick="location.href='./cart.do'"></td>
+		<td><input type="button" value="투어홈"
+			onclick="location.href='./tour.do'"></td>
+		<td><input type="button" value="도시리스트"
+			onclick="location.href='./city.do'"></td>
+		<td><input type="button" value="투어정보"
+			onclick="location.href='./tourinfo.do'"></td>
+		<td><input type="button" value="예약페이지"
+			onclick="location.href='./reserve.do'"></td>
+		<td><input type="button" value="장바구니"
+			onclick="location.href='./cart.do'"></td>
 	</tr>
 </table>
 
@@ -92,36 +97,40 @@
 </section>
 
 <section class="tour_list list2">
-<div>
 	<div>
-		<div><p>상품  ${total }</p></div>
-	</div>
-	<div>
-		<ul>
-			<c:forEach var="dto" items="${tourlist }">
-				<li>
-					<figure>
-						<img src="">
-						<figcaption>${dto.tour_name }</figcaption>
-					</figure>
-					<div>
-						<div>
-						<p>${dto.treviewDTO.star }</p>
-						</div>
-						<div>
-						<p>예약자수 : ${dto.cnt }</p>
-						</div>
-						<div>
-						<p>${dto.price }</p>
-						</div>
-					</div>
-				</li>
-			 </c:forEach>
-		</ul>
+		<div>
+			<div>
+				<p>상품 ${total }</p>
+			</div>
 		</div>
-</div>
+		<div>
+			<ul>
+				<c:forEach var="dto" items="${tourlist }">
+					<li>
+						<figure>
+							<img src="/">
+							<figcaption>
+								<a href="./tourinfo.do?tour_code=${dto.tour_code }">${dto.tour_name }</a>
+							</figcaption>
+						</figure>
+						<div>
+							<div>
+								<p>${dto.treviewDTO.star }점</p>
+							</div>
+							<div>
+								<p>예약자수 : ${dto.cnt }</p>
+							</div>
+							<div>
+								<p>${dto.price }</p>
+							</div>
+						</div>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
+	</div>
 
-</section> 
+</section>
 
 </main>
 <%@ include file='../footer.jsp'%>

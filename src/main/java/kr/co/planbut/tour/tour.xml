@@ -84,17 +84,18 @@
 			<result property="content" column="content" />
 			<result property="star" column="star" />
 		</collection>
- 		</resultMap>
-		<!-- 
-		장바구니
-		<collection property="cart" column="cart_code" javaType="kr.co.planbut.tour.CartDTO">
+
+		<!-- 장바구니 -->
+		<collection property="cartDTO" column="cart_code" javaType="kr.co.planbut.tour.CartDTO">
 			<id property="cart_code" column="cart_code" />
 			<result property="tour_code" column="tour_code" />
 			<result property="m_id" column="m_id" />
 			<result property="tourday" column="tourday" />
 			<result property="people" column="people" />
 		</collection>
-		
+ 		</resultMap>
+ 		
+		<!-- 
 		투어문의
 		<collection property="tqnaDTO" column="tq_code" javaType="kr.co.planbut.tour.TqnaDTO">
 			<id property="tq_code" column="tq_code" />
@@ -112,7 +113,6 @@
 			<result property="regdt" column="regdt" />
 		</collection>
 		 -->
-		
     	
     	<!-- tour/index.jsp 국가 리스트 -->
     	<select id="countrylist" resultMap="tourDTO">
@@ -138,14 +138,17 @@
 		</select>
 	 
 	 	<!-- tour/tourlist.jsp 투어 리스트 -->
-	    <select id="tourlist" resultMap="tourDTO">
+	    <select id="tourlist" resultMap="tourDTO" parameterType="TourDTO">
 	    	<![CDATA[
-			    SELECT tour_name, price, photo, T.content, star, RE.re_code, (SELECT COUNT(tour_code) 
+				select T.tour_code, tour_name, price, photo, T.content, RE.re_code, (SELECT COUNT(tour_code) 
 				FROM treserve
-				WHERE tour_code = T.tour_code) CNT
+				WHERE tour_code = T.tour_code) CNT, (select round(avg(star))
+				from treview) STAR
 				FROM tour T
-				JOIN treserve RE ON T.tour_code = RE.tour_code
-				JOIN treview  RV ON RE.re_code = RV.re_code
+				left outer JOIN treserve RE ON T.tour_code = RE.tour_code
+				left outer JOIN treview  RV ON RE.re_code = RV.re_code
+				where ct_code = #{ct_code}
+				group by tour_code
 	    	]]>
 		</select>
 		
@@ -156,7 +159,6 @@
 				FROM tour
 				WHERE ct_code = #{ct_code}
 			]]>
-			
 		</select>
 		
  		<!-- tour/index.jsp 내 계획에 있는 도시 리스트 -->
@@ -181,14 +183,52 @@
         ]]>
      </select>
     
-    <!-- tour/city.jsp  -->
+    <!-- tour/tourinfo.jsp(장바구니 insert) -->
+    <sql id="today">
+	replace(left(now(),10),'-','')
+	</sql>
+	<!-- include: <include refid="today" /> -->
+
+	<insert id="cart" parameterType="CartDTO">
+		<selectKey keyProperty="cart_code" resultType="int" order="BEFORE">
+		 <![CDATA[
+			select concat(
+			replace(left(now(),10),'-','')
+			,
+			'-',
+			(
+			select ifnull(lpad(max(right(cart_code,2)) +1,2,0),'01')
+			from
+			cart
+			where left(cart_code,8)=
+			replace(left(now(),10),'-','')
+			)
+			) as code
+			from cart
+			group by code
+		]]>
+		</selectKey>
+		<![CDATA[
+			insert into cart(cart_code, tour_code, m_id, tourday, people)
+			values(#{cart_code}, #{tour_code}, #{m_id}, #{tourday}, #{people})
+		]]>
+	</insert>
+    
+    <!-- tour/cart.jsp(장바구니 리스트)  -->
+    <select id="cartlist" resultMap="tourDTO" parameterType="String">
+	    	<![CDATA[
+				select cart_code, photo, tour_name, people, sum(price*people) as sum, tourday, m_id
+				from tour T
+				join cart C on T.tour_code = C.tour_code
+				where m_id = #{m_id} 
+	    	]]>
+		</select>
     
     <!-- tour/tourinfo.jsp 문의 -->
     
     <!-- 관리자 페이지 투어 입력 -->
     <insert id="create" parameterType="TourDTO">
-		<selectKey keyProperty="tour_code" resultType="string"
-			order="BEFORE">
+		<selectKey keyProperty="tour_code" resultType="string" order="BEFORE">
 		<![CDATA[
 			SELECT tour_code
 			FROM tour
