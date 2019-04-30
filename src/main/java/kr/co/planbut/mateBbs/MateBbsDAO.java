@@ -67,7 +67,7 @@ public class MateBbsDAO {
 	public ArrayList<RecmDTO> recmList(String s_id) {
 	    MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
 	    ArrayList<RecmDTO> recmList = mapper.recmList(s_id);
-	    System.out.println("recmList 수: "+recmList.size());
+	    // System.out.println("recmList 수: "+recmList.size());
 	    return recmList;
 	} // recmList() end
 	

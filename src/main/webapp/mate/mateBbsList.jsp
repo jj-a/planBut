@@ -35,18 +35,19 @@ text-align: center;
         <h3>동행 추천</h3>
         <c:choose>
         <c:when test="${session_m_id != null }">
-        <input type="text" value="${session_m_id }">
+        <input type="hidden" value="${session_m_id }">
             <c:forEach var="dto1" items="${recmList }" varStatus="status1">
             <form id="recity">
             <input type="hidden" value="${session_m_id }">
                 <input type="button" id="${status1.index}" name="ct_code" value="${dto1.ct_code }" onclick="recm(this.form, this)">
-                
+                <input type="text" value="${dto1.s_date.substring(0,10) }" size="10" readonly>
+                <input type="text" value="${dto1.hey }" size="2" readonly>
                 <c:forEach var="dto2" items="${recmPeople }" varStatus="status2">
                     <div id="${status2.index}rp " style="display: none;" class="${dto2.ct_code }">
-                        <input type="text" name="cc" id="cc" value=${dto2.ct_code }>
-                        <input type="text" name="m_id" id="m_id" value="${dto2.m_id }">
-                        <input type="text" name="s_date" id="s_date" value="${dto2.s_date }">
-                        <input type="text" name="day" id="day" value="${dto2.hey }">
+                        <input type="text" name="m_id" id="m_id" value="${dto2.m_id }" readonly>
+                        <input type="text" name="s_date" id="s_date" value="${dto2.s_date.substring(0,10) }" size="10" readonly>
+                        <input type="text" name="day" id="day" value="${dto2.hey }" size="2" readonly>
+                        <input type="button" name="chat" value="채팅">
                     </div>
                 </c:forEach>
             </form>
@@ -96,9 +97,11 @@ text-align: center;
             <input type="button" value="글 수정" onclick="mateCheck(this.form, getRowidx(this), 2)">
             </th>
             </c:if>
+            <c:if test="${session_m_id != dto.mp_id && session_m_id != null}">
             <th>
             <input type="button" value="신청하기" onclick="mateCheck(this.form, getRowidx(this), 3)">
             </th>
+            </c:if>
         </tr>
         </c:forEach>
          </table>

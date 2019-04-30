@@ -71,7 +71,6 @@ public class MateBbsCont {
 		mav.addObject("recmPeople", recmPeopleDTOList);
 		mav.addObject("list", dao.list());
 		mav.addObject("recmList", recmDTOList);
-		//mav.addObject("recmPeople", recmPeopleDTOList);
 		return mav;
 	} // list() end
 			
