@@ -111,39 +111,38 @@ padding-right: 0px !important;
 						<span class="root-date">${fn:substring(s_date, 5,10)} ~ ${e_date} </span> 
 						<span class="root-transport">${cp.trans }</span>
 					</li>
-					</c:forEach>				
-					<!-- 샘플 -->					
-					<!-- 
+					</c:forEach>
+					
+					<!-- 샘플 -->
+
+<!--
+						<span class="root-transport"></span>
+					</li>
 					<li class="list-group-item">
-						<h3 class="root-city">런던</h3> 
-						<span class="root-day">
-						<select name="days">
-						    <option value="1">1</option>
-						    <option value="2">2</option>
-						    <option value="3">3</option>
-						    <option value="4">4</option>
-						    <option value="5">5</option>
-						    <option value="6">6</option>
-						    <option value="7">7</option>
-						    <option value="8">8</option>
-						    <option value="9">9</option>
-						    <option value="10">10</option>
-						</select>
-						박						
-						</span> 
+						<h3 class="root-city">파리</h3> 
+						<span class="root-day">3박</span> 
 						<span class="root-date">MM-DD ~ MM-DD</span> 
-						<span class="root-transport">
-						이동수단
-						<select name="trans">
-						    <option value="tr">기차</option>
-						    <option value="ap">항공</option>
-						    <option value="bs">버스</option>
-						    <option value="fr">페리</option>
-						    <option value="et">기타</option>
-						</select>
-						</span>
-					</li> 
-					 -->
+						<span class="root-transport">[기차 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">뮌헨</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[항공 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">베를린</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[버스 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">프라하</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[기차 이동]</span>
+					</li>
+					-->
 				</ul>
 			</div>
 
@@ -528,10 +527,12 @@ padding-right: 0px !important;
 		 alert(result);
 	}//checkResult() end
 </script>
+
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnoA39g01shgSGItH57whv1WjBsYSQ9wA&callback=initMap">
 	
 </script> 
+
 
 <script> 
 //////////////////// 부가 기능 Script ////////////////////

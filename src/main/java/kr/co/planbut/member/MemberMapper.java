@@ -9,6 +9,8 @@ public interface MemberMapper {
 	 */
 
 	//<select id="login">
-	MemberDTO login(MemberDTO dto);
+	public MemberDTO login(MemberDTO dto);
+	
+	public MemberDTO profile(String m_id);
 
 }

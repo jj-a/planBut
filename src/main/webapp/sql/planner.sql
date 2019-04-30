@@ -1,30 +1,37 @@
 
-
 -- planner (플래너)
 
 
 -- planner 조회 (리스트)
--- member 테이블 join, m_id로 조회
-select plan_code, m_id, subject, people, s_date 
-from planner
+-- cityplan 테이블 조인, m_id로 조회
+select PLAN.plan_code, m_id, subject, people, PLAN.s_date, sum(day) as daysum
+from planner as PLAN 
+left join cityplan as CP 
+on PLAN.plan_code=CP.plan_code
 where m_id= #{m_id}
+group by PLAN.plan_code
 ;
 -- (ex)
-select plan_code, m_id, subject, people, s_date 
-from planner
+select PLAN.plan_code, m_id, subject, people, PLAN.s_date, sum(day) as daysum
+from planner as PLAN 
+left join cityplan as CP 
+on PLAN.plan_code=CP.plan_code
 where m_id= 'aaaa'
+group by PLAN.plan_code
 ;
 
 
 -- planner 조회 (상세)
--- plan_code로 조회
-select plan_code, m_id, subject, people, s_date 
+-- plan_code로 조회, 총 일자(daysum) 추가
+select plan_code, m_id, subject, people, s_date, 
+	(select sum(day) from cityplan where plan_code=#{plan_code}) as daysum
 from planner
 where plan_code= #{plan_code}
 ;
 -- (ex)
-select plan_code, m_id, subject, people, s_date 
-from planner
+select plan_code, m_id, subject, people, s_date, 
+	(select sum(day) from cityplan where plan_code='P001') as daysum
+from planner 
 where plan_code= 'P001'
 ;
 
@@ -261,8 +268,6 @@ where plan_code='P001'
 
 
 
-
-
 -- ************** 일련번호 생성 관련 참고 ************** 
 
 select 
@@ -276,52 +281,4 @@ select
 		concat('i', SUBSTRING(MAX(inte_code),2)+1)
 	) as inteCode 
 from head_item
-
-
-
-
-
-
--- ****************** sql 테스트
-
--- (투어) 내 계획에 포함된 도시 리스트
-select ct_name, photo, c_name, cp_code, EE.plan_code, EE.m_id
-from tour AA
-join city BB on AA.ct_code = BB.ct_code
-join country CC on BB.c_code = CC.c_code
-join cityplan DD on BB.ct_code = DD.ct_code
-join planner EE on DD.plan_code = EE.plan_code
-where EE.m_id='aaaa'
-group by ct_name
-;
-
-
-select cp_code, 
-	plan_code, 
-	CP.ct_code, 
-	ct_name as city_ct_name, 
-	order_code, 
-	day, 
-	trans, 
-	s_date, 
-	rm_ok 
-from cityplan as CP left join city as CITY
-on CP.ct_code = CITY.ct_code 
-where plan_code='P001'
-order by order_code asc
-;
-
-
-select ct_name, aa.ct_code 
-from tour aa
-join city bb on aa.ct_code = bb.ct_code
-;
-
-
-select aa.ct_code, ct_name 
-from city aa
-join tour bb on aa.ct_code = bb.ct_code
-;
-
-
 

@@ -116,7 +116,7 @@ public class PlanController {
 		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
 		mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
 		mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트 -> 수정 시
-		mav.addObject("csplist", dao.courseplanList(dto));	// 경로계획(cityplan) 리스트 -> 수정 시
+		mav.addObject("csplist", dao.courseplanList(dto));	// 경로계획(courseplan) 리스트 -> 수정 시
 		mav.addObject("placelist", dao.placeList());	// 관광지(place) 리스트
 
 		}else {
