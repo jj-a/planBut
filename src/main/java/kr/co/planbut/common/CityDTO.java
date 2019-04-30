@@ -57,5 +57,5 @@ public class CityDTO {
 		this.lng = lng;
 	}
 	
-
+	
 }

@@ -7,9 +7,12 @@ public class PlannerDTO {
 	// Variable
 	private String plan_code, m_id, subject;
 	private int people;
+<<<<<<< HEAD
 	private String s_date;
 	private CityplanDTO cityplan;	// cityplan 테이블 조인
 	
+=======
+>>>>>>> feature/tour
 
 	// Constructor
 	public PlannerDTO() {

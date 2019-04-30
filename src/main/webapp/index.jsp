@@ -113,7 +113,7 @@
 							</li>
 						</c:otherwise>
 					</c:choose>
-				</ul>
+					</ul>
 			</div>
 		</div>
 	</nav>
