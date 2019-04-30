@@ -1,10 +1,15 @@
 package kr.co.planbut.plan;
 
 import java.util.ArrayList;
+import java.util.Map;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,10 +45,10 @@ public class PlanController {
 		ModelAndView mav = new ModelAndView();
 
 		mav.setViewName("plan/plan");
-/*
+		
 		ArrayList<CityDTO> CityDTOs = dao.getCitys(); //좌표찍을 도시들 정보
 		mav.addObject("CityDTOs", CityDTOs);// 좌표찍을 도시들 mav에 담기
-*/
+
 		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
 			// parameter가 있을 때 (폼 전송)
 			System.out.println("★생성된 플래너 불러오기");
@@ -135,11 +140,43 @@ public class PlanController {
 	}//planTest end
 	
 	
+	//계획 1단계 저장하기
 	@RequestMapping(value="/plan/planTest.do", method=RequestMethod.POST)
 	public ModelAndView planTestResult(Model model) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/planTestResult");
 		return mav;
 	}//planTestResult end
+	
+	@RequestMapping(value="/plan/create.do", method=RequestMethod.POST)
+	public ModelAndView cityPlanCreate(@RequestBody Map<String, Object> data) {
+		String result;
+		ModelAndView mav = new ModelAndView();
+		System.out.println("hello");
+		
+		try {
+/*
+			JSONParser jsonParser = new JSONParser();
+			JSONObject jsonObject = (JSONObject) jsonParser.parse(data);
+			JSONArray jsonArray = (JSONArray) jsonObject.get("list");				
+			
+			System.out.println(jsonObject.get("cp_code"));*/
+			
+			/*for(int i = 0; i < jsonArray.size(); i++ ){
+				JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+				String name = jsonObject.get("name").toString();
+				String number = jsonObject.get("number").toString();			
+
+			}*/
+			
+			mav.setViewName("plan/plan");
+
+		} catch (Exception e) {
+			System.out.println(e);
+
+		}// try end
+		return mav;
+
+	}//cityPlanCreate() end
 	
 }// class end
