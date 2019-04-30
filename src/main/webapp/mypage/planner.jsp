@@ -167,6 +167,26 @@
 	</div>
 </div>
 
+
+
+<!-- Script 스크립트 -->
+
+
+<script>
+//////////////////// 부가 기능 Script ////////////////////
+
+/* 접근 권한 제어 */
+$(function(){
+	var m_id='${session_m_id}';
+	if(m_id==""){
+		alert("로그인 시 접근 가능한 메뉴입니다.");
+		location.href="${pageContext.request.contextPath}#loginmodal";
+	}
+});
+
+</script>
+
+
 <!-- end Contents -->
 
 <%@ include file="../footer.jsp"%>
