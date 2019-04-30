@@ -93,10 +93,13 @@ text-align: center;
             <td>${dto.b_no }</td>
             <c:if test="${session_m_id == dto.mp_id}">
             <th>
-            <input type="button" value="글 삭제" onclick="mateBbsDel(this.form, getRowidx(this))">
+            <input type="button" value="글 삭제" onclick="mateCheck(this.form, getRowidx(this), 1)">
             </th>
             <th>
-            <input type="button" value="글 수정" onclick="mateBbsUpdate(this.form, getRowidx(this))">
+            <input type="button" value="글 수정" onclick="mateCheck(this.form, getRowidx(this), 2)">
+            </th>
+            <th>
+            <input type="button" value="신청하기" onclick="mateCheck(this.form, getRowidx(this), 3)">
             </th>
             </c:if>
         </tr>
@@ -134,23 +137,27 @@ text-align: center;
 	
     <script>
     
-    function mateBbsDel(f, row) {
+    function mateCheck(f, row, i) {
     	var no = document.getElementsByTagName('tr')[row].children[1].childNodes[0].nodeValue;
-    	
         f.b_no.value = no;
-        f.action="./delete.do";
-    	var message="선택한 게시물을 삭제하시겠습니까?";
-        if(confirm(message)) f.submit();
-    } // mateBbsDel() end
-    
-    function mateBbsUpdate(f, row) {
-        var no = document.getElementsByTagName('tr')[row].children[1].childNodes[0].nodeValue;
         
-        f.b_no.value = no;
-        f.action="./update.do?b_no="+no;
-        var message="선택한 게시물을 수정하시겠습니까?";
+        if(i==1){
+	        f.action="./delete.do?b_no="+no;
+	    	var message="게시물을 삭제하시겠습니까?";
+        }
+        
+        if(i==2){
+            f.action="./update.do?b_no="+no;
+            var message="게시물을 수정하시겠습니까?";
+        }
+        
+        if(i==3){
+            f.action="./applyBbs.do?b_no="+no;
+            var message="동행신청을 하시겠습니까?";
+        }
+        
         if(confirm(message)) f.submit();
-    } // mateBbsUpdate() end
+    } // mateCheck() end
     
     function getRowidx(e) {
         return e.parentElement.parentElement.rowIndex;
