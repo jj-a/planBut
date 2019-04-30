@@ -113,14 +113,38 @@ padding-right: 0px !important;
 						<span class="root-transport">${cp.trans }</span>
 					</li>
 					</c:forEach>
-				
-					<!-- 샘플 --><!-- 
+					
+					<!-- 샘플 -->
 					<li class="list-group-item">
 						<h3 class="root-city">런던</h3> 
 						<span class="root-day">3박</span> 
 						<span class="root-date">MM-DD ~ MM-DD</span> 
 						<span class="root-transport"></span>
-					</li> -->
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">파리</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[기차 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">뮌헨</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[항공 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">베를린</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[버스 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">프라하</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[기차 이동]</span>
+					</li>
 					
 				</ul>
 			</div>
@@ -419,6 +443,16 @@ padding-right: 0px !important;
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBM_-xOIwPL0F_UknEZ1m-uLVM28-Wt_Ao&callback=initMap">	
 </script>
  -->
+ 
+ 
+ <script>
+////////////////////부가 기능 Script ////////////////////
+
+/* Ajax 데이터 전송 */
+
+
+ 
+ </script>
 
 
 <script>

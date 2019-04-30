@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- SQL Query -->
 
 <mapper namespace="kr.co.planbut.member.MemberMapper">
+
+	<!-- resultMap -->
+	
+	<!-- member(회원) 테이블 -->
+	<resultMap type="kr.co.planbut.common.MemberDTO" id="member">
+		<id column="m_id" property="m_id" />
+		<result column="password" property="password" />
+		<result column="m_name" property="m_name" />
+		<result column="email" property="email" />
+		<result column="birth" property="birth" />
+		<result column="gender" property="gender" />
+		<result column="photo" property="photo" />
+		<result column="m_type" property="m_type" />
+	</resultMap>
+
+
+
+	<!-- SQL -->
+	
+	<!-- 로그인 -->
 	<select id="login" parameterType="MemberDTO" resultType="MemberDTO">
         <![CDATA[
 			select m_id, m_type
@@ -11,4 +30,15 @@
 			where m_id=#{m_id} and password=#{password}
         ]]>
 	</select>
+	
+	<!-- 프로필 (이름/사진) -->
+	<select id="profile" parameterType="String" resultType="MemberDTO">
+        <![CDATA[
+		select m_name, photo
+		from member
+		where m_id=#{m_id}
+        ]]>
+	</select>
+	
+	
 </mapper>

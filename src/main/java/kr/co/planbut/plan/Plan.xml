@@ -144,8 +144,9 @@
 	<!-- 플래너 조회 (상세) -->
 	<select id="read" parameterType="kr.co.planbut.common.PlannerDTO" resultType="kr.co.planbut.common.PlannerDTO">
 		<![CDATA[
-		select plan_code, m_id, subject, people, s_date  
-		from planner 
+		select plan_code, m_id, subject, people, s_date, 
+			(select sum(day) from cityplan where plan_code=#{plan_code}) as daysum
+		from planner
 		where plan_code= #{plan_code}
 		]]>
 	</select>

@@ -9,6 +9,7 @@ public class CityplanDTO {
 	private int order_code, day;
 	private String trans, s_date, rm_ok;
 	private CityDTO city;	// city 테이블 조인
+	private int daysum;
 
 
 	// Constructor
@@ -89,6 +90,14 @@ public class CityplanDTO {
 
 	public void setCity(CityDTO city) {
 		this.city = city;
+	}
+
+	public int getDaysum() {
+		return daysum;
+	}
+
+	public void setDaysum(int daysum) {
+		this.daysum = daysum;
 	}
 
 }
