@@ -3,7 +3,7 @@
 <!-- 본문시작 template.jsp -->
 
 <h3>★ 글쓰기 ★</h3>
-<p><a href="mateBbsList.jsp">★ 동행 게시판 보러가기 ★</a></p>
+<p><a href="./list.do">★ 동행 게시판 보러가기 ★</a></p>
 <form name="matebbsfrm" 
 	  method="post" 
 	  action="./create.do">
