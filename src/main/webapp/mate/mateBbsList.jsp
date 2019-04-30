@@ -1,6 +1,23 @@
 <%@ page contentType="text/html; charset=UTF-8" %> 
 <%@ include file="../header.jsp"%>
+<link rel="stylesheet" type="text/css" href="../css/table.css">
 <!-- 본문시작 mateBbsList.jsp -->
+<%-- <c:if test="${empty sessionScope.memid }">
+<% 
+    Cookie[] cookies = request.getCookies();
+    String c_id = "";
+    if(cookies!=null) { // 쿠키가 존재하는가?
+        for(int idx = 0; idx < cookies.length; idx++) {
+            Cookie cookie = cookies[idx];
+            if(cookie.getName().equals("c_id")==true) {
+                // 쿠키변수 c_id가 있는가?
+                c_id = cookie.getValue();       
+            } // if end
+        } // for end
+    } // if end
+%>
+
+    </c:if> --%>
 <style>
 .dc{
 text-align: center;
@@ -13,7 +30,7 @@ text-align: center;
 }
 
 </style>
-
+    
     <div class="dc">
         <h3>동행 추천</h3>
         <c:choose>
@@ -21,6 +38,7 @@ text-align: center;
         <input type="text" value="${session_m_id }">
             <c:forEach var="dto1" items="${recmList }" varStatus="status1">
             <form id="recity">
+            <input type="hidden" value="${session_m_id }">
                 <input type="button" id="${status1.index}" name="ct_code" value="${dto1.ct_code }" onclick="recm(this.form, this)">
                 
                 <c:forEach var="dto2" items="${recmPeople }" varStatus="status2">
@@ -38,28 +56,7 @@ text-align: center;
             <h3> 로그인 후 이용가능 </h3>
         </c:otherwise> 
         </c:choose>
-        <%-- 
-        <c:forEach var="dto" items="${recmList }" varStatus="status">
-        <form name="qw" id="${status.index }qw">
-            <ul id="ua">
-	            <li id="la">
-	               <h5 id="ct_code${dto.ct_code }" onclick="mateRecm(this.form)">${dto.ct_code }</h5>
-	            </li>
-	            <li>
-		            <div id="recm" style="display: none;">
-		                <input type="hidden" name="ct_code2" id="ct_code2" value="${dto.ct_code }">
-		                <c:forEach var="dto" items="${recmPeople }">
-		                    <input type="text" name="cc" value="">
-		                    <input type="text" name="s_date" id="s_date" value="${dto.s_date }">
-		                    <input type="text" name="day" id="day" value="${dto.day }">
-		                    <input type="text" name="m_id" id="m_id" value="${dto.m_id }">
-		                </c:forEach>
-		            </div>
-	            </li>
-            </ul>
-        </form>    
-        </c:forEach> 
-        --%>
+        
     </div>
     
     <div class="dgg">
@@ -163,39 +160,16 @@ text-align: center;
         return e.parentElement.parentElement.rowIndex;
     } // getRowidx() end
     
-    function mateRecm(qw) {
-    	
-    	//document.getElementById("1recm").style.display = "block";
-    	//alert($(qw).children().eq(1).val());
-    	//alert($(qw).children().children().eq(1).val());
-    	//alert($(qw).children().children().eq(1));
-    	//alert($(qw).children().children().eq(1).text());
-    	//alert($(qw).children().children().eq(1).attr("id"));
-    	
-    	var fid = $(qw).attr("name");
-    	alert(fid);
-    	var ct = $(qw).eq(0).attr("id");
-    	alert(ct);
-        //var div_id = "#" + $(qw).attr("id") + "recm";
-        // var te = document.forms["qw"].elements["la"];
-/*        var te = document.getElementById("div_id");
-        alert(te);
-    	var gd = document.getElementsByTagName("h5").innerHTML;
-    	alert(gd);
-    	var gg = document.getElementsByTagName("ul");
-    	alert(gg); */
-    } // mateRecm() end
-    
     function recm(f, i){
     	var ct_code = $(i).attr("value");
-    	alert(ct_code);
+    	// alert(ct_code);
     	var find = "." + ct_code;
     	var ele = document.getElementById("recity");
     	var number = ele.childElementCount;
-    	alert(number);
+    	// alert(number);
     	for(t=1; t<number; t++) {
     		var classval = $(i).parent().children().eq(t).attr("class");
-    		alert(classval);
+    		// alert(classval);
     		if(classval==ct_code) {
     			$(i).parent().children().eq(t).css("display","block");
     		}
