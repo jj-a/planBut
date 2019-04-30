@@ -95,10 +95,10 @@ text-align: center;
             <th>
             <input type="button" value="글 수정" onclick="mateCheck(this.form, getRowidx(this), 2)">
             </th>
+            </c:if>
             <th>
             <input type="button" value="신청하기" onclick="mateCheck(this.form, getRowidx(this), 3)">
             </th>
-            </c:if>
         </tr>
         </c:forEach>
          </table>

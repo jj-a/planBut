@@ -1,27 +1,17 @@
 package kr.co.planbut.mateBbs;
 
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.cj.api.Session;
-
-import kr.co.planbut.common.CityplanDTO;
-import kr.co.planbut.common.PlannerDTO;
-import net.utility.Utility;
+import kr.co.planbut.applyBbs.ApplyBbsDTO;
 
 @Controller
 public class MateBbsCont {
@@ -84,24 +74,7 @@ public class MateBbsCont {
 		//mav.addObject("recmPeople", recmPeopleDTOList);
 		return mav;
 	} // list() end
-	
-//	@RequestMapping( value="/mate/search.do", 
-//					 method=RequestMethod.GET )
-//	public ModelAndView recmList2(CityplanDTO dto) {
-//		ModelAndView mav=new ModelAndView();
-//		mav.setViewName("mate/mateBbsList");
-//		
-//		// dto = dao.recmList2(dto);
-//		// mav.addObject("ct_code", dto.getCt_code());
-//		
-//		mav.addObject("recmPeoPle", dao.recmPeople());
-//		
-//		// System.out.println(dto.getCt_code());
-//		
-//		System.out.println(dao.recmPeople());
-//		
-//		return mav;
-//	}//list() end			
+			
    @RequestMapping( value="/mate/read.do", 
 		   			method=RequestMethod.GET )
    public ModelAndView read(MateBbsDTO dto) {
@@ -143,7 +116,24 @@ public class MateBbsCont {
 		return mav;
 	} // deleteProc() end
 	
-	
+	@RequestMapping( value = "/mate/applyBbs.do", 
+          method = RequestMethod.GET )
+    public ModelAndView applyBbsForm(MateBbsDTO dto) {
+      ModelAndView mav = new ModelAndView();
+      mav.setViewName("mate/applyBbsForm");
+      mav.addObject("b_no", dto.getB_no());
+      return mav;
+    } // createForm() end
+   
+    @RequestMapping( value = "/mate/applyBbs.do", 
+             method = RequestMethod.POST )
+    public ModelAndView applyBbsProc(ApplyBbsDTO dto) {
+      ModelAndView mav = new ModelAndView();
+      mav.setViewName("redirect:/mate/list.do");
+      int count = dao.applyBbs(dto);
+      mav.addObject("count", count);
+      return mav;
+    } // createProc() end
 	/*
 	@RequestMapping( value = "/notice/update.do", 
 					 method = RequestMethod.GET )

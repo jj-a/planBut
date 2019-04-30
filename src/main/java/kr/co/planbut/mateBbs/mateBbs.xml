@@ -111,6 +111,28 @@
         ]]>
     </select>
     
+    <insert id="applyBbs" parameterType="ApplyBbsDTO">
+      <selectKey keyProperty="ma_code" resultType="String" order="BEFORE"> 
+      <![CDATA[
+         select concat(
+            'B', 
+            replace(left(now(),10),'-',''), '-',
+            (
+               select ifnull(lpad(max(right(ma_code,1)) +1,1,0),'1')
+               from mateapply_b
+               where substring(ma_code, 2, 8)=DATE_FORMAT(NOW(),'%Y%m%d')
+            )
+         ) as code
+         from mateapply_b
+         group by code
+      ]]>
+      </selectKey>
+      
+      <![CDATA[
+         insert into mateapply_b(ma_code, b_no, sp_id, people, mate_code)
+         values(#{ma_code}, #{b_no}, #{sp_id}, #{people}, 0)
+      ]]>
+   </insert>
 	<!--
 	<select id="search" resultType="MateBbsDTO" parameterType="HashMap">
 		select noticeno, title, rname, rdate

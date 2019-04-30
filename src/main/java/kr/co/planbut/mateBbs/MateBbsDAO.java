@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.mysql.cj.api.Session;
 
+import kr.co.planbut.applyBbs.ApplyBbsDTO;
 import kr.co.planbut.common.CityplanDTO;
 import kr.co.planbut.common.PlannerDTO;
 
@@ -75,6 +76,12 @@ public class MateBbsDAO {
 	    ArrayList<RecmPeopleDTO> recmPeople = mapper.recmPeople(recmDTO);
 	    return recmPeople;
 	} // recmPeople() end
+	
+    public int applyBbs(ApplyBbsDTO dto) {
+	      MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
+	      int count = mapper.applyBbs(dto);
+	      return count;
+	} // create() end
 	/*
 	public ArrayList<NoticeDTO> search(String col, String word) {
 		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);

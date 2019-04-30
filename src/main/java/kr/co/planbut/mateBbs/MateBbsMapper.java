@@ -3,6 +3,7 @@ package kr.co.planbut.mateBbs;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.planbut.applyBbs.ApplyBbsDTO;
 import kr.co.planbut.common.CityplanDTO;
 import kr.co.planbut.common.PlannerDTO;
 
@@ -33,6 +34,8 @@ public interface MateBbsMapper {
 	// <select id="recmPeople" parameterType="CityplanDTO" resultType="CityplanDTO">
 	public ArrayList<RecmPeopleDTO> recmPeople(RecmDTO recmDTO);
 	
+	// <insert id="applyBbs">
+	public int applyBbs(ApplyBbsDTO dto);
 	/*
 	// <select id="search">
 	public ArrayList<MateBbsDTO> search(HashMap searchMap);*/
