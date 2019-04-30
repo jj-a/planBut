@@ -36,6 +36,7 @@
 			   select mate_code, b_no, sum(people) pp
 			   from mateapply_b TB
 			   where mate_code<>0
+			   group by b_no
 			   order by b_no desc
 			   ) AA right join mateboard BB
 			   on AA.b_no = BB.b_no
