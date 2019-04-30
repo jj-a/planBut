@@ -16,25 +16,28 @@ text-align: center;
 
     <div class="dc">
         <h3>동행 추천</h3>
-        
+        <c:choose>
+        <c:when test="${session_m_id != null }">
+        <input type="text" value="${session_m_id }">
             <c:forEach var="dto1" items="${recmList }" varStatus="status1">
             <form id="recity">
                 <input type="button" id="${status1.index}" name="ct_code" value="${dto1.ct_code }" onclick="recm(this.form, this)">
                 
-                
-                    <c:forEach var="dto2" items="${recmPeople }" varStatus="status2">
-                       <div id="${status2.index}rp " style="display: none;" class="${dto2.ct_code }">
+                <c:forEach var="dto2" items="${recmPeople }" varStatus="status2">
+                    <div id="${status2.index}rp " style="display: none;" class="${dto2.ct_code }">
                         <input type="text" name="cc" id="cc" value=${dto2.ct_code }>
                         <input type="text" name="m_id" id="m_id" value="${dto2.m_id }">
                         <input type="text" name="s_date" id="s_date" value="${dto2.s_date }">
                         <input type="text" name="day" id="day" value="${dto2.hey }">
-                       </div>
-                    </c:forEach>
-                    
-	          
+                    </div>
+                </c:forEach>
             </form>
             </c:forEach>
-          
+        </c:when>
+        <c:otherwise>
+            <h3> 로그인 후 이용가능 </h3>
+        </c:otherwise> 
+        </c:choose>
         <%-- 
         <c:forEach var="dto" items="${recmList }" varStatus="status">
         <form name="qw" id="${status.index }qw">
@@ -88,12 +91,14 @@ text-align: center;
 		<tr>
 		    <th>번호</th>
             <td>${dto.b_no }</td>
+            <c:if test="${session_m_id == dto.mp_id}">
             <th>
             <input type="button" value="글 삭제" onclick="mateBbsDel(this.form, getRowidx(this))">
             </th>
             <th>
             <input type="button" value="글 수정" onclick="mateBbsUpdate(this.form, getRowidx(this))">
             </th>
+            </c:if>
         </tr>
         </c:forEach>
          </table>

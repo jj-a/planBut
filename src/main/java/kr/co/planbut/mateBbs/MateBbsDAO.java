@@ -10,6 +10,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.mysql.cj.api.Session;
 
 import kr.co.planbut.common.CityplanDTO;
 import kr.co.planbut.common.PlannerDTO;
@@ -21,6 +24,7 @@ public class MateBbsDAO {
 	// DBOpen dbopen;
 		
 	// MyBatis 기반 스프링빈 방식의 DB 연결
+	
 	@Autowired
 	SqlSession sqlSession;
 		
@@ -59,18 +63,12 @@ public class MateBbsDAO {
 		return dto;
 	} // read() end
 	
-	public ArrayList<RecmDTO> recmList() {
+	public ArrayList<RecmDTO> recmList(String s_id) {
 	    MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
-	    ArrayList<RecmDTO> recmList = mapper.recmList();
+	    ArrayList<RecmDTO> recmList = mapper.recmList(s_id);
 	    System.out.println("recmList 수: "+recmList.size());
 	    return recmList;
 	} // recmList() end
-	
-	public CityplanDTO recmList2(CityplanDTO dto) {
-		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
-		dto = mapper.recmList2(dto);
-		return dto;
-	} // recmList2() end
 	
 	public ArrayList<RecmPeopleDTO> recmPeople(RecmDTO recmDTO) {
 	    MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);

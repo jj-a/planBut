@@ -3,13 +3,19 @@ package kr.co.planbut.mateBbs;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.xml.ws.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.mysql.cj.api.Session;
 
 import kr.co.planbut.common.CityplanDTO;
 import kr.co.planbut.common.PlannerDTO;
@@ -54,7 +60,9 @@ public class MateBbsCont {
 		mav.setViewName("mate/mateBbsList");
 		// ArrayList<MateBbsDTO> list = dao.list();
 		// mav.addObject("list", list); ㅡ▶ 밑에 한줄과 같은 의미
-		ArrayList<RecmDTO> recmDTOList = dao.recmList();
+		//HttpSession session = null;
+		String s_id = "aaaa";
+		ArrayList<RecmDTO> recmDTOList = dao.recmList(s_id);
 		ArrayList<RecmPeopleDTO> recmPeopleDTOList = new ArrayList<RecmPeopleDTO>();
 		for(int idx=0; idx<recmDTOList.size(); idx++) {
 			RecmDTO recmDTO = recmDTOList.get(idx);

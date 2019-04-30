@@ -28,10 +28,7 @@ public interface MateBbsMapper {
 	public MateBbsDTO read(MateBbsDTO dto);
 	
 	// <select id="recmList" parameterType="CityplanDTO" resultType="CityplanDTO">
-	public ArrayList<RecmDTO> recmList();
-	
-	// <select id="read" parameterType="MateBbsDTO" resultType="MateBbsDTO">
-	public CityplanDTO recmList2(CityplanDTO dto);
+	public ArrayList<RecmDTO> recmList(String s_id);
 		
 	// <select id="recmPeople" parameterType="CityplanDTO" resultType="CityplanDTO">
 	public ArrayList<RecmPeopleDTO> recmPeople(RecmDTO recmDTO);

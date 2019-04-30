@@ -53,7 +53,7 @@
         <![CDATA[
             select b_no, mp_id, subject, content, ct_code, m_date, gender, capacity, regdt
 	        from mateboard as TB
-	        where b_no=#{b_no}
+	        where b_no = #{b_no}
         ]]>
     </select>
     
@@ -73,7 +73,7 @@
 		    from cityplan
 		    where rm_ok='Y')aa join planner bb
 		    on aa.plan_code=bb.plan_code
-		    where m_id = 'bbbb' and date_add(aa.s_date, interval `day`-1 day) >= now()
+		    where m_id = #{m_id} and date_add(aa.s_date, interval `day`-1 day) >= now()
 		    order by aa.s_date
         ]]>
     </select>
@@ -97,18 +97,6 @@
        ]]>
 	</select> -->
     
-    <select id="recmList2" parameterType="CityPlanDTO" resultType="CityPlanDTO">
-        <![CDATA[
-            select aa.ct_code, aa.s_date, bb.m_id, `day`
-            from(
-            select plan_code, ct_code, s_date, `day`
-            from cityplan
-            where rm_ok='Y')aa join planner bb
-            on aa.plan_code=bb.plan_code
-            where m_id = 'bbbb' and date_add(aa.s_date, interval `day`-1 day) >= now() and aa.ct_code = 'PR'
-            order by aa.s_date
-        ]]>
-    </select>
     
     <select id="recmPeople" parameterType="RecmDTO" resultType="RecmPeopleDTO">
         <![CDATA[
