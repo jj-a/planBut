@@ -8,6 +8,9 @@ public class CityplanDTO {
 	private String cp_code, plan_code, ct_code;
 	private int order_code, day;
 	private String trans, s_date, rm_ok;
+	
+	private CityDTO city;	// city 테이블 조인
+	private int daysum;
 	private String m_id;
 
 	// Constructor
@@ -88,6 +91,22 @@ public class CityplanDTO {
 
 	public void setM_id(String m_id) {
 		this.m_id = m_id;
+	}
+
+	public CityDTO getCity() {
+		return city;
+	}
+
+	public void setCity(CityDTO city) {
+		this.city = city;
+	}
+
+	public int getDaysum() {
+		return daysum;
+	}
+
+	public void setDaysum(int daysum) {
+		this.daysum = daysum;
 	}
 
 }

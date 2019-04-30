@@ -16,9 +16,10 @@ public class MemberDAO {
 	// Constructor
 
 	public MemberDAO() {
-		System.out.println("Start MemberDAO");
+		;
 	}
 
+	// 회원 로그인
 	public String login(MemberDTO dto) {
 		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
 		MemberDTO member = mapper.login(dto);
@@ -33,5 +34,12 @@ public class MemberDAO {
 		}
 
 	}
+	
+	// 회원 프로필 (이름/사진)
+	public MemberDTO profile(String m_id) {
+		MemberMapper mapper = sqlSession.getMapper(MemberMapper.class);
+		MemberDTO member = mapper.profile(m_id);
+		return member;
+	} // profile() end
 
 }

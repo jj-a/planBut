@@ -6,6 +6,7 @@ public class CourseplanDTO {
 
 	// Variable
 	private String cos_code, cp_code, course, date;
+	private CityplanDTO cityplan;	// cityplan 테이블 조인
 
 	
 	// Constructor
@@ -46,6 +47,14 @@ public class CourseplanDTO {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public CityplanDTO getCityplan() {
+		return cityplan;
+	}
+
+	public void setCityplan(CityplanDTO cityplan) {
+		this.cityplan = cityplan;
 	}
 
 }

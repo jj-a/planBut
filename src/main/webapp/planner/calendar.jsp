@@ -36,7 +36,8 @@
 </h3>
 
 
-<!-- slide image header -->
+<!-- Slide image header  슬라이드 이미지 헤더 -->
+
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 
 	<ol class="carousel-indicators">
@@ -50,13 +51,17 @@
 		<!-- 플래너 제목 텍스트 -->
 		<div class="carousel-caption tp-caption revolution-ch1 sft start" data-x="center" data-hoffset="0" data-y="100" data-speed="1500" data-start="500"
 			data-easing="Back.easeInOut" data-endeasing="Power1.easeIn" data-endspeed="300"
-			style="transition: all 0s ease 0s; min-height: 0px; min-width: 0px; font-size: 40px; top: 40%; visibility: visible; opacity: 1; 
+			style="transition: all 0s ease 0s; min-height: 0; min-width: 0; font-size: 40px; top: 40%; visibility: visible; opacity: 1; 
 							transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, -0.0025, 0, 0, 0, 1);">
 			${article.subject }
+			<fmt:parseDate var="s_date" value="${fn:substring(article.s_date, 0,10)}" pattern="yyyy-MM-dd" />
+			<fmt:formatDate var="s_date" value="${s_date}" pattern="yyyy년 MM월 dd일" />
+			<h3>${s_date }부터 ${article.cityplan.daysum +1}일간 여행♥</h3>
 		</div>
-	
-		<div class="item active">
-			<img class="img-responsive" data-src="holder.js/1140x500/auto/#777:#555/text:First slide" alt="First slide [1140x500]"
+		
+		<!-- 슬라이드 이미지 -->
+		<div class="item active" style="margin: 0 auto;">
+				<img class="img-responsive" data-src="holder.js/1140x500/auto/#777:#555/text:First slide" alt="First slide [1140x500]"
 				src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTE0MCIgaGVpZ2h0PSI1MDAiIHZpZXdCb3g9IjAgMCAxMTQwIDUwMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PCEtLQpTb3VyY2UgVVJMOiBob2xkZXIuanMvMTE0MHg1MDAvYXV0by8jNzc3OiM1NTUvdGV4dDpGaXJzdCBzbGlkZQpDcmVhdGVkIHdpdGggSG9sZGVyLmpzIDIuNi4wLgpMZWFybiBtb3JlIGF0IGh0dHA6Ly9ob2xkZXJqcy5jb20KKGMpIDIwMTItMjAxNSBJdmFuIE1hbG9waW5za3kgLSBodHRwOi8vaW1za3kuY28KLS0+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj48IVtDREFUQVsjaG9sZGVyXzE2YTMxMWNkNGI3IHRleHQgeyBmaWxsOiM1NTU7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6NTdwdCB9IF1dPjwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTZhMzExY2Q0YjciPjxyZWN0IHdpZHRoPSIxMTQwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iIzc3NyIvPjxnPjx0ZXh0IHg9IjM5MC41MDc4MTI1IiB5PSIyNzUuNDM5MDYyNSI+Rmlyc3Qgc2xpZGU8L3RleHQ+PC9nPjwvZz48L3N2Zz4="
 				data-holder-rendered="true">
 		</div>
@@ -76,12 +81,16 @@
 	</div>
 	
 	<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"> 
-		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span>
+		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> 
+		<span class="sr-only">Previous</span>
 	</a> 
 	<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next"> 
-		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span>
+		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> 
+		<span class="sr-only">Next</span>
 	</a>
 </div>
+
+<!-- Slide image header  슬라이드 이미지 헤더  /-->
 
 
 <div class="container-fluid">
@@ -102,16 +111,35 @@
 			<!-- 컨텐츠 -->
 			<div class="contents">
 
-				<p>캘린더</p>
-
 				<!-- 캘린더  -->
 				<div class="calendar col-xs-12 col-md-5">
-				캘린더
+				
+					<p>캘린더</p>
+				
 				</div>
 
 				<!-- 메모 -->
 				<div class="memo col-xs-12 col-md-7">
-				메모
+				
+					<p>메모</p>
+					
+					<!-- 저장된 캘린더 메모 리스트 -->
+					<ul style="height: 62vh">
+						<c:forEach var="cal" items="${calendar }">
+							<c:set var="ct_name" value="${cal.city.ct_name }" /> <!-- calendar테이블의 ct_code로 조회한 ct_name -->
+							<c:set var="order_code" value="${cal.cityplan.order_code }" />
+							<c:set var="day" value="${cal.cityplan.day }" />
+							<c:set var="date" value="${fn: substring(cal.date,0,10) }" />
+							<li class="">
+								<h3 class="root-city">${ct_name }</h3>
+								<span class="root-date">${cal.memo }</span>
+								<h5 class="root-date">${date }</h5>
+								<span class="root-day">도시순서: ${order_code }</span>
+								<span class="root-day">숙박일: ${day }</span>
+							</li>
+						</c:forEach>
+					</ul>
+					
 				</div>
 
 			</div>

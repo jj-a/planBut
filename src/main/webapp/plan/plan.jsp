@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.Date" %>
 <%@include file="../header.jsp"%>
 <style>
 /* Set the size of the div element that contains the map */
@@ -6,6 +7,10 @@
 	/* 지도 크기 지정 */
 	height: 88vh;	/* 뷰포트 - 화면 높이의 88% 비율 */
 	width: 100%;
+}
+
+.root-info {
+	height: 88vh;
 }
 
 #legend {
@@ -24,14 +29,9 @@
 	vertical-align: middle;
 }
 
-div {
+div.row div {
 padding-left: 0px  !important;
 padding-right: 0px !important;
-}
-
-div.row{
-margin-right: 0px;
-margin-left: 0px;
 }
 
 
@@ -39,34 +39,112 @@ margin-left: 0px;
 
 <!-- Contents -->
 
-<div class="container-fluid">
+<div class="container-fluid non-scrollable-menu">
 	<div class="row">
 
 
 		<!-- 좌측 메뉴 -->
 		<div class="sub-menu col-xs-4 col-md-3">
-
-			<ul class="list-group">
+		
+			<!-- 플래너 정보 출력 -->
+			<ul class="plan-info list-group" style="margin-bottom: 0;">
 				<li class="list-group-item">
-					<h3 class="root-city">런던</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport"></span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">파리</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[기차
-						이동]</span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">뮌헨</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[항공
-						이동]</span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">베를린</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[버스
-						이동]</span>
-				</li>
-				<li class="list-group-item">
-					<h3 class="select-root-city">프라하</h3> <span class="root-day">3박</span> <span class="root-date">MM-DD ~ MM-DD</span> <span class="root-transport">[기차
-						이동]</span>
+					<h3>${article.subject }</h3>
+					<span>여행 시작일: ${fn:substring(article.s_date, 0,10)}</span> 
+					<span>인원: ${article.people }</span>
+					<span>아이디: ${article.m_id }</span>
+					<span>플래너코드: ${article.plan_code }</span>
 				</li>
 			</ul>
+			
+			<!-- 플래너 루트 리스트 -->
+			<div class="scrollable-menu">
+				<ul class="root-info list-group"  id="ul">
+					<!-- 저장된 도시계획 리스트 -->
+					<c:forEach var="cp" items="${cplist }">
+					<li class="list-group-item">
+						
+						<!-- 이동일 계산 -->
+						
+						<!-- 하루 단위 숫자 -->
+						<fmt:parseNumber var="dayUnit" value="${1000*60*60*24 }" /> 
+						<%--
+						<c:set var="e_date" value="<%=new Date(new Date().getTime() + 1000*60*60*24) %>"/>
+						<h5>${e_date }</h5>
+						<h5>${dayUnit }</h5>
+						--%>
+						<!-- 시작일 -->
+						<c:set var="s_date" value="${fn:substring(cp.s_date, 0,10)}" property="time" />
+						<%--
+						<h5>시작일: ${s_date }</h5>
+						--%>
+						<fmt:parseDate var="s_date" value="${s_date}" pattern="yyyy-MM-dd" /> <!-- String to Date -->
+						<%--
+						<h5>시작일(Date): ${s_date }</h5>
+						<h5>시작일( time): ${s_date.time }</h5>
+						<fmt:parseDate var="dayDate" value="${cp.day }" pattern="dd" />
+						<h5>기간(Date): ${dayDate }</h5>
+						<fmt:parseNumber var="dayNum" value="${dayUnit*cp.day }"/> <!-- Date to Number -->
+						<h5>기간(Number): ${dayNum }</h5>
+						<fmt:parseNumber var="sdateNum" value="${s_date.time / dayUnit}" integerOnly="true"/> <!-- Date to Number --> <!-- 일수 출력 -->
+						<h5>시작일(Number): ${sdateNum }</h5>
+						<fmt:parseNumber var="e_date" value="${(s_date.time + dayNum)/dayUnit}" integerOnly="true"/>						
+						 --%>
+						<%--<fmt:parseNumber var="e_date" value="<%=new Date((pageContext.getAttribute(s_date)).getTime() + 1000*60*60*24*3)) %>"/>--%>
+						<%--
+						<h5>이동일(Number): ${e_date }</h5>
+						<fmt:parseDate var="e_date" value="${e_date}" pattern="yyyy-MM-dd" /> <!-- Date to String -->
+						<h5>이동일(Date): ${e_date }</h5>
+						 --%>
+						
+						<!-- 최종 포맷 -->
+						<fmt:formatDate var="s_date" value="${s_date}" pattern="yyyy-MM-dd"  /> <!-- Date to String -->
+						<%--
+						<fmt:formatDate var="e_date" value="${e_date}" pattern="yyyy-MM-dd" /> <!-- Date to String -->
+						<h4>시작일: ${s_date }</h4>
+						<h4>이동일: ${e_date }</h4>
+						 --%>
+						<!-- 이동일 계산 -->
+						
+						<h3 class="root-city">${cp.city.ct_name }</h3> 
+						<span class="root-day">${cp. day }박</span> 
+						<span class="root-date">${fn:substring(s_date, 5,10)} ~ ${e_date} </span> 
+						<span class="root-transport">${cp.trans }</span>
+					</li>
+					</c:forEach>
+					
+					<!-- 샘플 -->
+
+<!--
+						<span class="root-transport"></span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">파리</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[기차 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">뮌헨</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[항공 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">베를린</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[버스 이동]</span>
+					</li>
+					<li class="list-group-item">
+						<h3 class="root-city">프라하</h3> 
+						<span class="root-day">3박</span> 
+						<span class="root-date">MM-DD ~ MM-DD</span> 
+						<span class="root-transport">[기차 이동]</span>
+					</li>
+					-->
+				</ul>
+			</div>
 
 
 			<!-- 경로 부분 sample -->
@@ -130,11 +208,23 @@ margin-left: 0px;
 		
 			<!-- 상단 메뉴 -->
 			<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
-				<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code}" class="btn btn-default" role="button">루트</a>
+				<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code}" class="btn btn-primary" role="button">루트</a>
 				<a href="${pageContext.request.contextPath}/plan/calendar.do?plan_code=${article.plan_code}" class="btn btn-default" role="button">일정</a> 
 				<a class="btn btn-default" role="button"></a>
-				<a href="${pageContext.request.contextPath}/plan/create.do?plan_code=${article.plan_code}" class="btn btn-success" role="button">저장</a>
-				<a href="${pageContext.request.contextPath}/plan/course.do?plan_code=${article.plan_code}" class="btn btn-info" role="button">다음단계로</a>
+				<c:choose>
+					<c:when test="${session_m_id!=null}">	<!-- 로그인 시 -->
+					<a href="" onclick="creatcp('${article.plan_code}');" class="btn btn-success" role="button">저장</a>
+
+					<%-- ${pageContext.request.contextPath}/plan/create.do?plan_code=${article.plan_code} --%>
+					<a href="${pageContext.request.contextPath}/plan/course.do?plan_code=${article.plan_code}" class="btn btn-info" role="button">다음단계로</a>
+					</c:when>
+					<c:when test="${empty session_m_id}">	<!-- 비회원일 시 -->
+					<a class="btn btn-default" role="button"></a>
+					<a href="#loginmodal" class="btn btn-danger" role="button">
+						<span class="glyphicon glyphicon-lock"></span>&nbsp;비회원으로 작업중
+					</a>
+					</c:when>
+				</c:choose>
 			</div>
 
 			<!-- 버튼 형태 상단 메뉴 -->
@@ -164,10 +254,15 @@ margin-left: 0px;
 				<!-- Maps -->
 
 				<div id="map"></div>
-				<div id="legend">
-					<h3>Legend</h3>
+				<!-- 맵 -->
+				<div id="floating-panel">
+					<input onclick="removeLine();" type="button" value="Remove line">
+					<input onclick="addLine();" type="button" value="Restore line">
 				</div>
-				
+				<!-- <div id="legend">
+					<h3>Legend</h3>
+				</div>  범례 달꺼면 푸세요-->
+
 				<!-- Maps end -->
 
 			</div>
@@ -178,148 +273,287 @@ margin-left: 0px;
 
 
 
+<!-- 플래너 생성 창 -->
+<div id="newplanner" class="modalDialog">
+	<div>
+		<h2>새 플래너 생성</h2>
+		<form name="planFrm" method="post" action="${pageContext.request.contextPath}/plan/plan.do" onsubmit="return loginCheck(this)">
+			<input type="hidden" name="m_id" value="${session_m_id }">
+			<div>
+				<label for="">플래너 명</label>&nbsp;<input type="text" name="subject" id="subject" placeholder="ex) 나의 여행 플래너" required>
+			</div>
+			<div>
+				<label for="">여행 시작일</label>&nbsp;<input type="text" name="s_date" id="s_date" placeholder="ex) 2019-05-01" required>
+			</div>
+			<div>
+				<label for="">인원</label>&nbsp;<input type="text" name="people" id="people" placeholder="ex) 1" required>
+			</div>
+			<p>
+				<input type="submit" value="플래너 생성">
+				<input type="button" value="취소" onclick="javascript:history.go(-2)">
+			</p>
+		</form>
+	</div>
+</div>
+
+
+<!-- Script 스크립트 -->
+
 <script>
+	//http://localhost:9090/planbut/plan/planTest.do
 	var map;
+	var linePath = new Array();//polyline 그릴 좌표 배열
+	var flightPath; //polyline
+	var cityDTOs = new Array(); //JSON 형식받을 Array (도시들 의 정보)
+	var infowindowCons = new Array();
+	
+	<c:forEach var="cityDTO" items="${CityDTOs }">
+	var cityDTO = new Object();
+	cityDTO.ct_name = "${cityDTO.ct_name}";
+	cityDTO.ct_code = "${cityDTO.ct_code}";
+	cityDTO.c_code = "${cityDTO.c_code}";
+	cityDTO.lat = "${cityDTO.lat}";
+	cityDTO.lng = "${cityDTO.lng}";
+	cityDTOs.push(cityDTO);
+	</c:forEach>
+	//CityDTOs.lastindexOf();
+	//alert(typeof(cityDTOs)); 
+	//alert(cityDTOs[1].ct_name ); 
+	//alert(cityDTOs[1].lat ); 
+	//alert(cityDTOs[1].lng ); 
+
 	function initMap() {
 		map = new google.maps.Map(document.getElementById('map'), {//지도에 띄우기
-			zoom : 15,
-			center : new google.maps.LatLng(-33.91722, 151.23064),
+			zoom : 4,
+			/* 줌옵션 
+			1 : 세계
+			5 : 대륙 / 대륙
+			10 : 도시
+			15 : 거리
+			20 : 건물 
+			 */
+			center : new google.maps.LatLng(48.138082, 16.363455), //유럽 중앙쯤인 어딘가 48.138082, 16.363455
 			mapTypeId : 'roadmap' //roadmap 기본값 생략 가능 roadmap,satellite,satellite,terrain  
-		});
+		});//map 옵션 끝 ----------------------------
 
-		var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-		var icons = {// 아이콘 분류, 경로
-			parking : {
-				name : 'Parking',
-				icon : iconBase + 'parking_lot_maps.png'
-			},
-			library : {
-				name : 'Library',
-				icon : iconBase + 'library_maps.png'
-			},
-			info : {
-				name : 'Info',
-				icon : iconBase + 'info-i_maps.png'
-			}
-		};
+		
 
-		var features = [ //각좌표에 아이콘 지정
-		{
-			position : new google.maps.LatLng(-33.91721, 151.22630),
-			type : 'info'
-		}, {
-			position : new google.maps.LatLng(-33.91539, 151.22820),
-			type : 'info'
-		}, {
-			position : new google.maps.LatLng(-33.91747, 151.22912),
-			type : 'info'
-		}, {
-			position : new google.maps.LatLng(-33.91910, 151.22907),
-			type : 'info'
-		}, {
-			position : new google.maps.LatLng(-33.91725, 151.23011),
-			type : 'info'
-		}, {
-			position : new google.maps.LatLng(-33.91872, 151.23089),
-			type : 'info'
-		}, {
-			position : new google.maps.LatLng(-33.91784, 151.23094),
-			type : 'info'
-		}, {
-			position : new google.maps.LatLng(-33.91682, 151.23149),
-			type : 'info'
-		}, {
-			position : new google.maps.LatLng(-33.91790, 151.23463),
-			type : 'info'
-		}, {
-			position : new google.maps.LatLng(-33.91666, 151.23468),
-			type : 'info'
-		}, {
-			position : new google.maps.LatLng(-33.916988, 151.233640),
-			type : 'info'
-		}, {
-			position : new google.maps.LatLng(-33.91662347903106, 151.22879464019775),
-			type : 'parking'
-		}, {
-			position : new google.maps.LatLng(-33.916365282092855, 151.22937399734496),
-			type : 'parking'
-		}, {
-			position : new google.maps.LatLng(-33.91665018901448, 151.2282474695587),
-			type : 'parking'
-		}, {
-			position : new google.maps.LatLng(-33.919543720969806, 151.23112279762267),
-			type : 'parking'
-		}, {
-			position : new google.maps.LatLng(-33.91608037421864, 151.23288232673644),
-			type : 'parking'
-		}, {
-			position : new google.maps.LatLng(-33.91851096391805, 151.2344058214569),
-			type : 'parking'
-		}, {
-			position : new google.maps.LatLng(-33.91818154739766, 151.2346203981781),
-			type : 'parking'
-		}, {
-			position : new google.maps.LatLng(-33.91727341958453, 151.23348314155578),
-			type : 'library'
-		} ];
+		cityDTOs.forEach(function(cityDTO) {
+			/* xy=  {
+					lat : cityDTO.lat,
+					lng : cityDTO.lng
+				}; */
 
-		// Create markers.
-		features.forEach(function(feature) {
 			var marker = new google.maps.Marker({
-				position : feature.position,// 위치 좌표
-				icon : icons[feature.type].icon, //아이콘 경로
+				position : new google.maps.LatLng(cityDTO.lat,
+						cityDTO.lng), //이형식으로도 가능
+				//position : feature.position,// 위치 좌표
+				//position : xy, //이형식으로도 가능
+				//icon : icons[feature.type].icon, //아이콘 경로
 				map : map, //어느 지도에 띄울지 지정
-				info : '말풍선 안에 들어갈 내용'
+				info : cityDTO.ct_name
 			});
+				
+			var content = cityDTO.ct_name
+					+ '<br /> <input type="button" value="추가" onclick="addCity(\''
+					+ infowindowCons.length + '\',\'' +  cityDTO.ct_code + '\',\''+ cityDTO.ct_name + '\',\'' + cityDTO.lat
+					+ '\',\'' + cityDTO.lng+ '\');" />';
 			var infowindowCon = new google.maps.InfoWindow({
-				content : '내용입니다'
+				content : content
 			});
+			infowindowCons.push(infowindowCon);
+			//infowindowCons.lastIndexOf();
+			//alert(infowindowCons.length);
+			
 			marker.addListener('click', function() {//마커마다 클릭이벤트
 				map.setCenter(marker.getPosition());
 				infowindowCon.open(map, marker);
 			});
+
+			// linePath.push(new google.maps.LatLng(cityDTO.lat,cityDTO.lng));
+		});// CITY들 마커 띄우기 끝
+
+	}//initMap 끝
+
+	function addLine() {
+		if (linePath.length>=2) {
+			removeLine();
+		}//if end	
+		flightPath = new google.maps.Polyline({
+			path : linePath,
+			strokeColor : "#0000FF",
+			strokeOpacity : 0.8,
+			strokeWeight : 2,
+			fillColor : "#0000FF",
+			fillOpacity : 0.4
 		});
 
-		var xy = {
-			lat : -33.91722,
-			lng : 151.23064
-		};
-		var marker = new google.maps.Marker({// 일반 마커용로 센터에 표시
-			position : xy,
-			map : map,
-			info : '말풍선 안에 들어갈 내용',
-			title : '제목(마우스오버하면 나옴)~' // 마우스 오버시에 나오는 이벤트
-		});
-		var content = "내용내용내용내용~"; // 말풍선 안에 들어갈 내용
+		flightPath.setMap(map);
+		
+		
+	}//addLine end
 
-		// 마커를 클릭했을 때의 이벤트. 말풍선 뿅~
-		var infowindow = new google.maps.InfoWindow({
-			content : content
-		});
-
-		google.maps.event.addListener(marker, "click", function() {
-			map.setCenter(marker.getPosition());
-			infowindow.open(map, marker);
-		});
-
-		google.maps.event.addDomListener(window, 'load', initMap);
-
-		var legend = document.getElementById('legend');
-		for ( var key in icons) {
-			var type = icons[key];
-			var name = type.name;
-			var icon = type.icon;
-			var div = document.createElement('div');
-			div.innerHTML = '<img src="' + icon + '"> ' + name;
-			legend.appendChild(div);
-		}
-
-		map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+	function removeLine() {
+		flightPath.setMap(null);
+		flightPath = null;
+	}//removeLine end
+</script>
+<script>
+	
+	function addCity(idx, ct_code, ct_name, lat, lng) {
+		var $li = $('<li class="list-group-item" id="li">\n'+
+			    '<h3 class="root-city" id="ct_name">'+ct_name+'</h3>\n'+
+			    '<span class="root-day">\n'+
+			    '<select id="day">\n'+
+			        '<option value="1">1</option>\n'+
+			        '<option value="2">2</option>\n'+
+			        '<option value="3">3</option>\n'+
+			        '<option value="4">4</option>\n'+
+			        '<option value="5">5</option>\n'+
+			        '<option value="6">6</option>\n'+
+			        '<option value="7">7</option>\n'+
+			        '<option value="8">8</option>\n'+
+			        '<option value="9">9</option>\n'+
+			        '<option value="10">10</option>\n'+
+			    '</select>\n'+
+			    '박\n'+	
+			    '</span>\n'+
+			    '<span class="root-date">MM-DD ~ MM-DD</span>\n'+
+			    '<span class="root-transport">\n'+
+			    '이동수단\n'+
+			    '<select id="trans">\n'+
+			        '<option value="tr">기차</option>\n'+
+			        '<option value="ap">항공</option>\n'+
+			        '<option value="bs">버스</option>\n'+
+			        '<option value="fr">페리</option>\n'+
+			        '<option value="et">기타</option>\n'+
+			    '</select>\n'+
+			    '</span>\n'+
+			    '<span id="ct_code" style="display: none;">'+ct_code+'</span><br />\n'+
+			    '<span>동행추천허용<input type="checkbox" id="rm_ok"></span>\n'+			    
+			'</li>'); 
+	
+		
+		$("#ul").append($li);
+		
+		linePath.push(new google.maps.LatLng(lat, lng));
+		//alert(linePath);
+		addLine();
+		
 	}
+	/* 저장버튼눌렀을떄 1단계저장 */
+	function creatcp(plan_code) {
+		
+		var params= new Array;
+		var jsonData;
+	
+		//alert(plan_code);
+		
+		var lis =  $('#ul').children();
+		//alert(lis.length);
+		
+		lis.each(function(idx,li) {
+			//alert($(this).children().eq(0).text());//베를린
+			//alert($(this).find("#day option:selected").val());//123456박
+			//alert($(this).children().eq(2).text());//MM-DD ~ MM-DD
+			//alert($(this).find("#trans option:selected").val());//이동수단 code
+			//alert($(this).children().eq(4).text());//ct_code
+			//alert($(this).find("#rm_ok ").is(":checked")? 'Y': 'N');//동행
+
+			var param =  new Object();
+			param.plan_code  = plan_code;
+			param.ct_code    = $(this).children().eq(4).text();//
+			param.order_code = idx; 
+			param.day        = $(this).find("#day option:selected").val(); 
+			param.trans      = $(this).find("#trans option:selected").val(); 
+			param.s_date     = '2016-05-20';
+			param.rm_ok      = $(this).find("#rm_ok ").is(":checked")? 'Y': 'N';
+			
+			params.push(param);
+			
+			jsonData = JSON.stringify(params) ;
+			//alert(params);
+			alert(jsonData);
+			/* 
+			[{"plan_code":"P002","ct_code":"AM","order_code":0,"day":"1","trans":"tr","s_date":"2016-05-20","rm_ok":"N"},
+			{"plan_code":"P002","ct_code":"PR","order_code":1,"day":"1","trans":"tr","s_date":"2016-05-20","rm_ok":"N"}]
+			*/
+		});		
+		
+		
+		//$.post(요청명령어, 전달값, 콜백함수, 응답받는 형식)
+		//$.post("${pageContext.request.contextPath}/plan/creat.do", jsonData, checkResult, "json");//post() end
+		
+		$.ajax({
+	        url:"/create.do",
+	        type:'POST',
+	        dataType:"JSON",
+	        data: jsonData,
+	        success:function(result){
+	            alert("완료!");
+	            /* 
+	            window.opener.location.reload();
+	            self.close(); */
+	        },
+	        error:function(jqXHR, textStatus, errorThrown){
+	            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+	            //self.close();
+	        }
+	    });
+		
+	}//creatcp() end
+	
+	function checkResult(result){	//callback함수
+		//1) Text로 받을때
+		//alert(result);
+	
+		//2) JSON으로 받을때
+		//alert(result.count);
+			
+		/* //숫자형변환
+		var count=eval(result.count);
+		if(count==0){
+			$("#panel_id").css("color", "blue");
+			$("#panel_id").text("사용 가능한 아이디");
+			//$.cookie("쿠키변수명", 값)
+			$.cookie("checkID", "PASS");	//쿠키변수 생성
+		}else{
+			$("#panel_id").css("color", "red");
+			$("#panel_id").text("중복된 아이디");
+			$("#uid").focus();	//커서 생성
+		}//if end
+		 */
+		 alert("저장되었습니다");
+		 alert(result);
+	}//checkResult() end
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBM_-xOIwPL0F_UknEZ1m-uLVM28-Wt_Ao&callback=initMap">
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnoA39g01shgSGItH57whv1WjBsYSQ9wA&callback=initMap">
 	
+</script> 
+
+
+<script> 
+//////////////////// 부가 기능 Script ////////////////////
+
+/* 플래너 추가 폼 (newplan) 동작 제어 */
+$(function(){
+	var plancode='${article.plan_code}';
+	var m_id='${session_m_id}';
+	if(plancode==""&&m_id!=""){
+		location.href="#newplanner";
+	}
+});
+
+/* 화면 스크롤 제거 */
+$(function(){
+	$("body").css("overflow", 'hidden');
+});
+
+
+
+
 </script>
 
 

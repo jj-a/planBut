@@ -6,6 +6,7 @@ public class CityDTO {
 
 	// Variable
 	private String ct_code, c_code, ct_name;
+	private double lat, lng;
 
 	
 	// Constructor
@@ -39,5 +40,22 @@ public class CityDTO {
 	public void setCt_name(String ct_name) {
 		this.ct_name = ct_name;
 	}
+
+	public double getLat() {
+		return lat;
+	}
+
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+
+	public double getLng() {
+		return lng;
+	}
+
+	public void setLng(double lng) {
+		this.lng = lng;
+	}
+	
 
 }

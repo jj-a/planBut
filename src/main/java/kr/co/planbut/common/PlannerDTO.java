@@ -7,6 +7,8 @@ public class PlannerDTO {
 	// Variable
 	private String plan_code, m_id, subject;
 	private int people;
+	private String s_date;
+	private CityplanDTO cityplan;	// cityplan 테이블 조인
 	
 
 	// Constructor
@@ -47,6 +49,22 @@ public class PlannerDTO {
 
 	public void setPeople(int people) {
 		this.people = people;
+	}
+
+	public String getS_date() {
+		return s_date;
+	}
+
+	public void setS_date(String s_date) {
+		this.s_date = s_date;
+	}
+
+	public CityplanDTO getCityplan() {
+		return cityplan;
+	}
+
+	public void setCityplan(CityplanDTO cityplan) {
+		this.cityplan = cityplan;
 	}
 
 }

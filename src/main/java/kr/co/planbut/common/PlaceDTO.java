@@ -6,8 +6,9 @@ public class PlaceDTO {
 
 	// Variable
 	private String p_code, pt_code, ct_code, p_name, address, xy, content;
+	private PlacetypeDTO placetype;	// placetype 테이블 조인
 
-	
+
 	// Constructor
 	public PlaceDTO() {
 		;
@@ -70,6 +71,14 @@ public class PlaceDTO {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	public PlacetypeDTO getPlacetype() {
+		return placetype;
+	}
+
+	public void setPlacetype(PlacetypeDTO placetype) {
+		this.placetype = placetype;
 	}
 
 }

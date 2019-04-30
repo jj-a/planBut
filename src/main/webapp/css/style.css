@@ -1,6 +1,5 @@
 /* main css */
 /* main color: #99befc */
-
 ul, li {
 	list-style: none;
 }
@@ -37,6 +36,26 @@ nav {
 .main-right {
 	background-image: url("../images/main2.jpg");
 }
+
+.scrollable-menu {
+	max-height: 88vh;
+	/*overflow-x: hidden;*/
+	overflow-y: scroll;
+}
+
+.non-scrollable-menu {
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+.img-wrap img {
+	/*position: absolute;*/
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
 
 /* bootstrap sample css */
 body {
@@ -228,19 +247,29 @@ keyframes slide { 0% {
 opacity
 
 
+
+
 :
 
+
  
+
 
 1;
 transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0%);
@@ -257,19 +286,29 @@ translateY
 opacity
 
 
+
+
 :
 
+
  
+
 
 1;
 -webkit-transform
 
 
+
+
 :
+
 
  
 
+
 translateY
+
+
 
 
 (0%);
