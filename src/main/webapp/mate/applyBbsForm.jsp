@@ -16,7 +16,7 @@
    </tr> 
    <tr>
        <th>신청자</th>
-       <td><input type="text" name="sp_id"></td>
+       <td><input type="text" name="sp_id" value="${session_m_id }"></td>
    </tr> 
    <tr>
        <th>신청인원</th>
