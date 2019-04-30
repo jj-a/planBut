@@ -28,7 +28,9 @@ text-align: center;
 .bottom{
 text-align: center;
 }
-
+.tb{
+width: 800px;
+}
 </style>
     
     <div class="dc">
@@ -65,7 +67,7 @@ text-align: center;
 	
 	<form action=""> 
 	<input type="hidden" name="b_no" value="">
-	<table border=1 style="margin: auto;">
+	<table border="1" style="margin: auto;" class="tb">
 	<c:forEach var="dto" items="${list }">
 	   <tr>
 	        <th>모집자 : ${dto.mp_id }</th>
@@ -74,7 +76,7 @@ text-align: center;
 			<th>제목</th>
 			<td>${dto.subject }</td>
 			<th>내용</th>
-			<td>${dto.content }</td>
+			<td ><div style="overflow-y:scroll; height:100%; width:100%">${dto.content }</div></td>
 		</tr>
 		<tr>
 		    <th>도시</th>

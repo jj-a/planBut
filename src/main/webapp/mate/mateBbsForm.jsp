@@ -7,11 +7,11 @@
 <form name="matebbsfrm" 
 	  method="post" 
 	  action="./create.do">
-<table>
 <input type="hidden" name="ip" value="<%=request.getRemoteAddr()%>">
+<table>
 <tr>
     <th>작성자</th>
-    <td><input type="text" name="mp_id" size="28" maxlength="20" required></td>
+    <td><input type="text" name="mp_id" size="28" maxlength="20" value="${session_m_id }" readonly></td>
 </tr> 
 <tr>
     <th>제목</th>
