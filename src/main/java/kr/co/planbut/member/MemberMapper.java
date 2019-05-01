@@ -12,5 +12,7 @@ public interface MemberMapper {
 	public MemberDTO login(MemberDTO dto);
 	
 	public MemberDTO profile(String m_id);
+	
+	public int modify(MemberDTO dto);
 
 }

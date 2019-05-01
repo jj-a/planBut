@@ -1,6 +1,7 @@
 package kr.co.planbut.member;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -69,8 +70,34 @@ public class MemberController {
 		
 		return mav;
 	} // logout() end
-	
-	
+/*	
+	@RequestMapping( value="/member/read.do", method=RequestMethod.GET )
+	public ModelAndView read(MemberDTO dto) {
+	ModelAndView mav=new ModelAndView();
+	mav.setViewName("member/memberList");
+	dto=dao.read(dto);
+	mav.addObject("dto", dto);
+	return mav;
+	}//list() end
+	*/
+	@RequestMapping( value = "/member/modify.do", method = RequestMethod.GET )
+	public ModelAndView modifyForm(HttpSession session) {
+	ModelAndView mav = new ModelAndView();
+	mav.setViewName("member/modify");
+	String s_id = (String)session.getAttribute("session_m_id");
+	MemberDTO dto=dao.profile(s_id);
+	mav.addObject("dto", dto);
+	return mav;
+	} // modifyForm() end
+	 
+	@RequestMapping( value = "/member/modify.do", method = RequestMethod.POST )
+	public ModelAndView modifyProc(MemberDTO dto) {
+	ModelAndView mav = new ModelAndView();
+	mav.setViewName("redirect:/mypage/planner.do");
+	int count = dao.modify(dto);
+	mav.addObject("count", count);
+	return mav;
+	} // modifyProc() end
 	
 	
 	

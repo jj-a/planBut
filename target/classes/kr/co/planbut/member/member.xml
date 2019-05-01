@@ -31,14 +31,22 @@
         ]]>
 	</select>
 	
-	<!-- 프로필 (이름/사진) -->
+	<!-- 프로필 (이름/사진/..) -->
 	<select id="profile" parameterType="String" resultType="MemberDTO">
         <![CDATA[
-		select m_name, photo
+		select m_name, photo, password, email, birth
 		from member
 		where m_id=#{m_id}
         ]]>
 	</select>
+	
+	<update id="modify" parameterType="MemberDTO">
+		<![CDATA[
+            update member
+            set m_name=#{m_name}, password=#{password}, email=#{email}, birth=#{birth}, photo=#{photo}
+            where m_id = #{m_id}
+        ]]>
+	</update>
 	
 	
 </mapper>
