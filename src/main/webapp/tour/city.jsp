@@ -3,11 +3,15 @@
 
 <!-- 투어예약 -> 도시 -->
 <H1>도시</H1>
+<!-- 임시 버튼  -->
 <table>
-<tr>
-<td><input type="button" value="투어홈" onclick="location.href='./tour.do'"></td>
-<td><input type="button" value="투어정보" onclick="location.href='./tourinfo.do'"></td>
-</tr>
+	<tr>
+		<td><input type="button" value="투어홈" onclick="location.href='./tour.do'"></td>
+		<td><input type="button" value="투어정보" onclick="location.href='./tourinfo.do'"></td>
+		<td><input type="button" value="투어리스트" onclick="location.href='./tourlist.do'"></td>
+		<td><input type="button" value="예약페이지" onclick="location.href='./reserve.do'"></td>
+		<td><input type="button" value="장바구니" onclick="location.href='./cart.do'"></td>
+	</tr>
 </table>
 
 <style>
@@ -27,8 +31,9 @@
 				<div style="margin-left: 5px; margin-right: 5px;">
 					<div style="height: 350px; overflow: hidden">
 
+
 						<div style="position: relative;">
-							<a href="index_city.asp?region=111011004"><img src="https://d3b39vpyptsv01.cloudfront.net/photo/1/2/e107699cd80fe918c3a4072fa4f141ee.jpg" style="border-radius: 5px; width: 100%;" onerror="this.src='/img_v12/img_er.gif'"></a>
+							<a href="./tourlist.do?ct_code=${dto.ct.code }"><img src="https://d3b39vpyptsv01.cloudfront.net/photo/1/2/e107699cd80fe918c3a4072fa4f141ee.jpg" style="border-radius: 5px; width: 100%;" onerror="this.src='/img_v12/img_er.gif'"></a>
 
 							<div style="border-radius: 5px; position: absolute; bottom: 0px; right: 0px; width: 100%; height: 30px; background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 5));">&nbsp;</div>
 							<div style="position: absolute; bottom: 3px; right: 10px;">

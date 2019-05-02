@@ -1,9 +1,9 @@
 package kr.co.planbut.mateBbs;
 
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
 
-import javax.xml.ws.Response;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import net.utility.Utility;
+import kr.co.planbut.applyBbs.ApplyBbsDTO;
 
 @Controller
 public class MateBbsCont {
@@ -47,16 +47,33 @@ public class MateBbsCont {
 	} // createProc() end
 
 	@RequestMapping("/mate/list.do")
-	public ModelAndView list() {
+	public ModelAndView list(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("mate/mateBbsList");
 		// ArrayList<MateBbsDTO> list = dao.list();
 		// mav.addObject("list", list); ㅡ▶ 밑에 한줄과 같은 의미
+		String s_id = (String)session.getAttribute("session_m_id");
+		ArrayList<RecmDTO> recmDTOList = dao.recmList(s_id);
+		ArrayList<RecmPeopleDTO> recmPeopleDTOList = new ArrayList<RecmPeopleDTO>();
+		for(int idx=0; idx<recmDTOList.size(); idx++) {
+			RecmDTO recmDTO = recmDTOList.get(idx);
+			//System.out.println("ct_code: "+recmDTO.getCt_code());
+			//System.out.println("m_id: "+recmDTO.getM_id());
+			ArrayList<RecmPeopleDTO> recmPeopleDTOList1 = dao.recmPeople(recmDTO);
+			recmPeopleDTOList.addAll(recmPeopleDTOList1);
+			
+		}//for end
+		for(int a = 0; a<recmPeopleDTOList.size();a++) {
+			RecmPeopleDTO ddttoo = recmPeopleDTOList.get(a);
+			//System.out.println("recmpeople 목록:"+ddttoo.toString());
+		}
+		//System.out.println("recmpeople합:" + recmPeopleDTOList.size());
+		mav.addObject("recmPeople", recmPeopleDTOList);
 		mav.addObject("list", dao.list());
+		mav.addObject("recmList", recmDTOList);
 		return mav;
 	} // list() end
-	
-
+			
    @RequestMapping( value="/mate/read.do", 
 		   			method=RequestMethod.GET )
    public ModelAndView read(MateBbsDTO dto) {
@@ -98,17 +115,24 @@ public class MateBbsCont {
 		return mav;
 	} // deleteProc() end
 	
-	/*@RequestMapping( value  = "/mate/read.do",
-					 method = RequestMethod.GET )
-	public ModelAndView read(MateBbsDTO dto) {
-		ModelAndView mav = new ModelAndView();
-		dto = dao.read(dto);
-		mav.setViewName("mate/mateBbsDel");
-		mav.addObject("dto", dto);
-	
-		return mav;
-	} // read() end	
-*/	
+	@RequestMapping( value = "/mate/applyBbs.do", 
+          method = RequestMethod.GET )
+    public ModelAndView applyBbsForm(MateBbsDTO dto) {
+      ModelAndView mav = new ModelAndView();
+      mav.setViewName("mate/applyBbsForm");
+      mav.addObject("b_no", dto.getB_no());
+      return mav;
+    } // createForm() end
+   
+    @RequestMapping( value = "/mate/applyBbs.do", 
+             method = RequestMethod.POST )
+    public ModelAndView applyBbsProc(ApplyBbsDTO dto) {
+      ModelAndView mav = new ModelAndView();
+      mav.setViewName("redirect:/mate/list.do");
+      int count = dao.applyBbs(dto);
+      mav.addObject("count", count);
+      return mav;
+    } // createProc() end
 	/*
 	@RequestMapping( value = "/notice/update.do", 
 					 method = RequestMethod.GET )

@@ -9,8 +9,8 @@ public class PlannerDTO {
 	private int people;
 	private String s_date;
 	private CityplanDTO cityplan;	// cityplan 테이블 조인
-	
 
+	
 	// Constructor
 	public PlannerDTO() {
 		;

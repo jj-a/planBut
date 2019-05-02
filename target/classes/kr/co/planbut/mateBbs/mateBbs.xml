@@ -31,14 +31,16 @@
 	
 	<select id="list" resultType="MateBbsDTO">
 	    <![CDATA[
-		    select if(aa.pp=null,0,aa.pp) people, BB.b_no, BB.mp_id, BB.regdt, BB.subject, BB.content, BB.ct_code, BB.m_date, BB.gender, BB.capacity
-            from(
-                select b_no, sum(people) pp
-                from mateapply_b TB
-                order by b_no desc
-            ) AA right join mateboard BB
-            on AA.b_no = BB.b_no
-            order by b_no desc
+		    select BB.*, if(aa.pp=null,0,aa.pp) people
+			from(
+			   select mate_code, b_no, sum(people) pp
+			   from mateapply_b TB
+			   where mate_code<>0
+			   group by b_no
+			   order by b_no desc
+			   ) AA right join mateboard BB
+			   on AA.b_no = BB.b_no
+			order by b_no desc
 		]]>
 	</select>
 	
@@ -53,7 +55,7 @@
         <![CDATA[
             select b_no, mp_id, subject, content, ct_code, m_date, gender, capacity, regdt
 	        from mateboard as TB
-	        where b_no=#{b_no}
+	        where b_no = #{b_no}
         ]]>
     </select>
     
@@ -65,6 +67,74 @@
         ]]>
     </update>
     
+    <select id="recmList" resultType="RecmDTO">
+        <![CDATA[
+            select aa.ct_code as ct_code, aa.s_date as s_date, bb.m_id as m_id, `day` as hey
+			from(
+		    select plan_code, ct_code, s_date, `day`
+		    from cityplan
+		    where rm_ok='Y')aa join planner bb
+		    on aa.plan_code=bb.plan_code
+		    where m_id = #{m_id} and date_add(aa.s_date, interval `day`-1 day) >= now()
+		    order by aa.s_date
+        ]]>
+    </select>
+    
+    <!-- <resultMap id="아이디명" type="java.util.HashMap"> -->
+    <!-- <resultMap id="Book" type="java.util.HashMap">
+        <result javaType="데이터타입" column="db컬럼명" property="맵에서 키값"/> 
+        <result javaType="java.lang.String" column="ct_code" property="ct_code"/>
+    </resultMap> 
+
+    <select id="recmList2" resultMap="Book">
+	   <![CDATA[
+            select aa.ct_code, aa.s_date, bb.m_id, `day`
+            from(
+            select plan_code, ct_code, s_date, `day`
+            from cityplan
+            where rm_ok='Y')aa join planner bb
+            on aa.plan_code=bb.plan_code
+            where m_id = 'bbbb' and date_add(aa.s_date, interval `day`-1 day) >= now() 
+            order by aa.s_date
+       ]]>
+	</select> -->
+    
+    
+    <select id="recmPeople" parameterType="RecmDTO" resultType="RecmPeopleDTO">
+        <![CDATA[
+            select `day` as hey, aa.s_date as s_date, m_id, ct_code
+			from(
+			select *, date_add(s_date, interval `day`-1 day)
+			from cityplan
+			where s_date between s_date and date_add(s_date, interval `day`-1 day)
+			) AA join planner as BB
+			on AA.plan_code = BB.plan_code
+			where AA.rm_ok = 'Y' and ct_code = #{ct_code} and m_id <> #{m_id} and date_add(aa.s_date, interval `day`-1 day) >= now()    
+        ]]>
+    </select>
+    
+    <insert id="applyBbs" parameterType="ApplyBbsDTO">
+      <selectKey keyProperty="ma_code" resultType="String" order="BEFORE"> 
+      <![CDATA[
+         select concat(
+            'B', 
+            replace(left(now(),10),'-',''), '-',
+            (
+               select ifnull(lpad(max(right(ma_code,1)) +1,1,0),'1')
+               from mateapply_b
+               where substring(ma_code, 2, 8)=DATE_FORMAT(NOW(),'%Y%m%d')
+            )
+         ) as code
+         from mateapply_b
+         group by code
+      ]]>
+      </selectKey>
+      
+      <![CDATA[
+         insert into mateapply_b(ma_code, b_no, sp_id, people, mate_code)
+         values(#{ma_code}, #{b_no}, #{sp_id}, #{people}, 0)
+      ]]>
+   </insert>
 	<!--
 	<select id="search" resultType="MateBbsDTO" parameterType="HashMap">
 		select noticeno, title, rname, rdate

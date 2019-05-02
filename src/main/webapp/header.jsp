@@ -96,24 +96,28 @@ label {
 					<li><a href="${pageContext.request.contextPath}/tour/tour.do">투어예약</a></li>
 					<li><a href="${pageContext.request.contextPath}/place/country.do">여행지</a></li>
 					<li><a href="${pageContext.request.contextPath}/board.do">광장</a></li>
-					<li><a href="${pageContext.request.contextPath}/cart.do">장바구니</a></li>
-					<c:if test="${empty session_m_id}">
-						<li><a href="#loginmodal">로그인</a></li>
-						<li><a href="${pageContext.request.contextPath}/member/register.do">회원가입</a></li>
-					</c:if>
-					<li><c:if test="${session_m_id!=null }">
-							<div class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <!-- 드롭다운을 켜고 끌 링크나 버튼 --> 
-									<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-								</a>
-								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									<li role="separator" class="divider"></li>
-									<li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
-									<li><a href="${pageContext.request.contextPath}/member/modify.do">회원정보수정</a></li>
-									<li><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></li>
-								</ul>
-							</div>
-						</c:if></li>
+					<c:choose>
+						<c:when test="${empty session_m_id}"><!-- 비회원 -->
+							<li><a href="#loginmodal">로그인</a></li> <!-- 얘 왜 active클래스 계속 들어가나요 -->
+							<li><a href="${pageContext.request.contextPath}/member/register.do">회원가입</a></li>
+						</c:when>
+						<c:otherwise><!-- 회원 -->
+							<li><a href="${pageContext.request.contextPath}/tour/cart.do">장바구니</a></li>
+							<li><!-- 드롭다운 메뉴 -->
+								<div class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#"> <!-- 드롭다운을 켜고 끌 링크나 버튼 --> 
+										<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+									</a>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+										<li role="separator" class="divider"></li>
+										<li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
+										<li><a href="${pageContext.request.contextPath}/member/modify.do">회원정보수정</a></li>
+										<li><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></li>
+									</ul>
+								</div>
+							</li>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>

@@ -1,24 +1,30 @@
 package kr.co.planbut.tour;
 
+
+import kr.co.planbut.common.CityDTO;
+import kr.co.planbut.common.CityplanDTO;
+import kr.co.planbut.common.CountryDTO;
+import kr.co.planbut.common.PlannerDTO;
+import kr.co.planbut.tour.TreserveDTO;
+import kr.co.planbut.tour.TreviewDTO;;
+
 public class TourDTO {
-	private String tour_code;
-	private String tour_name;
-	private String ct_code;
-	private int price;
-	private String content;
-	private String s_date;
-	private String e_date;
-	private String photo;
-	private String category;
-	private int t_time;
-	private String m_place;
-	private int capacity;
-	private int minimum;
-	private String day;
-	
+	private String tour_code, tour_name, ct_code;
+	private String content, s_date, e_date, photo, category, m_place, day;
+	private int price, t_time, capacity, minimum;
+	private CityDTO cityDTO;
+	private CountryDTO countryDTO;
+	private PlannerDTO plannerDTO;
+	private CityplanDTO cityplanDTO;
+	private CartDTO cartDTO;
+	private TreserveDTO treserveDTO;
+	private QnaDTO qnaDTO;
+	private ReplyDTO replyDTO;
+	private TreviewDTO treviewDTO;
+	private int cnt;
+	private int sum;
 	
 	public TourDTO() {}
-
 
 	public String getTour_code() {
 		return tour_code;
@@ -158,7 +164,96 @@ public class TourDTO {
 	public void setDay(String day) {
 		this.day = day;
 	}
+	
+	public CityDTO getCityDTO() {
+		return cityDTO;
+	}
 
+	public void setCityDTO(CityDTO cityDTO) {
+		this.cityDTO = cityDTO;
+	}
+	
+	public CountryDTO getCountryDTO() {
+		return countryDTO;
+	}
+	
+	public void setCountryDTO(CountryDTO CountryDTO) {
+		this.countryDTO = CountryDTO;
+	}
+	
+	
+	public CityplanDTO getCityplanDTO() {
+		return cityplanDTO;
+	}
+
+
+	public void setCityplanDTO(CityplanDTO cityplanDTO) {
+		this.cityplanDTO = cityplanDTO;
+	}
+
+	public PlannerDTO getPlannerDTO() {
+		return plannerDTO;
+	}
+
+	public void setPlannerDTO(PlannerDTO plannerDTO) {
+		this.plannerDTO = plannerDTO;
+	}
+
+	public CartDTO getCartDTO() {
+		return cartDTO;
+	}
+
+	public void setCartDTO(CartDTO cartDTO) {
+		this.cartDTO = cartDTO;
+	}
+
+	public TreserveDTO getTreserveDTO() {
+		return treserveDTO;
+	}
+
+	public void setTreserveDTO(TreserveDTO treserveDTO) {
+		this.treserveDTO = treserveDTO;
+	}
+
+	public QnaDTO getQnaDTO() {
+		return qnaDTO;
+	}
+
+	public void setQnaDTO(QnaDTO qnaDTO) {
+		this.qnaDTO = qnaDTO;
+	}
+
+	public ReplyDTO getReplyDTO() {
+		return replyDTO;
+	}
+
+	public void setReplyDTO(ReplyDTO replyDTO) {
+		this.replyDTO = replyDTO;
+	}
+
+	public TreviewDTO getTreviewDTO() {
+		return treviewDTO;
+	}
+
+	public void setTreviewDTO(TreviewDTO treviewDTO) {
+		this.treviewDTO = treviewDTO;
+	}
+
+	public int getCnt() {
+		return cnt;
+	}
+
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+	
+	public int getSum() {
+		return sum;
+	}
+
+	public void setSum(int sum) {
+		this.sum = sum;
+	}
 
 	@Override
 	public String toString() {

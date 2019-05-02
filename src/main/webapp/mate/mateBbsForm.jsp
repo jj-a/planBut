@@ -3,15 +3,15 @@
 <!-- 본문시작 template.jsp -->
 
 <h3>★ 글쓰기 ★</h3>
-<p><a href="mateBbsList.jsp">★ 동행 게시판 보러가기 ★</a></p>
+<p><a href="./list.do">★ 동행 게시판 보러가기 ★</a></p>
 <form name="matebbsfrm" 
 	  method="post" 
 	  action="./create.do">
-<table>
 <input type="hidden" name="ip" value="<%=request.getRemoteAddr()%>">
+<table>
 <tr>
     <th>작성자</th>
-    <td><input type="text" name="mp_id" size="28" maxlength="20" required></td>
+    <td><input type="text" name="mp_id" size="28" maxlength="20" value="${session_m_id }" readonly></td>
 </tr> 
 <tr>
     <th>제목</th>

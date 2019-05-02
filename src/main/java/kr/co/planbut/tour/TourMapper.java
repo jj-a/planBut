@@ -2,6 +2,7 @@ package kr.co.planbut.tour;
 
 import java.util.ArrayList;
 
+
 public interface TourMapper {
 
 	/*
@@ -9,13 +10,26 @@ public interface TourMapper {
 	 */
 
 	// <select id="list">
-	public ArrayList<TourDTO> list();
+	public ArrayList<TourDTO> countrylist();
+
+	public ArrayList<TourDTO> citylist();
+
+	public ArrayList<TourDTO> plannerlist();
+
+	public ArrayList<TourDTO> tourlist(TourDTO dto);
+
+	public ArrayList<TourDTO> cartlist(String m_id);
+	
+	public TourDTO read(TourDTO dto);
+
+	public int tourtotal(TourDTO dto);
+
+//	public int cart(CartDTO dto);
 	
 //	public TourDTO create(TourDTO dto);
-	
-//	public TourDTO read(TourDTO dto);
 	
 //	public TourDTO update(TourDTO dto);
 
 //	public TourDTO delete(TourDTO dto);
+
 }
