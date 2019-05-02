@@ -152,4 +152,22 @@
 		</choose>
 		order by noticeno desc
 	</select> -->
+	
+	
+	
+	<!-- 내 동행 -->
+	<select id="mymateList" resultType="MateBbsDTO">
+	    <![CDATA[
+		    select BB.*, if(aa.pp=null,0,aa.pp) people
+			from(
+			   select mate_code, b_no, sum(people) pp
+			   from mateapply_b TB
+			   where mate_code<>0
+			   group by b_no
+			   order by b_no desc
+			   ) AA right join mateboard BB
+			   on AA.b_no = BB.b_no
+			order by b_no desc
+		]]>
+	</select>
 </mapper>
