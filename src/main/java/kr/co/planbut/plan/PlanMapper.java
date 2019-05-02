@@ -26,5 +26,10 @@ public interface PlanMapper {
 	
 	//<select id="getCitys">
 	public ArrayList<CityDTO> getCitys();
+
+	//<insert id="insertCP">
+	public int insertCP(CityplanDTO dto);
+
+	public int clearCP(String plan_code);
 	
 } // PlanMapper end

@@ -104,6 +104,20 @@ public class PlanDAO {
 		ArrayList<CityDTO> CityDTOs = mapper.getCitys();
 		return CityDTOs;
 	}
+
+	public int insertCP(CityplanDTO dto) {
+		PlanMapper mapper = sqlSession.getMapper(PlanMapper.class);		
+		int result = mapper.insertCP(dto);
+		return result;
+		
+	}
+
+	public int clearCP(String plan_code) {
+		PlanMapper mapper = sqlSession.getMapper(PlanMapper.class);		
+		int result = mapper.clearCP(plan_code);
+		return result;
+		
+	}
 	
 	
 }// PlanDAO end
