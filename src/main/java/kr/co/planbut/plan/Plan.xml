@@ -260,7 +260,37 @@
 		]]>
 	</select>
 	
+    <insert id="insertCP" parameterType="kr.co.planbut.common.CityplanDTO">
+		<!-- 일련번호 생성 -->
+        <!-- 
+        			select if(
+        				isnull(plan_code), 
+        				'P001', 
+        				concat('P', lpad(substring(max(plan_code),2)+1,3,0))
+        			) as plan_code 
+        			from planner as P 
+                    
+        -->
+	    <selectKey keyProperty="cp_code" resultType="String" order="BEFORE"> 
+            <![CDATA[ 
+                (select concat('CP', (select ifnull(lpad(max(right(cp_code,3)) +1,3,0),'001')from cityplan ALIAS_FOR_SUBQUERY)))
+            ]]>
+        </selectKey>
+		
+		<![CDATA[ 
+		INSERT INTO cityplan(cp_code, plan_code, ct_code, order_code, day, trans, s_date, rm_ok)
+        VALUES(#{cp_code}, #{plan_code}, #{ct_code}, #{order_code}, #{day}, #{trans}, #{s_date}, #{rm_ok})
 
+        ]]>
+
+	</insert>
+
+    <delete id="clearCP" parameterType="String">
+		<![CDATA[
+		delete from cityplan 
+        where plan_code = #{plan_code};
+		]]>
+	</delete>
 
 </mapper>
  

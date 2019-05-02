@@ -1,7 +1,11 @@
 package kr.co.planbut.plan;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -9,12 +13,12 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.planbut.common.CityDTO;
+import kr.co.planbut.common.CityplanDTO;
 import kr.co.planbut.common.PlannerDTO;
 
 
@@ -151,33 +155,53 @@ public class PlanController {
 	}//planTestResult end
 	
 	@RequestMapping(value="/plan/create.do", method=RequestMethod.POST)
-	public ModelAndView cityPlanCreate(@RequestBody Map<String, Object> data) {
-		String result;
-		ModelAndView mav = new ModelAndView();
-		System.out.println("hello");
+	public void cityPlanCreate(HttpServletRequest req, HttpServletResponse resp, String json)throws IOException {
+		System.out.println(json);
 		
 		try {
-/*
-			JSONParser jsonParser = new JSONParser();
-			JSONObject jsonObject = (JSONObject) jsonParser.parse(data);
-			JSONArray jsonArray = (JSONArray) jsonObject.get("list");				
-			
-			System.out.println(jsonObject.get("cp_code"));*/
-			
-			/*for(int i = 0; i < jsonArray.size(); i++ ){
-				JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-				String name = jsonObject.get("name").toString();
-				String number = jsonObject.get("number").toString();			
+			int result = 0;
 
-			}*/
+			//String jsonData = req.getParameter("json");
+			JSONParser jsonParser = new JSONParser();
+			JSONArray jsonArray = (JSONArray) jsonParser.parse(json);
 			
-			mav.setViewName("plan/plan");
+			String plan_code =(String) ((JSONObject) jsonArray.get(0)).get("plan_code");
+			System.out.println("clearCP 결과 : "+dao.clearCP(plan_code));
+			
+            for(int i=0 ; i<jsonArray.size() ; i++){ //json에 있는 도시계획들 파싱
+                JSONObject jsonObj = (JSONObject) jsonArray.get(i);
+                //System.out.println(jsonObj.toString());
+                
+                int a = (int)Math.round((Long) jsonObj.get("order_code"));
+                int b = Integer.parseInt((String) jsonObj.get("day"));
+                
+                CityplanDTO dto = new CityplanDTO();
+                dto.setPlan_code((String) jsonObj.get("plan_code"));
+                dto.setCt_code((String) jsonObj.get("ct_code"));
+                dto.setOrder_code(a);
+                dto.setDay(b);
+                dto.setTrans((String) jsonObj.get("trans"));
+                dto.setS_date((String) jsonObj.get("s_date"));
+                dto.setRm_ok((String) jsonObj.get("rm_ok"));
+                //((Long)parse_response.get("age")).intValue();
+
+                result = dao.insertCP(dto); //insert 실행
+                System.out.println("insertCP 결과 : "+result);
+            }
+            
+			
+			
+			resp.setContentType("text/plain; charset=UTF-8");
+			PrintWriter out=resp.getWriter();
+			out.println(result);
+			out.flush();
+			out.close();
 
 		} catch (Exception e) {
 			System.out.println(e);
 
 		}// try end
-		return mav;
+		//return "결과";
 
 	}//cityPlanCreate() end
 	

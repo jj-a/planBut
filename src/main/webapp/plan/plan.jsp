@@ -109,10 +109,51 @@ padding-right: 0px !important;
 						 --%>
 						<!-- 이동일 계산 -->
 						
-						<h3 class="root-city">${cp.city.ct_name }</h3> 
-						<span class="root-day">${cp. day }박</span> 
+						<h3 class="root-city" id="ct_name">${cp.city.ct_name }</h3> 
+						<span class="root-day">
+						<select id="day" >
+							<c:forEach var="i" begin="1" end="10" step="1">
+						        <c:choose>
+									<c:when test="${i eq cp.day }">
+								        <option value="${i}" selected>${i}</option>
+									</c:when>						
+									<c:otherwise>									
+								        <option value="${i}">${i}</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+			    		</select>박
+						</span> 
 						<span class="root-date">${fn:substring(s_date, 5,10)} ~ ${e_date} </span> 
-						<span class="root-transport">${cp.trans }</span>
+						<span class="root-transport">
+						<select id="trans">
+							<c:set var="array">기차, 항공, 버스, 페리, 기타</c:set>
+							
+							<c:forEach var="item" items="${array}" varStatus="idx">
+								<c:choose>
+									<c:when test="${cp.trans eq item  }">
+							        	<option value="${item }" selected>${item }</option>
+									</c:when>
+									<c:otherwise>									
+								        <option value="${item }">${item }</option>
+									</c:otherwise>
+								</c:choose>							 
+							</c:forEach> 
+					    </select>						
+						</span>
+						<span id="ct_code" style="display: none;">${cp.ct_code }</span><br />
+						
+						<c:choose>
+							<c:when test="${cp.rm_ok eq 'Y'  }">
+								<span>동행추천허용<input type="checkbox" id="rm_ok" checked></span>						
+							</c:when>
+							<c:otherwise>									
+								<span>동행추천허용<input type="checkbox" id="rm_ok"></span>												
+							</c:otherwise>
+						</c:choose>
+						<span id="lat" style="display: none;">${cp.city.lat }</span>
+						<span id="lng" style="display: none;">${cp.city.lng }</span>
+						<button onclick="delCP(this)">제거</button>
 					</li>
 					</c:forEach>
 					
@@ -216,7 +257,7 @@ padding-right: 0px !important;
 				<a class="btn btn-default" role="button"></a>
 				<c:choose>
 					<c:when test="${session_m_id!=null}">	<!-- 로그인 시 -->
-					<a href="" onclick="creatcp('${article.plan_code}');" class="btn btn-success" role="button">저장</a>
+					<a href="javascript:creatcp('${article.plan_code}');" class="btn btn-success" role="button">저장</a>
 
 					<%-- ${pageContext.request.contextPath}/plan/create.do?plan_code=${article.plan_code} --%>
 					<a href="${pageContext.request.contextPath}/plan/course.do?plan_code=${article.plan_code}" class="btn btn-info" role="button">다음단계로</a>
@@ -356,7 +397,7 @@ padding-right: 0px !important;
 				map : map, //어느 지도에 띄울지 지정
 				info : cityDTO.ct_name
 			});
-				
+	
 			var content = cityDTO.ct_name
 					+ '<br /> <input type="button" value="추가" onclick="addCity(\''
 					+ infowindowCons.length + '\',\'' +  cityDTO.ct_code + '\',\''+ cityDTO.ct_name + '\',\'' + cityDTO.lat
@@ -392,18 +433,19 @@ padding-right: 0px !important;
 		});
 
 		flightPath.setMap(map);
-		
-		
 	}//addLine end
 
 	function removeLine() {
 		flightPath.setMap(null);
 		flightPath = null;
 	}//removeLine end
+	
+	
+	
 </script>
 <script>
 	
-	function addCity(idx, ct_code, ct_name, lat, lng) {
+	function addCity(idx, ct_code, ct_name, lat, lng) {//마커에서 추가버튼눌렀을떄 여행지 리스트에 추가
 		var $li = $('<li class="list-group-item" id="li">\n'+
 			    '<h3 class="root-city" id="ct_name">'+ct_name+'</h3>\n'+
 			    '<span class="root-day">\n'+
@@ -433,9 +475,14 @@ padding-right: 0px !important;
 			    '</select>\n'+
 			    '</span>\n'+
 			    '<span id="ct_code" style="display: none;">'+ct_code+'</span><br />\n'+
-			    '<span>동행추천허용<input type="checkbox" id="rm_ok"></span>\n'+			    
+			    '<span>동행추천허용<input type="checkbox" id="rm_ok"></span>\n'+	
+			    '<span id="lat" style="display: none;">'+lat+'</span>\n'+	
+			    '<span id="lng" style="display: none;">'+lng+'</span>\n'+   
+			    '<button onclick="delCP(this)">제거</button>'+			    
 			'</li>'); 
-	
+		//alert(lat);
+		//alert(lng);
+		
 		
 		$("#ul").append($li);
 		
@@ -443,8 +490,13 @@ padding-right: 0px !important;
 		//alert(linePath);
 		addLine();
 		
-	}
-	/* 저장버튼눌렀을떄 1단계저장 */
+	}//addCity() end
+	
+	function delCP(b) {// list에서 CP 하나 제거
+		b.parentElement.remove();
+	}//delCP() end
+	
+	/* 저장버튼눌렀을떄 1단계 계획 저장 */
 	function creatcp(plan_code) {
 		
 		var params= new Array;
@@ -468,35 +520,37 @@ padding-right: 0px !important;
 			param.ct_code    = $(this).children().eq(4).text();//
 			param.order_code = idx; 
 			param.day        = $(this).find("#day option:selected").val(); 
-			param.trans      = $(this).find("#trans option:selected").val(); 
+			param.trans      = $(this).find("#trans option:selected").text(); 
 			param.s_date     = '2016-05-20';
 			param.rm_ok      = $(this).find("#rm_ok ").is(":checked")? 'Y': 'N';
 			
 			params.push(param);
-			
+			//alert($(this).children().eq(7).text());
+			//alert($(this).children().eq(8).text());
 			jsonData = JSON.stringify(params) ;
-			//alert(params);
-			alert(jsonData);
+			//alert(jsonData);
+			//alert(JSON.parse(jsonData));
 			/* 
 			[{"plan_code":"P002","ct_code":"AM","order_code":0,"day":"1","trans":"tr","s_date":"2016-05-20","rm_ok":"N"},
 			{"plan_code":"P002","ct_code":"PR","order_code":1,"day":"1","trans":"tr","s_date":"2016-05-20","rm_ok":"N"}]
 			*/
-		});		
+		});	//lis.each end
 		
 		
 		//$.post(요청명령어, 전달값, 콜백함수, 응답받는 형식)
 		//$.post("${pageContext.request.contextPath}/plan/creat.do", jsonData, checkResult, "json");//post() end
 		
 		$.ajax({
-	        url:"/create.do",
+	        url: "${pageContext.request.contextPath}/plan/create.do",
 	        type:'POST',
-	        dataType:"JSON",
-	        data: jsonData,
+	        //dataType:"JSON",
+	        data: {json:jsonData},
 	        success:function(result){
-	            alert("완료!");
-	            /* 
-	            window.opener.location.reload();
-	            self.close(); */
+	        	if (result==1) {
+		            alert("저장되었습니다.");	
+				}else{
+		            alert("저장에 실패 하였습니다.");						
+				}
 	        },
 	        error:function(jqXHR, textStatus, errorThrown){
 	            alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
@@ -506,29 +560,7 @@ padding-right: 0px !important;
 		
 	}//creatcp() end
 	
-	function checkResult(result){	//callback함수
-		//1) Text로 받을때
-		//alert(result);
 	
-		//2) JSON으로 받을때
-		//alert(result.count);
-			
-		/* //숫자형변환
-		var count=eval(result.count);
-		if(count==0){
-			$("#panel_id").css("color", "blue");
-			$("#panel_id").text("사용 가능한 아이디");
-			//$.cookie("쿠키변수명", 값)
-			$.cookie("checkID", "PASS");	//쿠키변수 생성
-		}else{
-			$("#panel_id").css("color", "red");
-			$("#panel_id").text("중복된 아이디");
-			$("#uid").focus();	//커서 생성
-		}//if end
-		 */
-		 alert("저장되었습니다");
-		 alert(result);
-	}//checkResult() end
 </script>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnoA39g01shgSGItH57whv1WjBsYSQ9wA&callback=initMap&region=KR" >
@@ -552,11 +584,20 @@ $(function(){
 	$("body").css("overflow", 'hidden');
 });
 
-
-
-
 </script>
 
+<!-- Cityplan Soctable ----------------------->
+<script src="./jquery-ui.min.js"></script>
+<script>
+$( function() {
+  $( "#ul" ).sortable(
+		  
+  );
+  $( "#ul" ).disableSelection();
+} );
+
+</script>
+<!-- Cityplan Soctable end-------------------->
 
 <!-- end Contents -->
 
