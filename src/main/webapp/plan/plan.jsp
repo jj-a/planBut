@@ -1,6 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.util.Date" %>
 <%@include file="../header.jsp"%>
+
+<script src="${pageContext.request.contextPath}/js/moment.js"></script>
+
 <style>
 /* Set the size of the div element that contains the map */
 #map {
@@ -528,10 +531,8 @@ padding-right: 0px !important;
 	}//checkResult() end
 </script>
 
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnoA39g01shgSGItH57whv1WjBsYSQ9wA&callback=initMap">
-	
-</script> 
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnoA39g01shgSGItH57whv1WjBsYSQ9wA&callback=initMap&region=KR" >
+</script>
 
 
 <script> 

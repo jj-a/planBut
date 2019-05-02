@@ -455,7 +455,7 @@ h4 {
 
 <!-- api key --><!-- 사용할 때만 활성화 -->
 <!-- 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBM_-xOIwPL0F_UknEZ1m-uLVM28-Wt_Ao&callback=initMap">	
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnoA39g01shgSGItH57whv1WjBsYSQ9wA&callback=initMap&region=KR" >
 </script>
  -->
  

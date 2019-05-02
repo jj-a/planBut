@@ -114,9 +114,15 @@
 				<p>플래너</p>
 
 				<!-- 지도 -->
-				<div class="maps">
+				<div class="map">
 					<a href="${pageContext.request.contextPath}/plan/plan.do">지도</a>
 					<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code }" class="btn btn-default" role="button">도시 수정</a>
+
+					<div id="floating-panel">
+					</div>
+
+				</div>
+
 				</div>
 
 				<!-- 캘린더  -->
@@ -133,6 +139,45 @@
 		</div>
 	</div>
 </div>
+
+
+<!-- Script 스크립트 -->
+
+<script>
+//////////////////// 지도 관련 Script ////////////////////
+
+	var map;
+	
+	function initMap() {
+		map = new google.maps.Map(document.getElementById('map'), {//지도에 띄우기
+			zoom : 4,
+			/* 줌옵션 
+			1 : 세계
+			5 : 대륙 / 대륙
+			10 : 도시
+			15 : 거리
+			20 : 건물 
+			 */
+			center : new google.maps.LatLng(48.138082, 16.363455), //유럽 중앙쯤인 어딘가 48.138082, 16.363455
+			mapTypeId : 'roadmap' //roadmap 기본값 생략 가능 roadmap,satellite,satellite,terrain  
+		});//map 옵션 끝 ----------------------------
+
+		
+
+		google.maps.event.addDomListener(window, 'load', initMap);
+
+		
+		map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+
+	}//initMap 끝
+	
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnoA39g01shgSGItH57whv1WjBsYSQ9wA&callback=initMap&region=KR" >
+</script>
+
+
+
 
 <!-- end Contents -->
 
