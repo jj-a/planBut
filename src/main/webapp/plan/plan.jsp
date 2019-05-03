@@ -59,13 +59,14 @@ padding-right: 0px !important;
 					<span>플래너코드: ${article.plan_code }</span>
 				</li>
 			</ul>
+					
 			
 			<!-- 플래너 루트 리스트 -->
 			<div class="scrollable-menu">
 				<ul class="root-info list-group"  id="ul">
 					<!-- 저장된 도시계획 리스트 -->
 					<c:forEach var="cp" items="${cplist }">
-					<li class="list-group-item">
+					<li class="list-group-item" id="cityli">
 						
 						<!-- 이동일 계산 -->
 						
@@ -316,12 +317,11 @@ padding-right: 0px !important;
 
 
 
-
 <!-- 플래너 생성 창 -->
 <div id="newplanner" class="modalDialog">
 	<div>
 		<h2>새 플래너 생성</h2>
-		<form name="planFrm" method="post" action="${pageContext.request.contextPath}/plan/plan.do" onsubmit="return loginCheck(this)">
+		<form name="planFrm" method="post" action="${pageContext.request.contextPath}/plan/plan.do" onsubmit="">
 			<input type="hidden" name="m_id" value="${session_m_id }">
 			<div>
 				<label for="">플래너 명</label>&nbsp;<input type="text" name="subject" id="subject" placeholder="ex) 나의 여행 플래너" required>
@@ -341,7 +341,7 @@ padding-right: 0px !important;
 </div>
 
 
-<!-- Script 스크립트 -->
+<!-- Script 스크립트 (map, etc)-->
 
 <script>
 	//http://localhost:9090/planbut/plan/planTest.do
@@ -351,7 +351,7 @@ padding-right: 0px !important;
 	var cityDTOs = new Array(); //JSON 형식받을 Array (도시들 의 정보)
 	var infowindowCons = new Array();
 	
-	<c:forEach var="cityDTO" items="${CityDTOs }">
+	<c:forEach var="cityDTO" items="${CityDTOs }">//마커찍을 전체 도시들 정보 Array에 저장
 	var cityDTO = new Object();
 	cityDTO.ct_name = "${cityDTO.ct_name}";
 	cityDTO.ct_code = "${cityDTO.ct_code}";
@@ -365,6 +365,8 @@ padding-right: 0px !important;
 	//alert(cityDTOs[1].ct_name ); 
 	//alert(cityDTOs[1].lat ); 
 	//alert(cityDTOs[1].lng ); 
+	
+	
 
 	function initMap() {
 		map = new google.maps.Map(document.getElementById('map'), {//지도에 띄우기
@@ -381,19 +383,19 @@ padding-right: 0px !important;
 		});//map 옵션 끝 ----------------------------
 
 		
-
+		var icon = './icon.png';
 		cityDTOs.forEach(function(cityDTO) {
 			/* xy=  {
 					lat : cityDTO.lat,
 					lng : cityDTO.lng
 				}; */
-
+			
 			var marker = new google.maps.Marker({
 				position : new google.maps.LatLng(cityDTO.lat,
 						cityDTO.lng), //이형식으로도 가능
 				//position : feature.position,// 위치 좌표
 				//position : xy, //이형식으로도 가능
-				//icon : icons[feature.type].icon, //아이콘 경로
+				icon : icon, //아이콘 경로
 				map : map, //어느 지도에 띄울지 지정
 				info : cityDTO.ct_name
 			});
@@ -416,20 +418,36 @@ padding-right: 0px !important;
 
 			// linePath.push(new google.maps.LatLng(cityDTO.lat,cityDTO.lng));
 		});// CITY들 마커 띄우기 끝
-
+		
+		//플래너 에 입력되어있는 도시경로 가져와서 지도에 띄우기
+		<c:forEach var="cp" items="${cplist }"> 
+		linePath.push(new google.maps.LatLng(${cp.city.lat}, ${cp.city.lng}));
+		addLine();
+		</c:forEach>
 	}//initMap 끝
+	
+	
 
 	function addLine() {
 		if (linePath.length>=2) {
 			removeLine();
-		}//if end	
+		}//if end
+		
+		var lineSymbol = {
+			path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+		};
+			
 		flightPath = new google.maps.Polyline({
 			path : linePath,
-			strokeColor : "#0000FF",
-			strokeOpacity : 0.8,
-			strokeWeight : 2,
-			fillColor : "#0000FF",
-			fillOpacity : 0.4
+			strokeColor : "red",//"#000000", 
+			strokeOpacity : 0.8,  // 선의 불투명도 
+			strokeWeight : 2, // 선의 두께 
+			//fillColor : "#0000FF",
+			//fillOpacity : 0.4,
+			icons: [{
+			    icon: lineSymbol,
+			    offset: '100%'
+			}]
 		});
 
 		flightPath.setMap(map);
@@ -437,16 +455,26 @@ padding-right: 0px !important;
 
 	function removeLine() {
 		flightPath.setMap(null);
-		flightPath = null;
+		//flightPath = null;
 	}//removeLine end
-	
-	
-	
-</script>
-<script>
-	
+/* 
+	// 경로 수정됬을떄 폴리라인 다시그리기-----------------
+	$("#cityli").mouseup(function(){
+		linePath = new Array();
+		
+		var lis =  $('#ul').children();		
+		lis.each(function(idx,li) {
+				//alert($(this).children().eq(7).text()+"****************"+$(this).children().eq(8).text());
+				//alert();
+				linePath.push(new google.maps.LatLng($(this).children().eq(7).text(), $(this).children().eq(8).text()));	
+		});	//lis.each end
+        addLine();
+		//alert("mouseup");
+    });// 경로 수정됬을떄 폴리라인 다시그리기--------------
+
+	 */
 	function addCity(idx, ct_code, ct_name, lat, lng) {//마커에서 추가버튼눌렀을떄 여행지 리스트에 추가
-		var $li = $('<li class="list-group-item" id="li">\n'+
+		var $li = $('<li class="list-group-item" id="cityli">\n'+
 			    '<h3 class="root-city" id="ct_name">'+ct_name+'</h3>\n'+
 			    '<span class="root-day">\n'+
 			    '<select id="day">\n'+
@@ -494,6 +522,18 @@ padding-right: 0px !important;
 	
 	function delCP(b) {// list에서 CP 하나 제거
 		b.parentElement.remove();
+		changeCP();
+	}//delCP() end
+	function changeCP() {// list 바뀌면 폴리라인 다시호출
+		linePath = new Array();
+		
+		var lis =  $('#ul').children();		
+		lis.each(function(idx,li) {
+				//alert($(this).children().eq(7).text()+"****************"+$(this).children().eq(8).text());
+				//alert();
+				linePath.push(new google.maps.LatLng($(this).children().eq(7).text(), $(this).children().eq(8).text()));	
+		});	//lis.each end
+        addLine();
 	}//delCP() end
 	
 	/* 저장버튼눌렀을떄 1단계 계획 저장 */
@@ -536,10 +576,6 @@ padding-right: 0px !important;
 			*/
 		});	//lis.each end
 		
-		
-		//$.post(요청명령어, 전달값, 콜백함수, 응답받는 형식)
-		//$.post("${pageContext.request.contextPath}/plan/creat.do", jsonData, checkResult, "json");//post() end
-		
 		$.ajax({
 	        url: "${pageContext.request.contextPath}/plan/create.do",
 	        type:'POST',
@@ -549,7 +585,7 @@ padding-right: 0px !important;
 	        	if (result==1) {
 		            alert("저장되었습니다.");	
 				}else{
-		            alert("저장에 실패 하였습니다.");						
+		            alert("저장에 실패 하였습니다.\n 최소한 하나는 도시를 추가해 주세요");						
 				}
 	        },
 	        error:function(jqXHR, textStatus, errorThrown){
@@ -581,7 +617,7 @@ $(function(){
 
 /* 화면 스크롤 제거 */
 $(function(){
-	$("body").css("overflow", 'hidden');
+	//$("body").css("overflow", 'hidden');
 });
 
 </script>
@@ -590,11 +626,13 @@ $(function(){
 <script src="./jquery-ui.min.js"></script>
 <script>
 $( function() {
-  $( "#ul" ).sortable(
-		  
-  );
+  $( "#ul" ).sortable({
+	  update: function(event, ui) {
+		  changeCP();
+      }
+  });
   $( "#ul" ).disableSelection();
-} );
+})
 
 </script>
 <!-- Cityplan Soctable end-------------------->
