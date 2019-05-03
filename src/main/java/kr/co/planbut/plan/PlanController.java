@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.planbut.common.CalendarDTO;
 import kr.co.planbut.common.CityDTO;
 import kr.co.planbut.common.CityplanDTO;
 import kr.co.planbut.common.PlannerDTO;
@@ -93,16 +94,16 @@ public class PlanController {
 	
 	// 계획짜기 > 일정 (캘린더)
 	@RequestMapping(value="/plan/calendar.do", method=RequestMethod.GET)
-	public ModelAndView calendar(PlannerDTO dto) {
+	public ModelAndView calendar(PlannerDTO dto, CalendarDTO cal) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/calendar");
 
-		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
 		mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
 		mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트 -> 수정 시
-		System.out.println(dao.cityplanList(dto).size());
-		mav.addObject("calendar", dao.calendar(dto));	// 캘린더(calendar) 리스트 -> 수정 시
-		mav.addObject("placelist", dao.placeList());	// 관광지(place) 리스트
+		
+		if(cal.getCal_code()!=null && cal.getCal_code()!="") {
+			
+			mav.addObject("calendar", dao.calendar(dto));	// 캘린더(calendar) 리스트 -> 수정 시
 
 		}else {
 			// parameter가 없을 때
@@ -111,6 +112,20 @@ public class PlanController {
 		
 		return mav;
 	}// calendar() end
+	
+
+	// 계획짜기 > 일정 (캘린더) - 일별 메모 조회 (ajax 로드)
+	@RequestMapping(value="/plan/calendar.do", method=RequestMethod.POST)
+	public ModelAndView calendarLoad(PlannerDTO dto) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/plan/calendar.do?plan_code="+dto.getPlan_code());
+
+		ArrayList<CalendarDTO> list=dao.calendar(dto);	// 캘린더(calendar) 리스트 -> 수정 시
+		
+		mav.addObject("calendar", list);
+		
+		return mav;
+	}// calendarLoad() end
 	
 
 	// 계획짜기 > 2단계 플래너 (경로계획)

@@ -73,8 +73,11 @@ html, body {
 			<!-- 플래너 정보 출력 -->
 			<ul class="plan-info list-group" style="margin-bottom: 0;">
 				<li class="list-group-item">
-					<h3>${article.subject }</h3> <span>여행 시작일: ${fn:substring(article.s_date, 0,10)}</span> <span>인원: ${article.people }</span> <span>아이디:
-						${article.m_id }</span> <span>플래너코드: ${article.plan_code }</span>
+					<h3>${article.subject }</h3> 
+					<span>여행 시작일: ${fn:substring(article.s_date, 0,10)}</span> 
+					<span>인원: ${article.people }</span> 
+					<span>아이디: ${article.m_id }</span> 
+					<span>플래너코드: ${article.plan_code }</span>
 				</li>
 			</ul>
 
@@ -108,15 +111,19 @@ html, body {
 			<div class="contents">
 
 				<!-- 플래너 정보 출력 -->
+				<!-- 
 				<ul class="list-group" style="margin-bottom: 0;">
 					<li class="list-group-item">
-						<h3>${article.subject }</h3> <span>여행 시작일: ${fn:substring(article.s_date, 0,10)}</span> <span>인원: ${article.people }</span> <span>아이디:
-							${article.m_id }</span> <span>플래너코드: ${article.plan_code }</span>
+						<h3>${article.subject }</h3> 
+						<span>여행 시작일: ${fn:substring(article.s_date, 0,10)}</span> 
+						<span>인원: ${article.people }</span> 
+						<span>아이디: ${article.m_id }</span> 
+						<span>플래너코드: ${article.plan_code }</span>
 					</li>
 				</ul>
-
+				 -->
 				<!-- 캘린더 -->
-				<div class=" calendar-wrap col-xs-12 col-md-6">
+				<div class=" calendar-wrap col-xs-12 col-md-7">
 
 					<!-- 캘린더 호출 -->
 					<div id="calendar-container">
@@ -127,7 +134,7 @@ html, body {
 
 
 				<!-- 메모 -->
-				<div class="note-wrap col-xs-12 col-md-6 scrollable-menu">
+				<div class="note-wrap col-xs-12 col-md-5 scrollable-menu">
 
 					<span>메모</span>
 
@@ -140,8 +147,11 @@ html, body {
 							<c:set var="day" value="${cal.cityplan.day }" />
 							<c:set var="date" value="${fn: substring(cal.date,0,10) }" />
 							<li class="">
-								<h3 class="root-city">${ct_name }</h3> <span class="root-date">${cal.memo }</span>
-								<h5 class="root-date">${date }</h5> <span class="root-day">도시순서: ${order_code }</span> <span class="root-day">숙박일: ${day }</span>
+								<h3 class="root-city">${ct_name }</h3> 
+								<span class="root-date">${cal.memo }</span>
+								<h5 class="root-date">${date }</h5> 
+								<span class="root-day">도시순서: ${order_code }</span> 
+								<span class="root-day">숙박일: ${day }</span>
 							</li>
 						</c:forEach>
 					</ul>
@@ -183,34 +193,105 @@ html, body {
 <!-- Script 스크립트 -->
 
 <script>
+////////////////////달력 Script ////////////////////
+
+
+// cityplan 테이블 - 도시별 일정 dataset
 
 var dataset = [
 	<c:forEach var="cp" items="${cplist}" varStatus="status">
-        <c:if test="${cp.s_date != ''}">
-            {"id": "<c:out value='${cp.cp_code}' />"
-            ,"title": "<c:out value='${cp.city.ct_name}' />"
-            ,"start": "<c:out value='${cp.s_date}' />"
-            <c:if test="${e_date != ''}">
-                ,"end": "<c:out value='${cp.s_date}' />"
-            </c:if>
-            } <c:if test="${!status.last}">,</c:if>
+	<c:set var="s_date" value="${fn:substring(cp.s_date, 0,10)}" property="time" />
+		<c:set var="day" value="${cp.day+1}" />
+    <c:if test="${s_date != ''}">
+        {"id": "<c:out value='${cp.cp_code}' />"
+        ,"title": "<c:out value='${cp.city.ct_name}' />"
+        ,"start": "<c:out value='${s_date}' />" 
+        <c:if test="${cp.day > 1}">
+        ,"end": moment("${s_date}").add("${day}","d").format("YYYY-MM-DD").toString() // e_date = s_date+day
         </c:if>
-    </c:forEach>
+        } <c:if test="${!status.last}">,</c:if>
+    </c:if>
+</c:forEach>
 ];
 
+
+	// 달력 로딩 / Calendar load
+	
 	document.addEventListener('DOMContentLoaded', function() {
 		var calendarEl = document.getElementById('calendar');
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
 			plugins : [ 'interaction', 'dayGrid' ],
-			defaultDate :  new Date(),	// 여행 시작일
-			editable : true,
+			header: {
+			      left: 'prev',
+			      center: 'title',
+			      right: 'today next'
+			    },
+			defaultDate :  "${fn:substring(article.s_date, 0,10)}",	// 여행 시작일
+			editable : false,	// 수정(드래그) 가능 여부
+			selectable: true,	// 선택 가능 여부
 			eventLimit : true, // allow "more" link when too many events
-			events : dataset	// 상단에  dto에서 입력받음
-		});
+			events : dataset,	// 상단에  dto에서 입력받음
+			dateClick: function(info){
+				alert('clicked ' + info.dateStr);
+				viewDate(info.dateStr);
+			}
+				
+				//viewDate(info)
+			/* 
+			, dayRender: function (date, cell) {
+				if (date.isSame('2019-05-05')) {
+					cell.css("background-color","red");
+				}
+		    }
+			 */
+		});	// calendar end
 
 		calendar.render();
-	});
+	});	// DOMContentLoaded Event func end
+	
+	
+	// 달력 일자 클릭 시 
+	function viewDate(date){
+/* 
+		var dataset = [
+			<c:forEach var="cal" items="${calendar}" varStatus="status">
+				<c:set var="ct_name" value="${cal.city.ct_name }" /> <!-- calendar테이블의 ct_code로 조회한 ct_name -->
+				<c:set var="order_code" value="${cal.cityplan.order_code }" />
+				<c:set var="day" value="${cal.cityplan.day }" />
+				<c:set var="date" value="${fn: substring(cal.date,0,10) }" />
+					
+				<c:if test="${cal.memo != ''}">
+					{"cal_code": "<c:out value='${cp.cp_code}' />"
+					,"title": "<c:out value='${ct_name}' />"
+					,"start": "<c:out value='${s_date}' />" 
+					<c:if test="${cp.day > 1}">
+					,"end": moment("${s_date}").add("${day}","d").format("YYYY-MM-DD").toString() // e_date = s_date+day
+					</c:if>
+					} <c:if test="${!status.last}">,</c:if>
+				</c:if>
+			</c:forEach>
+		];
+ */
+
+		$.ajax({
+			type: "post",
+			url: "calendar.do?plan_code=${article.plan_code}",
+			/* data: dataset, */
+			dataType: "text",
+			success: function (response) {
+				alert("Success");
+			},
+			error: function (xhr, status, error) {
+				alert("Error! " + error);
+			}
+		});
+		
+		
+	} // viewDate() end
+	
+	
+	
 </script>
 
 
