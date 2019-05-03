@@ -190,6 +190,8 @@
 			plan_code, 
 			CP.ct_code, 
 			ct_name, 
+			lat, 
+			lng, 
 			order_code, 
 			day, 
 			trans, 

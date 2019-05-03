@@ -50,7 +50,7 @@ public class PlanController {
 
 		mav.setViewName("plan/plan");
 		
-		ArrayList<CityDTO> CityDTOs = dao.getCitys(); //좌표찍을 도시들 정보
+		ArrayList<CityDTO> CityDTOs = dao.getCitys(); //좌표찍을 전체 도시들 정보
 		mav.addObject("CityDTOs", CityDTOs);// 좌표찍을 도시들 mav에 담기
 
 		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
