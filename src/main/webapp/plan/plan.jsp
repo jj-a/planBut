@@ -383,7 +383,7 @@ padding-right: 0px !important;
 		});//map 옵션 끝 ----------------------------
 
 		
-		var icon = './Untitled.jpg';
+		var icon = './icon.png';
 		cityDTOs.forEach(function(cityDTO) {
 			/* xy=  {
 					lat : cityDTO.lat,
