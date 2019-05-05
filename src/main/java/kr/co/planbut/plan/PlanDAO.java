@@ -77,7 +77,7 @@ public class PlanDAO {
 
 	
 	// 일정(캘린더) 조회 (리스트)
-	public ArrayList<CalendarDTO> calendar(PlannerDTO dto) {
+	public ArrayList<CalendarDTO> calendar(CalendarDTO dto) {
 		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
 		ArrayList<CalendarDTO> list=mapper.calendar(dto);
 		return list;		

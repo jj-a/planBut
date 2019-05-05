@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.planbut.common.CalendarDTO;
@@ -94,16 +95,14 @@ public class PlanController {
 	
 	// 계획짜기 > 일정 (캘린더)
 	@RequestMapping(value="/plan/calendar.do", method=RequestMethod.GET)
-	public ModelAndView calendar(PlannerDTO dto, CalendarDTO cal) {
+	public ModelAndView calendar(PlannerDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/calendar");
 
-		mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
-		mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트 -> 수정 시
-		
-		if(cal.getCal_code()!=null && cal.getCal_code()!="") {
-			
-			mav.addObject("calendar", dao.calendar(dto));	// 캘린더(calendar) 리스트 -> 수정 시
+		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
+			mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
+			mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트 -> 수정 시
+			//mav.addObject("calendar", dao.calendar(dto));	// 캘린더(calendar) 리스트 -> 수정 시
 
 		}else {
 			// parameter가 없을 때
@@ -115,16 +114,22 @@ public class PlanController {
 	
 
 	// 계획짜기 > 일정 (캘린더) - 일별 메모 조회 (ajax 로드)
-	@RequestMapping(value="/plan/calendar.do", method=RequestMethod.POST)
-	public ModelAndView calendarLoad(PlannerDTO dto) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/plan/calendar.do?plan_code="+dto.getPlan_code());
+	@ResponseBody
+	@RequestMapping(value="/plan/calendar", produces = "application/json", method=RequestMethod.GET)
+	public ArrayList<CalendarDTO> calendarLoad(CalendarDTO dto) {
+//		ModelAndView mav = new ModelAndView();
+//		mav.setViewName("redirect:/plan/calendar.do?plan_code="+dto.getPlan_code());
 
+		System.out.println("plancode:"+dto.getPlan_code());
+		System.out.println("date:"+dto.getDate());
 		ArrayList<CalendarDTO> list=dao.calendar(dto);	// 캘린더(calendar) 리스트 -> 수정 시
 		
-		mav.addObject("calendar", list);
+		System.out.println("캘린더 리스트: "+list.size());
 		
-		return mav;
+//		mav.addObject("calendar", list);
+		
+//		return mav;
+		return list;
 	}// calendarLoad() end
 	
 

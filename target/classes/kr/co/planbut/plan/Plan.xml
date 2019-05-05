@@ -222,7 +222,7 @@
 		on CAL.cp_code = CP.cp_code
 		join city CITY
 		on CAL.ct_code = CITY.ct_code
-		where plan_code= #{plan_code}
+		where plan_code= #{plan_code} and date= #{date}
 		order by order_code asc, date asc, cal_code asc
 		]]>
 	</select>

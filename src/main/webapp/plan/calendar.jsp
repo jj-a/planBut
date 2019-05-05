@@ -136,25 +136,11 @@ html, body {
 				<!-- 메모 -->
 				<div class="note-wrap col-xs-12 col-md-5 scrollable-menu">
 
-					<span>메모</span>
-
-					<!-- 저장된 캘린더 메모 리스트 -->
-					<ul style="height: 62vh">
-						<c:forEach var="cal" items="${calendar }">
-							<c:set var="ct_name" value="${cal.city.ct_name }" />
-							<!-- calendar테이블의 ct_code로 조회한 ct_name -->
-							<c:set var="order_code" value="${cal.cityplan.order_code }" />
-							<c:set var="day" value="${cal.cityplan.day }" />
-							<c:set var="date" value="${fn: substring(cal.date,0,10) }" />
-							<li class="">
-								<h3 class="root-city">${ct_name }</h3> 
-								<span class="root-date">${cal.memo }</span>
-								<h5 class="root-date">${date }</h5> 
-								<span class="root-day">도시순서: ${order_code }</span> 
-								<span class="root-day">숙박일: ${day }</span>
-							</li>
-						</c:forEach>
-					</ul>
+					<div id="notes">
+						<!-- 저장된 캘린더 메모 리스트 -->
+						<ul style="height: 62vh">
+						</ul>
+					</div>
 
 				</div>
 
@@ -233,7 +219,7 @@ var dataset = [
 			eventLimit : true, // allow "more" link when too many events
 			events : dataset,	// 상단에  dto에서 입력받음
 			dateClick: function(info){
-				alert('clicked ' + info.dateStr);
+				//alert('clicked ' + info.dateStr);
 				viewDate(info.dateStr);
 			}
 				
@@ -275,12 +261,17 @@ var dataset = [
  */
 
 		$.ajax({
-			type: "post",
-			url: "calendar.do?plan_code=${article.plan_code}",
-			/* data: dataset, */
-			dataType: "text",
-			success: function (response) {
-				alert("Success");
+			type: "get",
+			contentType: "application/json; charset=UTF-8", 
+			url: "${pageContext.request.contextPath}/plan/calendar",
+			data: {
+				plan_code: "${article.plan_code}", 
+				date: date
+			},
+			dataType: "json",
+			success: function (data) {
+				console.log(data);	// chrome console에 출력
+				memoList(data);	// 일별 메모
 			},
 			error: function (xhr, status, error) {
 				alert("Error! " + error);
@@ -289,6 +280,34 @@ var dataset = [
 		
 		
 	} // viewDate() end
+	
+
+	// 일별 메모 출력
+	function memoList(data){
+		
+		for ( var cal in data) {
+	
+			//alert(data[cal].ct_code);
+
+			var ct_name=data[cal].city.ct_name;	// calendar테이블의 ct_code로 조회한 ct_name
+			var order_code=data[cal].cityplan.order_code;
+			var day=data[cal].cityplan.day;
+			var date=data[cal].date.substring(0,10);
+
+			var liststr="";
+			liststr+="<li class='memo'>";
+			liststr+="<h3 class='root-city'>"+ct_name+"</h3>";
+			liststr+="<span class='root-date'>"+data[cal].memo+"</span>";
+			liststr+="<h5 class='root-date'>"+date+"</h5>";
+			liststr+="<span class='root-day'>도시순서: "+order_code+"</span>";
+			liststr+="<span class='root-day'>숙박일: "+day+"</span>";
+			liststr+="</li>";
+			
+			$("#notes ul").append(liststr);
+			
+		} // for calendar end
+		
+	}	// memoList() end
 	
 	
 	

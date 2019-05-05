@@ -161,10 +161,10 @@ join cityplan CP
 on CAL.cp_code = CP.cp_code
 join city CITY
 on CAL.ct_code = CITY.ct_code
-where plan_code= #{plan_code}
+where plan_code= #{cityplan.plan_code} and date= #{date}
 order by order_code asc, date asc, cal_code asc
 ;
--- (ex)
+-- (ex) 전체
 select cal_code, CAL.cp_code, CP.order_code, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
 from calendar as CAL 
 join cityplan CP 
@@ -172,6 +172,16 @@ on CAL.cp_code = CP.cp_code
 join city CITY
 on CAL.ct_code = CITY.ct_code
 where plan_code='P001'
+order by order_code asc, date asc
+;
+-- (ex) 일별
+select cal_code, CAL.cp_code, CP.order_code, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
+from calendar as CAL 
+join cityplan CP 
+on CAL.cp_code = CP.cp_code
+join city CITY
+on CAL.ct_code = CITY.ct_code
+where plan_code='P001' and date='2019-04-22'
 order by order_code asc, date asc
 ;
 
