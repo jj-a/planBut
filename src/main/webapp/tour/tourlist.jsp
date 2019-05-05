@@ -100,7 +100,7 @@
 	<div>
 		<div>
 			<div>
-				<p>상품 ${total }</p>
+				<p>상품 ${tourtotal }</p>
 			</div>
 		</div>
 		<div>

@@ -134,7 +134,7 @@
 					<div class="img cart4">이미지</div>
 					<div class="subject cart5">${dto.tour_name }</div>
 					<div class="people cart6">인원 : ${dto.cartDTO.people }</div>
-					<div class="pay cart7">결제금액&nbsp;<span>${dto.sum }</span></div>
+					<div class="pay cart7">결제금액&nbsp;<span>${dto.pay }</span></div>
 				</div>
 				</c:forEach>
 				<!-- 반복 끝 -->

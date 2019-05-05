@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.planbut.common.*;
 import kr.co.planbut.member.MemberDAO;
+import kr.co.planbut.tour.TreserveDTO;
 
 @Controller
 public class PlannerController {
@@ -153,6 +154,6 @@ public class PlannerController {
 		mav.addObject("placelist", dao.placeList());	// 관광지(place) 리스트
 		
 		return mav;
+		
 	} // course() end
-	
 }

@@ -24,15 +24,14 @@
 		<result property="minimum" column="minimum" />
 		<result property="day" column="day" />
 		<result property="cnt" column="cnt" />
+		<result property="pay" column="pay" />
+		
+		<!--
+		<collection property="treserveDTO" javaType="kr.co.planbut.tour.TreserveDTO" resultMap="treserveDTO"/>
+		<collection property="trevieweDTO" javaType="kr.co.planbut.tour.TreviewDTO" resultMap="treviewDTO"/>
+		 -->
 		
 		<!-- 도시 -->
-		<!--
-		<association property="cityDTO" column="ct_code" javaType="kr.co.planbut.common.CityDTO">
-			<id property="ct_code" column="ct_code" />
-			<result property="ct_name" column="ct_name" />
-			<result property="c_code" column="c_code" />
-		</association>
-		 -->
 		<collection property="cityDTO" column="ct_code" javaType="kr.co.planbut.common.CityDTO">
 			<id property="ct_code" column="ct_code" />
 			<result property="ct_name" column="ct_name" />
@@ -64,8 +63,17 @@
 			<result property="subject" column="subject" />
 			<result property="people" column="people" />
 		</collection>
+
+		<!-- 장바구니 -->
+		<collection property="cartDTO" column="cart_code" javaType="kr.co.planbut.tour.CartDTO">
+			<id property="cart_code" column="cart_code" />
+			<result property="tour_code" column="tour_code" />
+			<result property="m_id" column="m_id" />
+			<result property="tourday" column="tourday" />
+			<result property="people" column="people" />
+		</collection>
 		
-		<!-- 투어예약 -->
+		<!-- 투어 예약 -->
 		<collection property="treserveDTO" column="re_code" javaType="kr.co.planbut.tour.TreserveDTO">
 			<id property="re_code" column="re_code" />
 			<result property="tour_code" column="tour_code" />
@@ -76,25 +84,16 @@
 			<result property="people" column="people" />
 		</collection>
 		
-		<!-- 투어리뷰 -->
+		<!-- 투어 리뷰 -->
 		<collection property="treviewDTO" column="rv_code" javaType="kr.co.planbut.tour.TreviewDTO">
 			<id property="rv_code" column="rv_code" />
 			<result property="re_code" column="re_code" />
 			<result property="m_id" column="m_id" />
 			<result property="content" column="content" />
 			<result property="star" column="star" />
-		</collection>
-
-		<!-- 장바구니 -->
-		<collection property="cartDTO" column="cart_code" javaType="kr.co.planbut.tour.CartDTO">
-			<id property="cart_code" column="cart_code" />
-			<result property="tour_code" column="tour_code" />
-			<result property="m_id" column="m_id" />
-			<result property="tourday" column="tourday" />
-			<result property="people" column="people" />
-		</collection>
- 		</resultMap>
- 		
+ 		</collection>
+		</resultMap>
+		
 		<!-- 
 		투어문의
 		<collection property="tqnaDTO" column="tq_code" javaType="kr.co.planbut.tour.TqnaDTO">
@@ -112,6 +111,30 @@
 			<result property="content" column="content" />
 			<result property="regdt" column="regdt" />
 		</collection>
+		 -->
+		
+		<!-- 
+		투어예약
+		<resultMap id="treserveDTO" type="kr.co.planbut.tour.TreserveDTO">
+			<id property="re_code" column="re_code" />
+			<result property="tour_code" column="tour_code" />
+			<result property="m_id" column="m_id" />
+			<result property="pay_type" column="pay_type" />
+			<result property="date" column="date" />
+			<result property="payed" column="payed" />
+			<result property="people" column="people" />
+		</resultMap>
+		
+		투어리뷰
+		<resultMap id="treviewDTO" type="kr.co.planbut.tour.TreviewDTO">
+			<id property="rv_code" column="rv_code" />
+			<result property="re_code" column="re_code" />
+			<result property="m_id" column="m_id" />
+			<result property="content" column="content" />
+			<result property="star" column="star" />
+			
+			<association property="treviewDTO" javaType="ko.co.planbut.tour.TreserveDTO" resultMap="trseserveDTO"></association>
+		</resultMap>
 		 -->
     	
     	<!-- tour/index.jsp 국가 리스트 -->
@@ -182,49 +205,113 @@
             WHERE tour_code = #{tour_code}
         ]]>
      </select>
-    
-    <!-- tour/tourinfo.jsp(장바구니 insert) -->
-    <sql id="today">
-	replace(left(now(),10),'-','')
-	</sql>
-	<!-- include: <include refid="today" /> -->
 
-	<insert id="cart" parameterType="CartDTO">
-		<selectKey keyProperty="cart_code" resultType="int" order="BEFORE">
+     <!-- tour/tourinfo.jsp(장바구니 insert) -->
+	<insert id="addcart" parameterType="CartDTO">
+		<selectKey keyProperty="cart_code" resultType="String" order="BEFORE">
 		 <![CDATA[
-			select concat(
-			replace(left(now(),10),'-','')
-			,
-			'-',
+		select concat(
+			replace(left(now(),10),'-',''),
+			'-', 
 			(
-			select ifnull(lpad(max(right(cart_code,2)) +1,2,0),'01')
-			from
-			cart
-			where left(cart_code,8)=
-			replace(left(now(),10),'-','')
+			select ifnull(lpad(max(right(cart_code,2))+1, 2, 0), '01')
+			from cart 
+			where left(cart_code,8) = date_format(now(),'%Y%m%d')
 			)
-			) as code
-			from cart
-			group by code
+		) as code
+		from cart as C
+		group by code
+		;
 		]]>
 		</selectKey>
+		
 		<![CDATA[
 			insert into cart(cart_code, tour_code, m_id, tourday, people)
 			values(#{cart_code}, #{tour_code}, #{m_id}, #{tourday}, #{people})
 		]]>
 	</insert>
-    
+
     <!-- tour/cart.jsp(장바구니 리스트)  -->
     <select id="cartlist" resultMap="tourDTO" parameterType="String">
 	    	<![CDATA[
-				select cart_code, photo, tour_name, people, sum(price*people) as sum, tourday, m_id
+				select cart_code, photo, tour_name, people, price*people as pay, tourday, m_id
 				from tour T
 				join cart C on T.tour_code = C.tour_code
 				where m_id = #{m_id} 
 	    	]]>
 		</select>
+		
+    <!-- mypage/reservation.jsp(예약 목록) -->
+    <select id="reservelist" resultMap="tourDTO">
+	    	<![CDATA[
+	    		select tour_name, re_code, pay_type, date, payed, people, RE.m_id
+				from tour T
+				join treserve RE on T.tour_code = RE.tour_code
+	    	]]>
+		</select>
     
-    <!-- tour/tourinfo.jsp 문의 -->
+    <!-- 지난 예약(투어날짜 <= now()인 목록 -->
+    <select id="c_reservelist" resultMap="tourDTO">
+	    	<![CDATA[
+	    		select tour_name, pay_type, re_code, date, payed, people, RE.m_id
+				from tour T
+				join treserve RE on T.tour_code = RE.tour_code
+				where date <= date(now())
+	    	]]>
+		</select>
+		
+    <!-- tour/reservation.jsp(리뷰 작성) -->
+    <insert id="addreview" parameterType="TreviewDTO">
+		<selectKey keyProperty="rv_code" resultType="String" order="BEFORE">
+		 <![CDATA[
+		select 
+		if( 
+		   isnull(rv_code), 
+		   'RV001', 
+		   concat('RV', lpad(substring(max(rv_code),3)+1,3,0))
+		) as rv_code 
+		from treview as rv
+		]]>
+		</selectKey>
+		
+		<![CDATA[
+			insert into treview(rv_code, re_code, m_id, content, star)
+			values(#{rv_code}, #{re_code}, #{m_id}, #{content}, #{star})
+		]]>
+	</insert>
+	
+    <!-- tour/tourinfo.jsp(리뷰 목록) -->
+    <select id="reviewlist" resultMap="tourDTO" parameterType="String">
+	    	<![CDATA[
+	    		select rv_code, RV.re_code, RV.m_id, RV.content, star, regdt, RE.people, date, tour_name, T.tour_code
+				from tour T
+				join treserve RE on T.tour_code = RE.tour_code
+				join treview RV on RE.re_code = RV.re_code
+				where T.tour_code = #{tour_code}
+	    	]]>
+		</select>
+		
+	<!-- 리뷰 총 갯수 -->
+	<select id="reviewtotal" resultType="int" parameterType="String">
+			<![CDATA[
+				select count(rv_code) as count
+				from treview RV
+				join treserve RE on RV.re_code = RE.re_code
+				where tour_code = #{tour_code}
+			]]>
+		</select>
+		
+	<!-- 별점 평균 -->	
+	<select id="reviewavg" resultType="int" parameterType="String">
+			<![CDATA[
+				select round(avg(star))
+				from treview RV
+				join treserve RE on Rv.re_code = RE.re_code
+				where tour_code = #{tour_code}
+			]]>
+		</select>	
+	
+    <!-- tour/tourinfo.jsp(문의) -->
     
     <!-- 관리자 페이지 투어 입력 -->
     <insert id="create" parameterType="TourDTO">
