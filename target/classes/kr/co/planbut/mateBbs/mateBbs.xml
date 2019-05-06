@@ -12,7 +12,32 @@
 	■ ResultSet 에서 가져와서 DTO에 담는것과 비슷하다
 	■ 기본키(PK)는 <id>에 지정
 	-->
-
+	
+	<!-- 추천아이디에 동행신청 -->
+	<insert id="applyRecm" parameterType="ApplyRecmDTO">
+		<selectKey keyProperty="ma_code" resultType="String" order="BEFORE"> 
+		<![CDATA[
+			select concat(
+				'A', 
+				replace(left(now(),10),'-',''), '-',
+					(
+					select ifnull(lpad(max(right(ma_code,1)) +1,1,0),'1')
+					from mateapply_r
+					where substring(ma_code, 2, 8)=DATE_FORMAT(NOW(),'%Y%m%d')
+					)
+				) as code
+			from mateapply_r
+			group by code
+		]]>
+		</selectKey>
+		
+		<![CDATA[
+			INSERT INTO mateapply_r(ma_code, cp_code, mp_id, sp_id, m_date)
+			values(#{ma_code}, #{cp_code}, #{mp_id}, #{sp_id}, #{m_date})
+		]]>
+	</insert>
+	
+	<!-- 동행게시판 글쓰기 -->
 	<insert id="create" parameterType="MateBbsDTO"> <!-- setter 함수가 있기에 parameterType사용 가능 -->
 		<selectKey keyProperty="b_no" resultType="int" order="BEFORE"> 
 		<!-- keyProperty = "변수명", 변수가 a 라면 밑에 b_no도 a 로 바꿔줘야한다 -->
@@ -69,7 +94,7 @@
     
     <select id="recmList" resultType="RecmDTO">
         <![CDATA[
-            select aa.ct_code as ct_code, aa.s_date as s_date, bb.m_id as m_id, `day` as hey
+            select aa.ct_code as ct_code, aa.s_date as s_date, bb.m_id as m_id, date_add(aa.s_date, interval `day`-1 day) as hey
 			from(
 		    select plan_code, ct_code, s_date, `day`
 		    from cityplan
@@ -102,14 +127,17 @@
     
     <select id="recmPeople" parameterType="RecmDTO" resultType="RecmPeopleDTO">
         <![CDATA[
-            select `day` as hey, aa.s_date as s_date, m_id, ct_code
-			from(
-			select *, date_add(s_date, interval `day`-1 day)
-			from cityplan
-			where s_date between s_date and date_add(s_date, interval `day`-1 day)
-			) AA join planner as BB
-			on AA.plan_code = BB.plan_code
-			where AA.rm_ok = 'Y' and ct_code = #{ct_code} and m_id <> #{m_id} and date_add(aa.s_date, interval `day`-1 day) >= now()    
+			select cc.*, dd.photo
+			from(select aa.cp_code, aa.hey, aa.s_date, m_id, ct_code
+				from(
+					select *, date_add(s_date, interval `day`-1 day) as hey
+					from cityplan
+					where s_date between s_date and date_add(s_date, interval `day`-1 day)
+					) AA join planner as BB
+					on AA.plan_code = BB.plan_code
+				where AA.rm_ok = 'Y' and ct_code = #{ct_code} and m_id <> #{m_id} and date_add(aa.s_date, interval `day`-1 day) >= now() ) cc
+				join member dd
+				on cc.m_id=dd.m_id
         ]]>
     </select>
     

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.mysql.cj.api.Session;
 
 import kr.co.planbut.applyBbs.ApplyBbsDTO;
+import kr.co.planbut.applyRecm.ApplyRecmDTO;
 import kr.co.planbut.common.CityplanDTO;
 import kr.co.planbut.common.PlannerDTO;
 
@@ -33,12 +34,17 @@ public class MateBbsDAO {
 		System.out.println("●●●●● MateBbsDAO() 객체 생성 ●●●●●");
 	}
 	
+	public int applyRecm(ApplyRecmDTO dto) {
+		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
+		int count = mapper.applyRecm(dto);
+		return count;
+	} // applyRecm() end
+	
 	public int create(MateBbsDTO dto) {
 		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
 		int count = mapper.create(dto);
 		return count;
 	} // create() end
-	
 	
 	public ArrayList<MateBbsDTO> list() {
 		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);

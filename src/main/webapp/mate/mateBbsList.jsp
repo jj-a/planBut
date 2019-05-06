@@ -39,17 +39,26 @@ width: 800px;
         <c:when test="${session_m_id != null }">
         <input type="hidden" value="${session_m_id }">
             <c:forEach var="dto1" items="${recmList }" varStatus="status1">
-            <form id="recity">
-            <input type="hidden" value="${session_m_id }">
+            <form id="recity" action="">
+            	<input type="hidden" name="mp_id" value="">
+            	<input type="hidden" name="cp_code" value="">
+            	<input type="hidden" value="${session_m_id }">
                 <input type="button" id="${status1.index}" name="ct_code" value="${dto1.ct_code }" onclick="recm(this.form, this)">
-                <input type="text" value="${dto1.s_date.substring(0,10) }" size="10" readonly>
-                <input type="text" value="${dto1.hey }" size="2" readonly>
+                <input type="text" value="${dto1.s_date.substring(0,10) } ~ ${dto1.hey.substring(0,10) }" size="21" readonly>
+                <br>
                 <c:forEach var="dto2" items="${recmPeople }" varStatus="status2">
                     <div id="${status2.index}rp " style="display: none;" class="${dto2.ct_code }">
-                        <input type="text" name="m_id" id="m_id" value="${dto2.m_id }" readonly>
-                        <input type="text" name="s_date" id="s_date" value="${dto2.s_date.substring(0,10) }" size="10" readonly>
-                        <input type="text" name="day" id="day" value="${dto2.hey }" size="2" readonly>
-                        <input type="button" name="chat" value="채팅">
+	                    <img class="img-circle" src="${pageContext.request.contextPath}/member/photo/${dto2.photo }" width="100"
+							data-toggle="tooltip" data-placement="top" title="${dto2.s_date.substring(0,10) }~${dto2.hey.substring(0,10) }">
+						<input type="button" name="mpid" value="${dto2.m_id }">
+						<input type="hidden" name="code" value="${dto2.cp_code}">
+						<input type="button" value="동행신청" onclick="applyR(this.form, this)">
+						<input type="button" value="채팅" readonly>
+                    	<span class="more" style="display: none;">
+							<strong><input type="text" name="s_date" id="s_date" value="${dto2.s_date.substring(0,10) }" size="10" readonly>
+                        	<input type="text" name="day" id="day" value="${dto2.hey.substring(0,10) }" size="10" readonly></strong><br/> 
+						</span>
+                        <%-- <input type="button" name="chat" value="채팅"> --%>
                     </div>
                 </c:forEach>
             </form>
@@ -59,12 +68,10 @@ width: 800px;
             <h3> 로그인 후 이용가능 </h3>
         </c:otherwise> 
         </c:choose>
-        
     </div>
     
     <div class="dgg">
 	<h3>동행 구하기 게시판</h3>
-	
 	<form action=""> 
 	<input type="hidden" name="b_no" value="">
 	<table border="1" style="margin: auto;" class="tb">
@@ -108,10 +115,7 @@ width: 800px;
         </c:forEach>
          </table>
         </form>
-        
 	   <br>
-	
-	
 	</div>
 	<%-- <c:if test="${!(empty requestScope.list)}">
 	<!-- 검색시작 -->
@@ -138,11 +142,24 @@ width: 800px;
 	</div>
 	
     <script>
+    function applyR(f, i) {
+    	var mpid=$(i).parent().children().eq(1).attr("value");
+    	var code=$(i).parent().children().eq(2).attr("value");
+    	//alert(mpid);
+    	alert(code);
+        f.mp_id.value = mpid;
+        f.cp_code.value = code;
+		f.action="./applyRecm.do";
+		
+		var message=mpid+" 에게 동행신청을 하시겠습니까?";
+        
+        if(confirm(message)) f.submit();
+    } // mateCheck() end
     
     function mateCheck(f, row, i) {
     	var no = document.getElementsByTagName('tr')[row].children[1].childNodes[0].nodeValue;
         f.b_no.value = no;
-        
+
         if(i==1){
 	        f.action="./delete.do?b_no="+no;
 	    	var message="게시물을 삭제하시겠습니까?";
@@ -171,12 +188,16 @@ width: 800px;
     	var find = "." + ct_code;
     	var ele = document.getElementById("recity");
     	var number = ele.childElementCount;
-    	// alert(number);
     	for(t=1; t<number; t++) {
     		var classval = $(i).parent().children().eq(t).attr("class");
     		// alert(classval);
     		if(classval==ct_code) {
-    			$(i).parent().children().eq(t).css("display","block");
+    			$(i).parent().children().eq(t).css("display","inline");
+    			$(i).parent().children().eq(t).css("vertical-align", "middle");
+    			$(i).parent().children().eq(t).css(" float", "left");
+    			$(i).parent().children().eq(t).css("width", "100");
+    			$(i).parent().children().eq(t).css("height", "120");
+    			$(i).parent().children().eq(t).css("overflow", "hidden");
     		}
     	}
     	//$(i).parent().children().eq(t).css("display","block")
@@ -198,7 +219,10 @@ width: 800px;
         //var message = ct + "의 동행을 찾으시겠습니까?";
         //if(confirm(message)) f.submit();
      } // recm() end
-    
+     
+     $(function () {
+    		$('[data-toggle="tooltip"]').tooltip()
+    	})
     </script>
    
 <!-- 본문 끝 -->

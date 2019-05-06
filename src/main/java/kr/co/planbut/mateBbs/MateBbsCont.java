@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.planbut.applyBbs.ApplyBbsDTO;
+import kr.co.planbut.applyRecm.ApplyRecmDTO;
 
 @Controller
 public class MateBbsCont {
@@ -22,7 +23,30 @@ public class MateBbsCont {
 	public MateBbsCont() {
 		System.out.println("●●●●● MateBbsCont() 객체 생성 ●●●●●");
 	}
-
+	
+	//동행추천 아이디에 동행신청하기
+	@RequestMapping( value = "/mate/applyRecm.do", 
+	          method = RequestMethod.GET )
+	    public ModelAndView applyRecmForm(ApplyRecmDTO dto) {
+	      ModelAndView mav = new ModelAndView();
+	      mav.setViewName("mate/applyRecmForm");
+	      mav.addObject("dto", dto);
+	      return mav;
+	    } // applyBbsForm() end
+	   
+	    @RequestMapping( value = "/mate/applyRecm.do", 
+	             method = RequestMethod.POST )
+	    public ModelAndView applyRecmProc(ApplyRecmDTO dto) {
+	      ModelAndView mav = new ModelAndView();
+	      mav.setViewName("redirect:/mate/list.do");
+	      int count = dao.applyRecm(dto);
+	      mav.addObject("count", count);
+	      return mav;
+	    } // applyBbsProc() end
+	
+	
+	
+	
 	// 결과확인
 	// -> http://localhost:9090/planbut/mate/create.do
 
@@ -122,7 +146,7 @@ public class MateBbsCont {
       mav.setViewName("mate/applyBbsForm");
       mav.addObject("b_no", dto.getB_no());
       return mav;
-    } // createForm() end
+    } // applyBbsForm() end
    
     @RequestMapping( value = "/mate/applyBbs.do", 
              method = RequestMethod.POST )
@@ -132,7 +156,7 @@ public class MateBbsCont {
       int count = dao.applyBbs(dto);
       mav.addObject("count", count);
       return mav;
-    } // createProc() end
+    } // applyBbsProc() end
     
     
     //내 동행 mypage>mate.do
