@@ -161,11 +161,11 @@ join cityplan CP
 on CAL.cp_code = CP.cp_code
 join city CITY
 on CAL.ct_code = CITY.ct_code
-where plan_code= #{cityplan.plan_code} and date= #{date}
+where plan_code= #{cityplan.plan_code} and date like #{date} || '%' and CAL.cp_code= #{cp_code}
 order by order_code asc, date asc, cal_code asc
 ;
 -- (ex) 전체
-select cal_code, CAL.cp_code, CP.order_code, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
+select cal_code, CAL.cp_code, CP.order_code, CP.s_date, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
 from calendar as CAL 
 join cityplan CP 
 on CAL.cp_code = CP.cp_code
@@ -175,8 +175,40 @@ where plan_code='P001'
 order by order_code asc, date asc
 ;
 -- (ex) 일별
+select cal_code, CAL.cp_code, CP.order_code, CP.s_date, CP.day, CAL.ct_code, CITY.ct_code, CITY.ct_name, memo, date 
+from calendar as CAL 
+join cityplan CP 
+on CAL.cp_code = CP.cp_code
+join city CITY
+on CAL.ct_code = CITY.ct_code
+where plan_code='P001' and date like '2019-04-22%' and CAL.cp_code='CP003'
+order by order_code asc, date asc
+;
+
+-- calender.cp_code의 s_date
+select CP2.s_date, CP2.cp_code, SUB.* 
+from(
 select cal_code, CAL.cp_code, CP.order_code, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
 from calendar as CAL 
+join cityplan CP 
+on CAL.cp_code = CP.cp_code
+join city CITY
+on CAL.ct_code = CITY.ct_code
+) as SUB 
+join cityplan as CP2
+on SUB.ct_code=CP2.ct_code
+where plan_code='P001' and date='2019-04-22'
+order by order_code asc, date asc
+;
+
+select cal_code, CAL.cp_code, CP.order_code, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
+from(
+	-- calender.cp_code의 s_date
+	select CP.s_date, CP.cp_code, CAL.* 
+	from calendar as CAL
+	join cityplan as CP
+	on CAL.cp_code=CP.cp_code
+) as SUB 
 join cityplan CP 
 on CAL.cp_code = CP.cp_code
 join city CITY
@@ -186,6 +218,25 @@ order by order_code asc, date asc
 ;
 
 
+	select cal_code, CAL.cp_code, CP.order_code, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
+	from calendar as CAL 
+	join cityplan CP 
+	on CAL.cp_code = CP.cp_code
+	join city CITY
+	on CAL.ct_code = CITY.ct_code
+	;
+
+select date_add(s_date,INTERVAL cp.day DAY), CP.s_date, CP.cp_code, CAL.ct_code, memo, date 
+from calendar as CAL 
+join cityplan CP 
+on CAL.cp_code = CP.cp_code
+where s_date in(select * from )
+;
+
+select cal_code, s_date, C.cp_code, CP.cp_code, C.ct_code, CP.ct_code, memo, date
+from calendar C
+join cityplan CP on C.cp_code = CP.cp_code
+;
 
 -- courseplan (경로계획)
 

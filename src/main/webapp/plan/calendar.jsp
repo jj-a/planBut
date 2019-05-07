@@ -6,13 +6,15 @@
 <link href="${pageContext.request.contextPath}/css/fullcalendar/daygrid/main.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/css/fullcalendar/timegrid/main.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/css/fullcalendar/list/main.css" rel="stylesheet" />
+
+<script src="./jquery-ui.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/moment.js"></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/core/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/interaction/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/daygrid/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/timegrid/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/list/main.js"></script>
 
-<script src="${pageContext.request.contextPath}/js/moment.js"></script>
 
 <style>
 div.row div {
@@ -136,10 +138,10 @@ html, body {
 				<!-- 메모 -->
 				<div class="note-wrap col-xs-12 col-md-5 scrollable-menu">
 
-					<div id="notes">
+					<div id="notes" style="height: 62vh">
+						<h3 class="note-date text-center"></h3>
 						<!-- 저장된 캘린더 메모 리스트 -->
-						<ul style="height: 62vh">
-						</ul>
+						<!-- <ul class="list"></ul> -->
 					</div>
 
 				</div>
@@ -213,17 +215,67 @@ var dataset = [
 			      center: 'title',
 			      right: 'today next'
 			    },
-			defaultDate :  "${fn:substring(article.s_date, 0,10)}",	// 여행 시작일
+			defaultDate :  "${fn:substring(article.s_date, 0,10)}",	// 기본으로 보여질 일자 = 여행 시작일
 			editable : false,	// 수정(드래그) 가능 여부
 			selectable: true,	// 선택 가능 여부
-			eventLimit : true, // allow "more" link when too many events
-			events : dataset,	// 상단에  dto에서 입력받음
-			dateClick: function(info){
-				//alert('clicked ' + info.dateStr);
-				viewDate(info.dateStr);
-			}
+			
+			// TODO: 이벤트(도시계획)가 있는 날짜만 선택되도록 수정하기
+			/* 
+			selectAllow: function(selectInfo) {
+				//since we're only interested in whole days, set all times to the start/end of their respective day
+				selectInfo.start.startOf("day");
+				selectInfo.end.startOf("day");
 				
-				//viewDate(info)
+				var evts = $("#calendar").fullCalendar("clientEvents", function(evt) {
+					var st = evt.start.clone().startOf("day");
+					if (evt.end) { 
+						var ed = evt.end.clone().startOf("day"); 
+					}
+					else { 
+						ed = st; 
+					}
+					
+					//return true if the event overlaps with the selection
+					return (selectInfo.start.isSameOrBefore(ed) && selectInfo.end.isSameOrAfter(st));
+				});
+				
+				//return true if there are no events overlapping that day
+				return evts.length == 0;
+			},
+			 */
+			eventLimit : true, // allow "more" link when too many events
+			events : dataset,	// cityplan 데이터 = 상단에  dto에서 입력받음
+			eventColor: "pink", 
+			dateClick: function(info){
+				//if(info.)
+				//alert('clicked ' + info.dateStr);
+				
+				var date = info.dateStr;	// yyyy-MM-DD 형식 string 날짜
+				
+				// 캘린더 이벤트 가져오기
+				var events = calendar.getEvents();
+				console.log(events);	// Chrome console창 출력
+				
+				var cplist=new Array();	// 해당 날짜에 방문하는 도시 리스트
+
+				$.each(events, function(i, event){
+					// 선택 날짜가 이벤트 범위에 들어가면 해당 이벤트 리스트에 저장
+					if(info.date>=event.start && info.date<event.end){
+						cplist.push({
+							cp_code: event.id, 
+							ct_name: event.title, 
+							s_date: moment(event.start)//, 
+							//e_date: event.end.substring(0,10)
+						});
+						alert(event.title);
+					}
+				}); // forEach end
+				
+				//cplist=JSON.stringify(cplist);	// list에 담긴 json Object를 String형으로 변환
+				
+				viewDate(date, cplist);	// 선택 날짜, 해당 도시계획 전달
+				
+			} // dateClick end
 			/* 
 			, dayRender: function (date, cell) {
 				if (date.isSame('2019-05-05')) {
@@ -231,81 +283,102 @@ var dataset = [
 				}
 		    }
 			 */
-		});	// calendar end
+		}); // calendar end
 
 		calendar.render();
-	});	// DOMContentLoaded Event func end
+	}); // DOMContentLoaded Event func end
+	
 	
 	
 	// 달력 일자 클릭 시 
-	function viewDate(date){
-/* 
-		var dataset = [
-			<c:forEach var="cal" items="${calendar}" varStatus="status">
-				<c:set var="ct_name" value="${cal.city.ct_name }" /> <!-- calendar테이블의 ct_code로 조회한 ct_name -->
-				<c:set var="order_code" value="${cal.cityplan.order_code }" />
-				<c:set var="day" value="${cal.cityplan.day }" />
-				<c:set var="date" value="${fn: substring(cal.date,0,10) }" />
-					
-				<c:if test="${cal.memo != ''}">
-					{"cal_code": "<c:out value='${cp.cp_code}' />"
-					,"title": "<c:out value='${ct_name}' />"
-					,"start": "<c:out value='${s_date}' />" 
-					<c:if test="${cp.day > 1}">
-					,"end": moment("${s_date}").add("${day}","d").format("YYYY-MM-DD").toString() // e_date = s_date+day
-					</c:if>
-					} <c:if test="${!status.last}">,</c:if>
-				</c:if>
-			</c:forEach>
-		];
- */
+	function viewDate(date, cplist){
+		// date: 선택 날짜, cplist: 해당 도시계획
 
-		$.ajax({
-			type: "get",
-			contentType: "application/json; charset=UTF-8", 
-			url: "${pageContext.request.contextPath}/plan/calendar",
-			data: {
-				plan_code: "${article.plan_code}", 
-				date: date
-			},
-			dataType: "json",
-			success: function (data) {
-				console.log(data);	// chrome console에 출력
-				memoList(data);	// 일별 메모
-			},
-			error: function (xhr, status, error) {
-				alert("Error! " + error);
-			}
-		});
+		$("#notes .note-date").html(date);	// 선택한 날짜
+
+		$("#notes").empty();	// 기존 메모 리스트 지움
+		
+		// 도시계획별 메모리스트
+		
+		$.each(cplist, function(i, cp){
+
+			// 도시계획 단위 div
+			$("<div/>", {
+			    "class": "cp",
+			    html: [ 
+					$("<h3/>", { "class": "root-city", html: cp.ct_name }), 
+					$("<p/>", { "class": "bt-add", html: [
+						$("<button/>", { "type": "button", "class": "btn btn-default", "onclick": "location.href='#'", html: [
+							$("<span/>", { "class": "glyphicon glyphicon-pencil"}), 
+							" 새 메모"
+						] })
+					] }),
+					$("<ul/>", { "class": "list city-"+i}) // 메모 불러올 ul
+			    ]
+			}).appendTo("#notes");
+			
+		
+			// calendar 테이블 데이터 조회
+			$.ajax({
+				type: "get",
+				contentType: "application/json; charset=UTF-8", 
+				url: "${pageContext.request.contextPath}/plan/calendar",
+				data: {
+					plan_code: "${article.plan_code}", 
+					cp_code: cp.cp_code,
+					date: date
+				},
+				dataType: "json",
+				success: function (data) {
+					console.log(data);	// chrome console에 출력
+					memoList(data, i);	// 일별 메모
+				},
+				error: function (xhr, status, error) {
+					alert("Error! " + error);
+				}
+			}); // ajax end
+		
+		}); // forEach end
 		
 		
 	} // viewDate() end
 	
 
 	// 일별 메모 출력
-	function memoList(data){
+	function memoList(data, idx){
 		
-		for ( var cal in data) {
+		$("#notes ul.list").empty();	// 기존 메모 리스트 지움
+		
+		$.each(data, function(i, cal){
 	
-			//alert(data[cal].ct_code);
+			//alert(cal.ct_code);
 
-			var ct_name=data[cal].city.ct_name;	// calendar테이블의 ct_code로 조회한 ct_name
-			var order_code=data[cal].cityplan.order_code;
-			var day=data[cal].cityplan.day;
-			var date=data[cal].date.substring(0,10);
+			var ct_name=cal.city.ct_name;	// calendar테이블의 ct_code로 조회한 ct_name
+			var order_code=cal.cityplan.order_code;
+			var day=cal.cityplan.day;
+			var date=cal.date.substring(0,10);
 
-			var liststr="";
-			liststr+="<li class='memo'>";
-			liststr+="<h3 class='root-city'>"+ct_name+"</h3>";
-			liststr+="<span class='root-date'>"+data[cal].memo+"</span>";
-			liststr+="<h5 class='root-date'>"+date+"</h5>";
-			liststr+="<span class='root-day'>도시순서: "+order_code+"</span>";
-			liststr+="<span class='root-day'>숙박일: "+day+"</span>";
-			liststr+="</li>";
+			// 목록 형태로 데이터 뿌리기
+			$("<li/>", {
+			    "class": "memo",
+			    html: [ 
+					//$("<h3/>", { "class": "root-city", html: ct_name }), 
+					$("<p/>", { "class": "root-date", html: cal.memo }),
+					//$("<p/>", { "class': "root-date", html: date }), 
+					$("<p/>", { "class": "root-day", html: "도시순서: "+order_code }),
+					$("<p/>", { "class": "root-day", html: "숙박일: "+day }), 
+					$("<p/>", { "class": "bt-delete", html: [
+						$("<button/>", { "type": "button", "class": "btn btn-default btn-sm", "onclick": "location.href='#'", html: [
+							$("<span/>", { "class": "glyphicon glyphicon-minus"}), 
+							" 메모 삭제"
+						] })
+					] })
+			    ]
+			}).appendTo("#notes ul.list.city-"+idx);
 			
-			$("#notes ul").append(liststr);
 			
-		} // for calendar end
+		}); // forEach end
+		
 		
 	}	// memoList() end
 	
