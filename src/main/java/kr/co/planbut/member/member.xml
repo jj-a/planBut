@@ -40,13 +40,16 @@
         ]]>
 	</select>
 	
-	<update id="modify" parameterType="MemberDTO">
+	<!-- 회원정보 수정 -->
+	<update id="modify" parameterType="String">
 		<![CDATA[
             update member
-            set m_name=#{m_name}, password=#{password}, email=#{email}, birth=#{birth}, photo=#{photo}
+            set m_name=#{m_name}, password=#{password}, email=#{email}, birth=#{birth}
             where m_id = #{m_id}
         ]]>
 	</update>
+	
+	<!-- 사진 등록/수정 -->
 	
 	
 </mapper>

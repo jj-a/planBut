@@ -59,7 +59,7 @@
 	<div class="row">
 		<!-- 좌측 메뉴 -->
 		<div class="sub-menu col-xs-6 col-md-2">
-			<div class="img-wrap profile" style="width: 100%">
+			<div class="img-wrap profile" style="width: 100%; overflow: hidden;">
 			<c:choose>
 				<c:when test="${empty member.photo }"> <!-- 프로필사진 없을 시 -->
 					<img data-src="holder.js/200x200" class="img-thumbnail" alt="200x200"

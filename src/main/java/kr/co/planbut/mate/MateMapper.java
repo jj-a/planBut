@@ -1,50 +1,56 @@
-package kr.co.planbut.mate;
+package kr.co.planbut.mateBbs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import kr.co.planbut.mateBbs.MateBbsDTO;
+import kr.co.planbut.applyBbs.ApplyBbsDTO;
+import kr.co.planbut.applyRecm.ApplyRecmDTO;
+import kr.co.planbut.common.CityplanDTO;
+import kr.co.planbut.common.PlannerDTO;
 
-public interface MateMapper {
-	/*
-		매퍼(notice.xml)에 등록되어 있는 id를 인터페이스의 메소드에 다시 한번 등록함으로써 
-		MyBatis3 에서 호출하기 편리하도록 지원
-	*/
-	
-	// <select id="myMateBbs">
-	public ArrayList<ApplyBbs_DTO> myMateBbs(String id);
-	
-	// <select id="myMateRecm">
-	public ArrayList<ApplyRecm_DTO> myMateRecm(String id);
-	
-	// <select id="myMateBbs">
-	public ArrayList<ApplyBbs_DTO> myMateApplyBbs(String id);
-	
-	// <select id="myMateRecm">
-	public ArrayList<ApplyRecm_DTO> myMateApplyRecm(String id);
-	
-	// <select id="mateOk">
-	public ArrayList<MateDTO> mateOk(String id);
-	
-	// <update id="update">
-	public int recBbsChange(ApplyBbs_DTO dto);
-	
-	// <select id="mateOk">
-	public ArrayList<ChatDTO> mateChat(String nowTime);
-	
-	// <update id="update">
-	public int submit(String chatName, String chatContent);
-	/*
-	// <delete id="delete">
-	public int delete(NoticeDTO dto);
-	
-	// <select id="read" parameterType="NoticeDTO" resultType="NoticeDTO">
-	public NoticeDTO read(NoticeDTO dto);
-	
-	// <update id="update">
-	public int update(NoticeDTO dto);
+public interface MateBbsMapper {
+   /*
+      매퍼(mateBbs.xml)에 등록되어 있는 id를 인터페이스의 메소드에 다시 한번 등록함으로써 
+      MyBatis3 에서 호출하기 편리하도록 지원
+   */
 
-	// <select id="search">
-	public ArrayList<NoticeDTO> search(HashMap searchMap);*/
-	
+   // <insert id="applyRecm"> 추천아이디에 동행신청
+   public int applyRecm(ApplyRecmDTO dto);
+   
+   // <insert id="create">
+   public int create(MateBbsDTO dto);
+   
+   // <select id="list">
+   public ArrayList<MateBbsDTO> list();
+
+   // <update id="update">
+   public int update(MateBbsDTO dto);
+   
+   // <delete id="delete">
+   public int delete(MateBbsDTO dto);
+   
+   // <select id="read" parameterType="MateBbsDTO" resultType="MateBbsDTO">
+   public MateBbsDTO read(MateBbsDTO dto);
+   
+   // <select id="recmList" parameterType="CityplanDTO" resultType="CityplanDTO">
+   public ArrayList<RecmDTO> recmList(String s_id);
+      
+   // <select id="recmPeople" parameterType="CityplanDTO" resultType="CityplanDTO">
+   public ArrayList<RecmPeopleDTO> recmPeople(RecmDTO recmDTO);
+   
+   // <insert id="applyBbs">
+   public int applyBbs(ApplyBbsDTO dto);
+   
+   
+   
+   //내 동행
+
+   // <select id="mymateList">
+   public ArrayList<MateBbsDTO> mymateList();
+   
+   
+   /*
+   // <select id="search">
+   public ArrayList<MateBbsDTO> search(HashMap searchMap);*/
+   
 } // interface end

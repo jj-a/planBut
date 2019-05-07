@@ -1,12 +1,17 @@
 package kr.co.planbut.mateBbs;
 
 public class RecmPeopleDTO {
-	private String hey;
-	private String s_date;
-	private String m_id;
-	private String ct_code;
+	private String photo, hey, s_date, m_id, ct_code, cp_code;
 	
 	public RecmPeopleDTO() {}
+	
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 
 	public String getHey() {
 		return hey;
@@ -39,12 +44,19 @@ public class RecmPeopleDTO {
 	public void setCt_code(String ct_code) {
 		this.ct_code = ct_code;
 	}
+	
+	public String getCp_code() {
+		return cp_code;
+	}
+
+	public void setCp_code(String cp_code) {
+		this.cp_code = cp_code;
+	}
 
 	@Override
 	public String toString() {
-		return "RecmPeopleDTO [hey=" + hey + ", s_date=" + s_date + ", m_id=" + m_id + ", ct_code=" + ct_code + "]";
+		return "RecmPeopleDTO [photo=" + photo + ", hey=" + hey + ", s_date=" + s_date + ", m_id=" + m_id + ", ct_code="
+				+ ct_code + ", cp_code=" + cp_code + "]";
 	}
-	
-	
-	
+
 }

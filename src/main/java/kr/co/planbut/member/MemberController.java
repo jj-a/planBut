@@ -70,16 +70,7 @@ public class MemberController {
 		
 		return mav;
 	} // logout() end
-/*	
-	@RequestMapping( value="/member/read.do", method=RequestMethod.GET )
-	public ModelAndView read(MemberDTO dto) {
-	ModelAndView mav=new ModelAndView();
-	mav.setViewName("member/memberList");
-	dto=dao.read(dto);
-	mav.addObject("dto", dto);
-	return mav;
-	}//list() end
-	*/
+
 	@RequestMapping( value = "/member/modify.do", method = RequestMethod.GET )
 	public ModelAndView modifyForm(HttpSession session) {
 	ModelAndView mav = new ModelAndView();
