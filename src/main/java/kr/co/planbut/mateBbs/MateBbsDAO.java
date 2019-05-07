@@ -89,14 +89,6 @@ public class MateBbsDAO {
          return count;
    } // create() end
     
-    
-    //내 동행
-    public ArrayList<MateBbsDTO> mymateList() {
-      MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
-      ArrayList<MateBbsDTO> mymateList = mapper.mymateList();
-      return mymateList;
-   } // list() end
-    
    /*
    public ArrayList<NoticeDTO> search(String col, String word) {
       NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);

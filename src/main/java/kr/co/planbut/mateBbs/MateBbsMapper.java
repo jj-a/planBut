@@ -42,13 +42,6 @@ public interface MateBbsMapper {
    public int applyBbs(ApplyBbsDTO dto);
    
    
-   
-   //내 동행
-
-   // <select id="mymateList">
-   public ArrayList<MateBbsDTO> mymateList();
-   
-   
    /*
    // <select id="search">
    public ArrayList<MateBbsDTO> search(HashMap searchMap);*/
