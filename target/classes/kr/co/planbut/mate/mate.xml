@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mate.xml -->
+<!-- 실행할 SQL문을 정의해놓은 파일 -->
+
+<!-- MyBatis에서는 namespace를 필수로 설정해야한다 -->
+<!-- namespace = "패키지명.인터페이스" -->
+<mapper namespace="kr.co.planbut.mate.MateMapper">
+	<!-- 
+	■ 데이터베이스 결과 데이터를 객체에 매핑하는 방법을 정의 
+	■ ResultSet 에서 가져와서 DTO에 담는것과 비슷하다
+	■ 기본키(PK)는 <id>에 지정
+	-->
+
+	<!-- <insert id="create" parameterType="MateBbsDTO"> setter 함수가 있기에 parameterType사용 가능
+		<selectKey keyProperty="b_no" resultType="int" order="BEFORE"> 
+		keyProperty = "변수명", 변수가 a 라면 밑에 b_no도 a 로 바꿔줘야한다
+		<![CDATA[
+			select ifnull(max(b_no),0)+1 as b_no
+			from mateboard as TB
+		]]>
+		</selectKey>
+		
+		<![CDATA[
+			INSERT INTO mateboard(b_no, mp_id, regdt, subject, content, ct_code, m_date, gender, capacity)
+			values(#{b_no}, #{mp_id}, now(), #{subject}, #{content}, #{ct_code}, #{m_date}, #{gender}, #{capacity}) 
+		]]>
+		getter 함수가 있기에 values에 값을 꺼내올 수 있다
+	</insert> -->
+	
+	<select id="myMateBbs" resultType="ApplyBbs_DTO">
+	    <![CDATA[
+		    select BB.b_no, sp_id, people, mate_code, ma_code
+			from(
+			select b_no, sp_id, people, mate_code, ma_code
+			from mateapply_b
+			) AA join mateboard BB
+			on AA.b_no = BB.b_no
+			where BB.mp_id = #{mp_id}        
+	   ]]>
+	</select>
+	
+	<select id="myMateRecm" resultType="ApplyRecm_DTO">
+        <![CDATA[
+            select ma_code, sp_id, m_date, mate_code
+			from mateapply_r
+			where mp_id = #{mp_id}     
+       ]]>
+    </select>
+    
+    <select id="myMateApplyBbs" resultType="ApplyBbs_DTO">
+        <![CDATA[
+            select BB.b_no, mp_id, people, mate_code
+			from(
+			select b_no, sp_id, people, mate_code
+			from mateapply_b
+			) AA join mateboard BB
+			on AA.b_no = BB.b_no
+			where sp_id = #{sp_id}      
+       ]]>
+    </select>
+    
+    <select id="myMateApplyRecm" resultType="ApplyRecm_DTO">
+        <![CDATA[
+            select mp_id, m_date, mate_code
+            from mateapply_r
+            where sp_id = #{sp_id}        
+       ]]>
+    </select>
+    
+	<select id="mateOk" resultType="MateDTO">
+        <![CDATA[
+            select m_date, ct_code, mp_id, mate_list, mate_type
+            from mate
+            where mp_id = #{mp_id}    
+       ]]>
+    </select>
+    
+    <insert id="applyBbsMate" parameterType="MateDTO">
+      <selectKey keyProperty="mate_code" resultType="String" order="BEFORE"> 
+      <![CDATA[
+         select concat(
+		   'F',
+		   (
+		      select ifnull(lpad(max(right(mate_code,5)) +1,5,0),'00001')
+		      from mate
+		   )
+		   )as code
+		 from mate
+		 group by code
+		 ;
+      ]]>
+      </selectKey>
+        
+      <![CDATA[
+         insert into mateapply_b(ma_code, b_no, sp_id, people, mate_code)
+         values(#{ma_code}, #{b_no}, #{sp_id}, #{people}, 0)
+      ]]>
+   </insert>
+    
+    <update id="recBbsChange" parameterType="ApplyBbs_DTO">
+        <![CDATA[
+            update mateapply_b
+            set mate_code = #{mate_code}
+            where ma_code = #{ma_code}
+        ]]>
+    </update>
+    
+    <select id="mateChat" resultType="ChatDTO">
+        <![CDATA[
+            select chatName, chatContent, chatTime 
+            from chat 
+            where chatTime < now() order by chatTime  
+       ]]>
+    </select>
+    
+    <insert id="submit" parameterType="ChatDTO">
+        <![CDATA[
+            INSERT INTO chat(chatName, chatContent, chatTime)
+            values(#{chatName}, #{chatContent}, now()) 
+        ]]>
+    </insert>
+    
+	<!-- <delete id="delete" parameterType="MateBbsDTO">
+	    <![CDATA[
+			delete from mateboard
+			where b_no = #{b_no}
+		]]>
+	</delete>
+	
+	<select id="read" parameterType="MateBbsDTO" resultType="MateBbsDTO">
+        <![CDATA[
+            select b_no, mp_id, subject, content, ct_code, m_date, gender, capacity, regdt
+	        from mateboard as TB
+	        where b_no = #{b_no}
+        ]]>
+    </select>
+    
+    
+    <select id="recmList" resultType="RecmDTO">
+        <![CDATA[
+            select aa.ct_code as ct_code, aa.s_date as s_date, bb.m_id as m_id, `day` as hey
+			from(
+		    select plan_code, ct_code, s_date, `day`
+		    from cityplan
+		    where rm_ok='Y')aa join planner bb
+		    on aa.plan_code=bb.plan_code
+		    where m_id = #{m_id} and date_add(aa.s_date, interval `day`-1 day) >= now()
+		    order by aa.s_date
+        ]]>
+    </select> -->
+    
+    <!-- <resultMap id="아이디명" type="java.util.HashMap"> -->
+    <!-- <resultMap id="Book" type="java.util.HashMap">
+        <result javaType="데이터타입" column="db컬럼명" property="맵에서 키값"/> 
+        <result javaType="java.lang.String" column="ct_code" property="ct_code"/>
+    </resultMap> 
+
+    <select id="recmList2" resultMap="Book">
+	   <![CDATA[
+            select aa.ct_code, aa.s_date, bb.m_id, `day`
+            from(
+            select plan_code, ct_code, s_date, `day`
+            from cityplan
+            where rm_ok='Y')aa join planner bb
+            on aa.plan_code=bb.plan_code
+            where m_id = 'bbbb' and date_add(aa.s_date, interval `day`-1 day) >= now() 
+            order by aa.s_date
+       ]]>
+	</select> -->
+    
+    
+    <!-- <select id="recmPeople" parameterType="RecmDTO" resultType="RecmPeopleDTO">
+        <![CDATA[
+            select `day` as hey, aa.s_date as s_date, m_id, ct_code
+			from(
+			select *, date_add(s_date, interval `day`-1 day)
+			from cityplan
+			where s_date between s_date and date_add(s_date, interval `day`-1 day)
+			) AA join planner as BB
+			on AA.plan_code = BB.plan_code
+			where AA.rm_ok = 'Y' and ct_code = #{ct_code} and m_id <> #{m_id} and date_add(aa.s_date, interval `day`-1 day) >= now()    
+        ]]>
+    </select>
+    
+    <insert id="applyBbs" parameterType="ApplyBbsDTO">
+      <selectKey keyProperty="ma_code" resultType="String" order="BEFORE"> 
+      <![CDATA[
+         select concat(
+            'B', 
+            replace(left(now(),10),'-',''), '-',
+            (
+               select ifnull(lpad(max(right(ma_code,1)) +1,1,0),'1')
+               from mateapply_b
+               where substring(ma_code, 2, 8)=DATE_FORMAT(NOW(),'%Y%m%d')
+            )
+         ) as code
+         from mateapply_b
+         group by code
+      ]]>
+      </selectKey>
+      
+      <![CDATA[
+         insert into mateapply_b(ma_code, b_no, sp_id, people, mate_code)
+         values(#{ma_code}, #{b_no}, #{sp_id}, #{people}, 0)
+      ]]>
+   </insert> -->
+	<!--
+	<select id="search" resultType="MateBbsDTO" parameterType="HashMap">
+		select noticeno, title, rname, rdate
+		from notice5
+		<choose>
+			<when test="col == 'title'">
+				where title like '%' || #{word} || '%'
+			</when>
+			<when test="col == 'rname'">
+				where rname like '%' || #{word} || '%'
+			</when>
+			<when test="col == 'title_rname'">
+				where title like '%' || #{word} || '%' or rname like '%' || #{word} || '%'
+			</when>
+		</choose>
+		order by noticeno desc
+	</select> -->
+	
+	
+	
+	<!-- 내 동행 -->
+	<!-- <select id="mymateList" resultType="MateBbsDTO">
+	    <![CDATA[
+		    select BB.*, if(aa.pp=null,0,aa.pp) people
+			from(
+			   select mate_code, b_no, sum(people) pp
+			   from mateapply_b TB
+			   where mate_code<>0
+			   group by b_no
+			   order by b_no desc
+			   ) AA right join mateboard BB
+			   on AA.b_no = BB.b_no
+			order by b_no desc
+		]]>
+	</select> -->
+</mapper>

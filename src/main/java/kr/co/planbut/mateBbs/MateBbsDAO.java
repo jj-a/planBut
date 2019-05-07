@@ -17,6 +17,7 @@ import com.mysql.cj.api.Session;
 import kr.co.planbut.applyBbs.ApplyBbsDTO;
 import kr.co.planbut.common.CityplanDTO;
 import kr.co.planbut.common.PlannerDTO;
+import kr.co.planbut.mate.ApplyBbs_DTO;
 
 @Component
 public class MateBbsDAO {
@@ -82,15 +83,7 @@ public class MateBbsDAO {
 	      int count = mapper.applyBbs(dto);
 	      return count;
 	} // create() end
-    
-    
-    //내 동행
-    public ArrayList<MateBbsDTO> mymateList() {
-		MateBbsMapper mapper = sqlSession.getMapper(MateBbsMapper.class);
-		ArrayList<MateBbsDTO> mymateList = mapper.mymateList();
-		return mymateList;
-	} // list() end
-    
+
 	/*
 	public ArrayList<NoticeDTO> search(String col, String word) {
 		NoticeMapper mapper = sqlSession.getMapper(NoticeMapper.class);

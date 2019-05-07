@@ -135,34 +135,7 @@ public class MateBbsCont {
     } // createProc() end
     
     
-    //내 동행 mypage>mate.do
-    @RequestMapping("/mypage/mymate.do")
-	public ModelAndView mymateList(HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("mypage/mymate");
-		ArrayList<MateBbsDTO> mymateList = dao.mymateList();
-		// mav.addObject("list", list); ㅡ▶ 밑에 한줄과 같은 의미
-/*		String s_id = (String)session.getAttribute("session_m_id");
-		ArrayList<RecmDTO> recmDTOList = dao.recmList(s_id);
-		ArrayList<RecmPeopleDTO> recmPeopleDTOList = new ArrayList<RecmPeopleDTO>();
-		for(int idx=0; idx<recmDTOList.size(); idx++) {
-			RecmDTO recmDTO = recmDTOList.get(idx);
-			//System.out.println("ct_code: "+recmDTO.getCt_code());
-			//System.out.println("m_id: "+recmDTO.getM_id());
-			ArrayList<RecmPeopleDTO> recmPeopleDTOList1 = dao.recmPeople(recmDTO);
-			recmPeopleDTOList.addAll(recmPeopleDTOList1);
-			
-		}//for end
-		for(int a = 0; a<recmPeopleDTOList.size();a++) {
-			RecmPeopleDTO ddttoo = recmPeopleDTOList.get(a);
-			//System.out.println("recmpeople 목록:"+ddttoo.toString());
-		}
-		//System.out.println("recmpeople합:" + recmPeopleDTOList.size());
-		mav.addObject("recmPeople", recmPeopleDTOList);
-		mav.addObject("recmList", recmDTOList);*/
-		mav.addObject("mymateList", mymateList);
-		return mav;
-	} // mymateList() end
+    
     
     
     

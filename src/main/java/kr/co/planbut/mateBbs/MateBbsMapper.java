@@ -39,10 +39,6 @@ public interface MateBbsMapper {
 	
 	
 	
-	//내 동행
-
-	// <select id="mymateList">
-	public ArrayList<MateBbsDTO> mymateList();
 	
 	
 	/*

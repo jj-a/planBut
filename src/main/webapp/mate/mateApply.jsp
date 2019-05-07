@@ -49,6 +49,10 @@
 	padding: 0 10px;
 }
 
+.gr {
+    height: 50px;
+    font-size: large;
+}
 </style>
 
 <!-- Contents -->
@@ -103,29 +107,57 @@
 				    <a href="./mateReceive.do">■ 동행 신청 받은 내역</a>
 			    </th>
 				</tr>
-				</table>
+				</table> 
 				
-                <h3>동행 확정 목록</h3>
+				<h3>동행 신청한 내역</h3>
     
-                <table border="1" style="margin: auto;">
-                <c:forEach var="dto" items="${mateOk }">
-                <tr>
-                <th>동행 하는 사람들</th>
-                <td>${dto.mate_list }</td>
-                <th>모집자 아이디</th>
-                <td>${dto.mp_id }</td>
-                <th>여행 도시</th>
-                <td>${dto.ct_code }</td>
-                <th>동행 날짜</th>
-                <td>${dto.m_date.substring(0,10) }</td>
-                <th>신청경로</th>
-                <td>
-                <c:if test="${dto.mate_type == 'R' }">추천</c:if>
-                <c:if test="${dto.mate_type == 'B' }">게시판</c:if>
-                </td>
+			    <table border="1" style="margin: auto;">
+			    <tr>
+                <th colspan="11" class="gr">동행 게시판 경로</th>
                 </tr>
-                </c:forEach>
-                </table>    
+			    <c:forEach var="dto" items="${myMateApplyBbs }">
+			    <tr>
+			    <th>글번호</th>
+			    <td>${dto.b_no }</td>
+			    <th>모집자 아이디</th>
+			    <td>${dto.mp_id }</td>
+			    <th>신청한 인원</th>
+			    <td>${dto.people }</td>
+			    <th>처리상황</th>
+			    <td colspan="3"><select name="mate_code" id="mate_code">
+                <option value="0" <c:if test="${dto.mate_code == '0' }">selected</c:if>>대기</option>
+                <option value="1" <c:if test="${dto.mate_code == '1' }">selected</c:if>>거절</option>
+                <option value="2" <c:if test="${dto.mate_code == '2' }">selected</c:if>>취소</option>
+                </select>
+                </td>
+			    <td>
+			    <input type="button" value="확인">
+			    </td>
+			    </tr>
+			    </c:forEach>
+			    <tr>
+			    <th colspan="11" class="gr">동행 추천 경로</th>
+			    </tr>
+			    <c:forEach var="dto1" items="${myMateApplyRecm }">
+			    <tr>
+			    <th>신청자 아이디</th>
+			    <td>${dto1.mp_id }</td>
+			    <th>동행 날짜</th>
+			    <td>${dto1.m_date.substring(0,10) }</td>
+			    <th>처리상황</th>
+                <td colspan="3"><select name="mate_code" id="mate_code">
+                <option value="0" <c:if test="${dto1.mate_code == '0' }">selected</c:if>>대기</option>
+                <option value="1" <c:if test="${dto1.mate_code == '1' }">selected</c:if>>거절</option>
+                <option value="2" <c:if test="${dto1.mate_code == '2' }">selected</c:if>>취소</option>
+                </select>
+                </td>
+			    <td>
+                <input type="button" value="확인">
+			    </td>
+			    </tr>
+			    </c:forEach>
+			    
+			    </table>	
 					<div style="clear: both"></div>
 
 				</div>

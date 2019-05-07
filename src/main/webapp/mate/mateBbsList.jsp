@@ -2,7 +2,7 @@
 <%@ include file="../header.jsp"%>
 <link rel="stylesheet" type="text/css" href="../css/table.css">
 <!-- 본문시작 mateBbsList.jsp -->
-<%-- <c:if test="${empty sessionScope.memid }">
+<%-- <c:if test="${empty sessionScope.session_m_id }">
 <% 
     Cookie[] cookies = request.getCookies();
     String c_id = "";

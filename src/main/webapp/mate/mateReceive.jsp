@@ -49,6 +49,11 @@
 	padding: 0 10px;
 }
 
+.gr {
+    height: 50px;
+    font-size: large;
+    background: beige;
+}
 </style>
 
 <!-- Contents -->
@@ -103,29 +108,79 @@
 				    <a href="./mateReceive.do">■ 동행 신청 받은 내역</a>
 			    </th>
 				</tr>
-				</table>
+				</table> 
 				
-                <h3>동행 확정 목록</h3>
-    
-                <table border="1" style="margin: auto;">
-                <c:forEach var="dto" items="${mateOk }">
-                <tr>
-                <th>동행 하는 사람들</th>
-                <td>${dto.mate_list }</td>
-                <th>모집자 아이디</th>
-                <td>${dto.mp_id }</td>
-                <th>여행 도시</th>
-                <td>${dto.ct_code }</td>
-                <th>동행 날짜</th>
-                <td>${dto.m_date.substring(0,10) }</td>
-                <th>신청경로</th>
-                <td>
-                <c:if test="${dto.mate_type == 'R' }">추천</c:if>
-                <c:if test="${dto.mate_type == 'B' }">게시판</c:if>
-                </td>
+				<h3>동행 신청 받은 내역</h3>
+				<form action="">
+				<input type="hidden" name="ma_code" value="">
+			    <table border="1" style="margin: auto;">
+			    <tr>
+                <td colspan="6" class="gr">동행 게시판 경로</td>
                 </tr>
-                </c:forEach>
-                </table>    
+                <tr>
+                <th>신청번호</th>
+                <th>글번호</th>
+                <th>신청자 아이디</th>
+                <th>신청한 인원</th>
+                <th>처리상황</th>
+                <th>동행승인</th>
+                </tr>
+                <c:forEach var="dto" items="${myMateBbs }">
+			    <tr>
+			    <td>${dto.ma_code }</td>
+			    <td>${dto.b_no }</td>
+			    <td>${dto.sp_id }</td>
+			    <td>${dto.people }</td>
+			    <c:choose>
+			    <c:when test="${dto.mate_code == '2' }">
+                <td>취소</td>
+                </c:when>
+                <c:otherwise>
+			    <td>
+			    <select name="mate_code" id="mate_code" onchange="recCheck(this.form, this, 1)">
+                <option value="0" <c:if test="${dto.mate_code == '0' }">selected</c:if>>대기</option>
+                <option value="1" <c:if test="${dto.mate_code == '1' }">selected</c:if>>거절</option>
+                </select>
+                </td>
+                </c:otherwise>
+                </c:choose>
+                <td><input type="button" value="승인" onclick="recOk()"></td>
+                </tr>
+			    </c:forEach>
+			    <tr>
+			    <td colspan="6" class="gr">동행 추천 경로</td>
+			    </tr>
+			    <tr>
+			    <th>신청번호</th>
+			    <th>신청자 아이디</th>
+			    <th colspan="2">동행 날짜</th>
+			    <th>처리상황</th>
+			    <th>동행승인</th>
+			    </tr>
+			    <c:forEach var="dto1" items="${myMateRecm }">
+			    <tr>
+			    <td>${dto1.ma_code }</td>
+			    <td>${dto1.sp_id }</td>
+			    <td colspan="2">${dto1.m_date.substring(0,10) }</td>
+			    <c:choose>
+			    <c:when test="${dto1.mate_code == '2' }">
+                <td>취소</td>
+                </c:when>
+                <c:otherwise>
+                <td>
+                <select name="mate_code" id="mate_code" onchange="recCheck(this.form, this, 2)">
+                <option value="0" <c:if test="${dto1.mate_code == '0' }">selected</c:if>>대기</option>
+                <option value="1" <c:if test="${dto1.mate_code == '1' }">selected</c:if>>거절</option>
+                </select>
+                </td>
+                </c:otherwise>
+                </c:choose>
+                <td><input type="button" value="승인" onclick="recOk()"></td>
+			    </tr>
+			    </c:forEach>
+			    
+			    </table>
+			    </form>	
 					<div style="clear: both"></div>
 
 				</div>
@@ -154,6 +209,45 @@ $(function(){
 		location.href="${pageContext.request.contextPath}#loginmodal";
 	}
 });
+
+function recCheck(f, i, a) {
+	var rq = i.parentElement.parentElement.rowIndex;
+	var cd = document.getElementsByTagName('tr')[rq+1].children[0].childNodes[0].nodeValue;
+	f.ma_code.value = cd;
+	//var mc = $(i).attr("class");
+	//var ele = document.getElementById("receive");
+    //var number = ele.childElementCount;
+    //var eg = ele.childNodes[0].children;
+    //var ge = ele.children().eq(0).attr("value")
+	if(a==1){
+		alert(rq);
+		alert(cd);
+		alert(f.ma_code.value)
+		//alert(mc);  
+		//alert(ele);
+		//alert(number);
+		//alert(eg);
+		//alert(ge);
+	    var message="변경하시겠습니까?";
+	    if(confirm(message)) {
+	    	   f.action="./recBbsChange.do";
+	    } // if end
+    } // if end 
+	   
+	if(a==2){
+		alert(rq);
+        alert(ma_code);
+	    var message="변경하시겠습니까?";
+	    if(confirm(message)) {
+	    	   f.action="./recRecmChange.do?ma_code="+ma_code;
+	    } // if end
+	} // if end
+     
+} // recCheck() end
+
+function recOk() {
+    	
+} // recOk() end
 
 </script>
 
