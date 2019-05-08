@@ -66,7 +66,7 @@
 <h3>
 	<a href="${pageContext.request.contextPath}/mypage/">마이페이지</a> > 
 	<a href="${pageContext.request.contextPath}/mypage/planner.do">내 플래너</a> >
-	<a href="${pageContext.request.contextPath}/mypage/reservation.do">내 투어예약</a>
+	<span>내 투어예약</span>
 </h3>
 
 <div class="container-fluid">
@@ -91,14 +91,11 @@
 			<div class="panel list-group-item" style="text-align: center">
 				${member.m_name } (${session_m_id })</div>
 			<div class="list-group">
-				<a href="${pageContext.request.contextPath}/mypage/planner.do"
-					class="list-group-item">내 플래너</a> <a
-					href="${pageContext.request.contextPath}/mypage/mymate.do"
-					class="list-group-item">내 동행</a> <a
-					href="${pageContext.request.contextPath}/mypage/reservation.do"
-					class="list-group-item active">내 투어예약</a> <a
-					href="${pageContext.request.contextPath}/member/modify.do"
-					class="list-group-item">내 정보 수정</a>
+				<a href="${pageContext.request.contextPath}/mypage/planner.do" class="list-group-item">내 플래너</a>
+				<a href="${pageContext.request.contextPath}/mypage/mymate.do" class="list-group-item">내 동행</a> 
+				<a href="${pageContext.request.contextPath}/mypage/reservation.do" class="list-group-item active">내 투어예약</a>
+				<a href="${pageContext.request.contextPath}/mypage/qna.do" class="list-group-item">문의 내역</a>
+				<a href="${pageContext.request.contextPath}/member/modify.do" class="list-group-item">내 정보 수정</a>
 			</div>
 		</div>
 
@@ -112,32 +109,44 @@
 				</div>
 				<div class="myreserve">
 					<h4 style="margin-bottom: 20px">내 투어 예약내역</h4>
-					<c:choose>
-						<c:when test="${empty dto.treserveDTO.re_code } ">
+					<c:set var="listlen" value="${fn:length(reservelist)}" />
+				 	<c:choose>
+						<c:when test="${listlen==0}">
 							<!-- 예약 내역이 없을 때 -->
 							<p><span>예약 내역이 없습니다.</span><img alt="" src="/"></p>
 							<a href="../tour/tour.do"><span>투어홈 바로가기 ></span></a>
 						</c:when>
-						<c:otherwise>
+						<c:otherwise> 
 							<!-- 예약 내역이 있을 때 -->
 							<c:forEach var="dto" items="${reservelist }">
 								<p>${dto.tour_name }</p>
 								<p>${member.m_name }</p>
 								<p>${dto.treserveDTO.payed }</p>
 							</c:forEach>
-						</c:otherwise>
-					</c:choose>
+					 	</c:otherwise>
+					</c:choose> 
 				</div>
 				<div>
 					<div class="myreserve">
 						<h4>지난 예약 / 후기쓰기</h4>
-						<c:forEach var="dto" items="${c_reservelist }">
-								<p>${dto.tour_name }</p>
-								<p>${member.m_name }</p>
-								<p>${dto.treserveDTO.payed }</p>
-								<button type="button" id="reviewbutton" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#modal-fechacap">후기작성</button>
-								
-						</c:forEach>
+						<c:set var="listlen" value="${fn:length(reservelist)}" />
+						<c:choose>
+							<c:when test="${listlen==0}">
+								<!-- 예약 내역이 없을 때 -->
+								<p>
+									<span>예약 내역이 없습니다.</span><img alt="" src="/">
+								</p>
+								<a href="../tour/tour.do"><span>투어홈 바로가기 ></span></a>
+							</c:when>
+							<c:otherwise>
+								<c:forEach var="dto" items="${c_reservelist }">
+									<p>${dto.tour_name }</p>
+									<p>${member.m_name }</p>
+									<p>${dto.treserveDTO.payed }</p>
+									<button type="button" id="reviewbutton" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#modal-fechacap">후기작성</button>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</div>

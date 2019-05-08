@@ -52,6 +52,13 @@ public class TourDAO {
 		return cartlist;
 	}//cartlist end
 
+	//장바구니 
+	public ArrayList<TourDTO> readcart(ArrayList<CartDTO> cart_list) {
+		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
+		ArrayList<TourDTO> cartlist = mapper.readcart(cart_list);
+		return cartlist;
+	}//cartlist end
+
 	//리뷰 목록
 	public ArrayList<TourDTO> reviewlist(TourDTO dto) {
 		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
@@ -59,18 +66,32 @@ public class TourDAO {
 		return reviewlist;
 	}//review end
 	
+	//예약하기
+		public int payed(TreserveDTO dto) {
+			TourMapper mapper = sqlSession.getMapper(TourMapper.class);
+			int res = mapper.payed(dto);
+			return res;
+		}
+		
 	//예약목록
-	public ArrayList<TourDTO> reservelist() {
+	public ArrayList<TourDTO> reservelist(String m_id) {
 		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
-		ArrayList<TourDTO> reservelist = mapper.reservelist();
+		ArrayList<TourDTO> reservelist = mapper.reservelist(m_id);
 		return reservelist;
 	}//reservelist end
 	
 	//지난 예약목록
-	public ArrayList<TourDTO> c_reservelist() {
+	public ArrayList<TourDTO> c_reservelist(String m_id) {
 		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
-		ArrayList<TourDTO> c_reservelist = mapper.c_reservelist();
+		ArrayList<TourDTO> c_reservelist = mapper.c_reservelist(m_id);
 		return c_reservelist;
+	}//c_reservelist end
+	
+	//문의내역
+	public ArrayList<TourDTO> qnalist(String m_id) {
+		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
+		ArrayList<TourDTO> qnalist = mapper.qnalist(m_id);
+		return qnalist;
 	}//c_reservelist end
 	
 	//투어 상세보기
@@ -100,7 +121,14 @@ public class TourDAO {
 		int res = mapper.addreview(dto);
 		return res;
 	}
-
+	
+	//문의 작성
+	public int addqna(QnaDTO dto) {
+		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
+		int res = mapper.addqna(dto);
+		return res;
+	}
+	
 	//리뷰 갯수
 	public int reviewtotal(TreviewDTO review) {
 		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
@@ -109,9 +137,18 @@ public class TourDAO {
 	}//tourtotal end
 
 	//리뷰 평균
-	public int reviewavg(TreviewDTO review) {
+	public Integer reviewavg(TreviewDTO review) {
 		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
-		int reviewavg = mapper.reviewavg(review);
+		Integer reviewavg = mapper.reviewavg(review);
 		return reviewavg;
 	}
+	
+	//문의 목록
+	public ArrayList<ReplyDTO> replylist(String m_id) {
+		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
+		ArrayList<ReplyDTO> replylist = mapper.replylist(m_id);
+		return replylist;
+	}
+	
+	
 }

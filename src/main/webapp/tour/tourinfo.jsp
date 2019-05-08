@@ -308,7 +308,15 @@
 			<div class="info_sp">
 				<div class="star">
 					<p>별점</p>
-					<p>${reviewavg }</p> <!-- 별 이미지로 보이게  -->
+					<c:choose>
+						<c:when test="${reviewavg == null }">
+							<p>0</p>
+						</c:when>
+						<c:otherwise>
+							<p>${reviewavg }</p> <!-- 별 이미지로 보이게  -->
+						</c:otherwise>
+					</c:choose>
+
 				</div>
 				<div class="price">
 					<p>&#92; ${ dto.price}&nbsp; 1인</p>
@@ -334,9 +342,9 @@
 						<p>${dto.t_time }시간</p>
 					</div>
 				</div>
-			</div>
+			</div>	
 		<button type="button" id="cartbutton" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#modal-fechacap">장바구니</button>
-		<button type="button" id="reservebutton" class="btn btn-lg btn-primary" onclick="">간편예약</button>
+		<button type="button" id="reservebutton" class="btn btn-lg btn-primary" onclick="location.href='./reserve.do?tour_code=${dto.tour_code}'">간편예약</button>
 		</div>
 	</div>
 </section>
@@ -360,8 +368,16 @@
 				<h4 style="text-align : left; padding-left : 10px;">이용후기</h4>
 			</div>
 			<div style="background-color: #fff351">
-				<p>${reviewavg } / 5.0</p> <!-- 리뷰점수를 별 그림으로 바꿔줘야 됨 -->
-				
+				<c:choose>
+					<c:when test="${reviewavg == null }">
+						<p> 0 / 5.0 </p>	
+					</c:when>
+					<c:otherwise>
+						<!-- 리뷰점수를 별 그림으로 바꿔줘야 됨 -->
+						<p>${reviewavg }/ 5.0</p>
+					</c:otherwise>
+				</c:choose>
+
 				<p>${reviewtotal }개의 이용후기가 있습니다.</p>
 			</div>
 			<div>
@@ -386,15 +402,23 @@
 			</div>
 		</div>
 	</div>
-	<form name="addqna" method="POST" action="/">
+	<form name="addqna" method="POST" action="./writeqna.do">
+ 	<input type="hidden" name="tour_code" value="${dto.tour_code }">
 		<div class="tour_p tour_qna">
 			<div>
 				<h3>문의사항이 있으시면 1:1 문의를 남겨주세요</h3>
 			</div>
-			<div>
-				<textarea class="review_area" placeholder="문의를 작성해주세요"></textarea>
-				<button class="review_button" value="">등록</button>
-			</div>
+			<c:choose>
+				<c:when test="${session_m_id == null }">
+					<textarea class="review_area" placeholder="로그인 후에 문의 작성이 가능합니다." disabled="disabled" ></textarea>
+				</c:when>
+				<c:otherwise>
+					<div>
+						<textarea class="review_area" name="content" placeholder="문의를 작성해주세요"></textarea>
+						<input type="submit" class="review_button" value="등록">
+					</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</form>
 </div>
@@ -433,7 +457,7 @@
 					<div class="modal-footer">
 						<div style="margin-left: 10px">
 							<input type="submit" value="등록"	 class="glyphicon glyphicon-pencil">
-							<input type="submit" value="취소" class="glyphicon glyphicon-pencil" onclick="">
+							<input type="button" value="취소" class="glyphicon glyphicon-pencil" data-dismiss="modal">
 						</div>
 					</div>
 				</div>

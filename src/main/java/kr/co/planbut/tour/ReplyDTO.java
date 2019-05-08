@@ -5,6 +5,7 @@ public class ReplyDTO {
 	private String tq_code;
 	private String content;
 	private String regdt;
+	private QnaDTO qnadto;
 	
 	public ReplyDTO() {}
 
@@ -38,6 +39,14 @@ public class ReplyDTO {
 
 	public void setRegdt(String regdt) {
 		this.regdt = regdt;
+	}
+	
+	public QnaDTO getQnadto() {
+		return qnadto;
+	}
+
+	public void setQnadto(QnaDTO qnadto) {
+		this.qnadto = qnadto;
 	}
 
 	@Override

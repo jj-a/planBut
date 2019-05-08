@@ -108,7 +108,6 @@
 
 
 	<!-- SQL -->
-
 	<!-- 플래너 추가 -->
 	<insert id="create" parameterType="kr.co.planbut.common.PlannerDTO">
 		<!-- 일련번호 생성 -->

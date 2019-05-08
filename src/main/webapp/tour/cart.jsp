@@ -112,7 +112,7 @@
 
 	<div class="cart">
 	
-		<form name="" method="post" action="/">
+		<form name="" method="get" action="../tour/reserve.do?cart_code=${dto.cart_code }" onsubmit="return checkSelect(this)">
 			<!-- 항목 선택 -->
 			<div class="cart-select col-xs-12 col-md-12">
 				<span>
@@ -129,7 +129,8 @@
 				<c:forEach var="dto" items="${cartlist }">
 				<div class="cart-item">
 					<div class="chkbox cart3">
-						<input type="checkbox" name="" id="" value="">
+						<%-- <input type="checkbox" name="selectchk" id="selectchk" value="${dto.cart_code }"> --%>
+						<input type="checkbox" name="cart_list" id="cart_list" value="${dto.cartDTO.cart_code }">
 					</div>
 					<div class="img cart4">이미지</div>
 					<div class="subject cart5">${dto.tour_name }</div>
