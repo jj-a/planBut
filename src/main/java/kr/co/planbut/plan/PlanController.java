@@ -102,7 +102,6 @@ public class PlanController {
 		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
 			mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
 			mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트 -> 수정 시
-			//mav.addObject("calendar", dao.calendar(dto));	// 캘린더(calendar) 리스트 -> 수정 시
 
 		}else {
 			// parameter가 없을 때
@@ -118,7 +117,8 @@ public class PlanController {
 	@RequestMapping(value="/plan/calendar", produces = "application/json", method=RequestMethod.GET)
 	public ArrayList<CalendarDTO> calendarLoad(CalendarDTO dto) {
 
-		System.out.println("plancode:"+dto.getPlan_code());
+		System.out.println("plan_code:"+dto.getPlan_code());
+		System.out.println("cp_code:"+dto.getCp_code());
 		System.out.println("date:"+dto.getDate());
 		ArrayList<CalendarDTO> list=dao.calendar(dto);	// 캘린더(calendar) 리스트 -> 수정 시
 		
