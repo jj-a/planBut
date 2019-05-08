@@ -58,19 +58,49 @@ public class MateDAO {
 		MateMapper mapper = sqlSession.getMapper(MateMapper.class);
 		int count = mapper.recBbsChange(dto);
 		return count;
-	} // create() end
+	} //recBbsChange() end
+
+	public int recRecmChange(ApplyRecm_DTO dto) {
+		MateMapper mapper = sqlSession.getMapper(MateMapper.class);
+		int count = mapper.recRecmChange(dto);
+		return count;
+	} // recRecmChange() end
+
+	public int applyBbsMate(MateDTO dto) {
+		MateMapper mapper = sqlSession.getMapper(MateMapper.class);
+		int count = mapper.applyBbsMate(dto);
+		return count;
+	} //applyBbsMate() end
+
+	public int applyBbs(ApplyBbs_DTO dto) {
+		MateMapper mapper = sqlSession.getMapper(MateMapper.class);
+		int count = mapper.applyBbs(dto);
+		return count;
+	} //applyBbsMate() end
+
+	public int applyRecm(ApplyRecm_DTO dto) {
+		MateMapper mapper = sqlSession.getMapper(MateMapper.class);
+		int count = mapper.applyRecm(dto);
+		return count;
+	} //applyBbsMate() end
+	
+	public int delete(MateDTO dto) {
+		MateMapper mapper = sqlSession.getMapper(MateMapper.class);
+		int count = mapper.delete(dto);
+		return count;
+	} //applyBbsMate() end
 	
 	public ArrayList<ChatDTO> mateChat(String nowTime) {
 		MateMapper mapper = sqlSession.getMapper(MateMapper.class);
 		ArrayList<ChatDTO> mateChat = mapper.mateChat(nowTime);
 		return mateChat;
-	} // mateOk() end
+	} // mateChat() end
 	
 	public int submit(String chatName, String chatContent) {
 		MateMapper mapper = sqlSession.getMapper(MateMapper.class);
 		int count = mapper.submit(chatName, chatContent);
 		return count;
-	} // create() end
+	} //submit() end
 	
 	/*
 	public NoticeDTO read(NoticeDTO dto) {

@@ -4,6 +4,8 @@ public class ApplyBbs_DTO {
 	
 	private String ma_code;
 	private int b_no;
+	private String ct_code;
+	private String m_date;
 	private String mate_code;
 	private String sp_id;
 	private int people;
@@ -25,6 +27,22 @@ public class ApplyBbs_DTO {
 
 	public void setB_no(int b_no) {
 		this.b_no = b_no;
+	}
+
+	public String getCt_code() {
+		return ct_code;
+	}
+
+	public void setCt_code(String ct_code) {
+		this.ct_code = ct_code;
+	}
+
+	public String getM_date() {
+		return m_date;
+	}
+
+	public void setM_date(String m_date) {
+		this.m_date = m_date;
 	}
 
 	public String getMate_code() {
@@ -61,9 +79,8 @@ public class ApplyBbs_DTO {
 
 	@Override
 	public String toString() {
-		return "ApplyBbs_DTO [ma_code=" + ma_code + ", b_no=" + b_no + ", mate_code=" + mate_code + ", sp_id=" + sp_id
-				+ ", people=" + people + ", mp_id=" + mp_id + "]";
+		return "ApplyBbs_DTO [ma_code=" + ma_code + ", b_no=" + b_no + ", ct_code=" + ct_code + ", m_date=" + m_date
+				+ ", mate_code=" + mate_code + ", sp_id=" + sp_id + ", people=" + people + ", mp_id=" + mp_id + "]";
 	}
-	
 
 }//class end

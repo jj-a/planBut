@@ -105,21 +105,29 @@
 				    <a href="./mateApply.do">■ 동행 신청 목록</a>
 			    </th>
                 <th>
-				    <a href="./mateReceive.do">■ 동행 신청 받은 내역</a>
+				    <a href="./mateReceive.do" class="list-group-item active">■ 동행 신청 받은 내역</a>
 			    </th>
 				</tr>
 				</table> 
 				
 				<h3>동행 신청 받은 내역</h3>
 				<form action="">
+				<input type="hidden" name="mate_code" value="${dto.mate_code }">
 				<input type="hidden" name="ma_code" value="">
+				<input type="hidden" name="mate_list" value="">
+				<input type="hidden" name="mp_id" value="">
+				<input type="hidden" name="ct_code" value="">
+				<input type="hidden" name="m_date" value="">
+				<input type="hidden" name="mate_type" value="">
 			    <table border="1" style="margin: auto;">
 			    <tr>
-                <td colspan="6" class="gr">동행 게시판 경로</td>
+                <td colspan="8" class="gr">동행 게시판 경로</td>
                 </tr>
                 <tr>
                 <th>신청번호</th>
                 <th>글번호</th>
+                <th>도시</th>
+                <th>동행일</th>
                 <th>신청자 아이디</th>
                 <th>신청한 인원</th>
                 <th>처리상황</th>
@@ -129,53 +137,78 @@
 			    <tr>
 			    <td>${dto.ma_code }</td>
 			    <td>${dto.b_no }</td>
+			    <td>${dto.ct_code }</td>
+			    <td>${dto.m_date.substring(0,10) }</td>
 			    <td>${dto.sp_id }</td>
 			    <td>${dto.people }</td>
 			    <c:choose>
-			    <c:when test="${dto.mate_code == '2' }">
-                <td>취소</td>
-                </c:when>
-                <c:otherwise>
-			    <td>
-			    <select name="mate_code" id="mate_code" onchange="recCheck(this.form, this, 1)">
-                <option value="0" <c:if test="${dto.mate_code == '0' }">selected</c:if>>대기</option>
-                <option value="1" <c:if test="${dto.mate_code == '1' }">selected</c:if>>거절</option>
-                </select>
-                </td>
-                </c:otherwise>
+	                <c:when test="${dto.mate_code eq '0' }">
+		            	<td>대기</td>
+	                	<td><input type="button" value="승인"onclick="recCheck(this.form, this, 1)">
+	                		<input type="hidden" value="${dto.mp_id }">
+	                		<input type="hidden" value="${dto.sp_id }">
+	                		<input type="hidden" value="${dto.ct_code }">
+	                		<input type="hidden" value="${dto.m_date.substring(0,10) }">
+							<input type="button" value="거절" onclick="recCheck(this.form, this, 1)"></td>
+		            </c:when>
+	                <c:when test="${dto.mate_code eq '1' }">
+		            	<td>거절</td>
+                		<td><input type="button" value="승인" onclick="recCheck(this.form, this, 1)">
+	                		<input type="hidden" value="${dto.mp_id }">
+	                		<input type="hidden" value="${dto.sp_id }">
+	                		<input type="hidden" value="${dto.ct_code }">
+	                		<input type="hidden" value="${dto.m_date.substring(0,10) }"></td>
+		            </c:when>
+				    <c:when test="${dto.mate_code eq '2' }">
+	                <td colspan="2">취소</td>
+	                </c:when>
+		            <c:otherwise>
+		            	<td colspan="2">승인</td>
+		            </c:otherwise>
                 </c:choose>
-                <td><input type="button" value="승인" onclick="recOk()"></td>
                 </tr>
 			    </c:forEach>
 			    <tr>
-			    <td colspan="6" class="gr">동행 추천 경로</td>
+			    <td colspan="8" class="gr">동행 추천 경로</td>
 			    </tr>
 			    <tr>
 			    <th>신청번호</th>
+                <th colspan="2">도시</th>
 			    <th>신청자 아이디</th>
-			    <th colspan="2">동행 날짜</th>
+			    <th colspan="2">동행일</th>
 			    <th>처리상황</th>
 			    <th>동행승인</th>
 			    </tr>
 			    <c:forEach var="dto1" items="${myMateRecm }">
 			    <tr>
 			    <td>${dto1.ma_code }</td>
+			    <td colspan="2">${dto1.ct_code }</td>
 			    <td>${dto1.sp_id }</td>
 			    <td colspan="2">${dto1.m_date.substring(0,10) }</td>
 			    <c:choose>
-			    <c:when test="${dto1.mate_code == '2' }">
-                <td>취소</td>
-                </c:when>
-                <c:otherwise>
-                <td>
-                <select name="mate_code" id="mate_code" onchange="recCheck(this.form, this, 2)">
-                <option value="0" <c:if test="${dto1.mate_code == '0' }">selected</c:if>>대기</option>
-                <option value="1" <c:if test="${dto1.mate_code == '1' }">selected</c:if>>거절</option>
-                </select>
-                </td>
-                </c:otherwise>
+				    <c:when test="${dto1.mate_code == '2' }">
+	                <td colspan="2">취소</td>
+	                </c:when><c:when test="${dto1.mate_code == '1' }">
+		            	<td>거절</td>
+                		<td><input type="button" value="승인" onclick="recCheck(this.form, this, 2)">
+	                		<input type="hidden" value="${dto1.mp_id }">
+	                		<input type="hidden" value="${dto1.sp_id }">
+	                		<input type="hidden" value="${dto1.ct_code }">
+	                		<input type="hidden" value="${dto1.m_date.substring(0,10) }"></td>
+		            </c:when>
+	                <c:when test="${dto1.mate_code == '0' }">
+		            	<td>대기</td>
+                		<td><input type="button" value="승인" onclick="recCheck(this.form, this, 2)">
+	                		<input type="hidden" value="${dto1.mp_id }">
+	                		<input type="hidden" value="${dto1.sp_id }">
+	                		<input type="hidden" value="${dto1.ct_code }">
+	                		<input type="hidden" value="${dto1.m_date.substring(0,10) }">
+							<input type="button" value="거절" onclick="recCheck(this.form, this, 2)"></td>
+		            </c:when>
+		            <c:otherwise>
+		            	<td colspan="2">승인</td>
+		            </c:otherwise>
                 </c:choose>
-                <td><input type="button" value="승인" onclick="recOk()"></td>
 			    </tr>
 			    </c:forEach>
 			    
@@ -212,42 +245,63 @@ $(function(){
 
 function recCheck(f, i, a) {
 	var rq = i.parentElement.parentElement.rowIndex;
+	var hd=$(i).attr("value");
 	var cd = document.getElementsByTagName('tr')[rq+1].children[0].childNodes[0].nodeValue;
+	var mp=$(i).parent().children().eq(1).attr("value");
+	var list=mp+","+$(i).parent().children().eq(2).attr("value");
+	var ct=$(i).parent().children().eq(3).attr("value");
+	var md=$(i).parent().children().eq(4).attr("value");
 	f.ma_code.value = cd;
-	//var mc = $(i).attr("class");
-	//var ele = document.getElementById("receive");
-    //var number = ele.childElementCount;
-    //var eg = ele.childNodes[0].children;
-    //var ge = ele.children().eq(0).attr("value")
+	
 	if(a==1){
-		alert(rq);
-		alert(cd);
-		alert(f.ma_code.value)
-		//alert(mc);  
-		//alert(ele);
-		//alert(number);
-		//alert(eg);
-		//alert(ge);
-	    var message="변경하시겠습니까?";
-	    if(confirm(message)) {
-	    	   f.action="./recBbsChange.do";
-	    } // if end
+		if(hd=="거절"){
+			f.ma_code.value = cd;
+			f.mate_code.value=1;
+			f.action="./recBbsChange.do";
+		}
+		if(hd=="승인"){
+			f.mate_type.value="B";
+			f.m_date.value=md
+			f.ct_code.value=ct;
+			f.mp_id.value=mp;
+			f.mate_list.value=list;
+			f.action="./applyBbsMate.do";
+		}
     } // if end 
 	   
 	if(a==2){
-		alert(rq);
-        alert(ma_code);
-	    var message="변경하시겠습니까?";
-	    if(confirm(message)) {
-	    	   f.action="./recRecmChange.do?ma_code="+ma_code;
-	    } // if end
+		if(hd=="거절"){
+			f.mate_code.value=1;
+			f.action="./recRecmChange.do";
+		}
+		if(hd=="승인"){
+			f.mate_type.value="R";
+			f.m_date.value=md
+			f.ct_code.value=ct;
+			f.mp_id.value=mp;
+			f.mate_list.value=list;
+			f.action="./applyBbsMate.do";
+		}
 	} // if end
-     
+
+    var message="변경하시겠습니까?";
+	if(confirm(message)) f.submit();
 } // recCheck() end
 
-function recOk() {
-    	
-} // recOk() end
+function applyMate(f, i, a) {
+	var rq = i.parentElement.parentElement.rowIndex;
+	var cd = document.getElementsByTagName('tr')[rq+1].children[0].childNodes[0].nodeValue;
+	if(a==1){
+		f.action="./applyBbsMate.do";
+    } // if end 
+	   
+	if(a==2){
+		f.action="./applyRecmMate.do";
+	} // if end
+
+    var message="변경하시겠습니까?";
+	if(confirm(message)) f.submit();
+} // applyMate() end
 
 </script>
 

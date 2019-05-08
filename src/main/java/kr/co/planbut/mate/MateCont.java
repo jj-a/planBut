@@ -71,9 +71,65 @@ public class MateCont {
 	mav.setViewName("redirect:/mypage/mateReceive.do");
 	int count = dao.recBbsChange(dto);
 	mav.addObject("count", count);
-	
 	return mav;
-	} // deleteProc() end
+	} // recBbsChangeProc() end
+    
+    @RequestMapping( value  = "/mypage/recRecmChange.do", 
+	 	 	 method = RequestMethod.GET )
+	public ModelAndView recRecmChange(ApplyRecm_DTO dto) {
+	ModelAndView mav = new ModelAndView();
+	mav.setViewName("redirect:/mypage/mateReceive.do");
+	int count = dao.recRecmChange(dto);
+	mav.addObject("count", count);
+	return mav;
+	} // recRecmChange() end
+
+    @RequestMapping( value  = "/mypage/applyBbsMate.do", 
+	 	 	 method = RequestMethod.GET )
+	public ModelAndView applyBbsMate(MateDTO dto) {
+	ModelAndView mav = new ModelAndView();
+	mav.setViewName("mypage/applyBbsMate");
+	int count = dao.applyBbsMate(dto);
+	mav.addObject("count", count);
+	mav.addObject("dto", dto);
+	return mav;
+	} // applyBbsMate() end
+    
+    @RequestMapping( value  = "/mypage/applyBbs.do", 
+	 	 	 method = RequestMethod.POST )
+	public ModelAndView applyBbsMateProc(ApplyBbs_DTO dto, ApplyRecm_DTO dto2) {
+	ModelAndView mav = new ModelAndView();
+	mav.setViewName("redirect:/mypage/mateReceive.do");
+	int count1 = dao.applyBbs(dto);
+	int count2 = dao.applyRecm(dto2);
+	mav.addObject("count", count1);
+	mav.addObject("count", count2);
+	mav.addObject("dto", dto);
+	return mav;
+	} // applyBbsProc() end
+/*
+    @RequestMapping( value  = "/mypage/applyBbs.do", 
+	 	 	 method = RequestMethod.POST )
+	public ModelAndView applyBbsMateProc(ApplyRecm_DTO dto) {
+	ModelAndView mav = new ModelAndView();
+	mav.setViewName("redirect:/mypage/mateReceive.do");
+	int count = dao.applyRecm(dto);
+	mav.addObject("count", count);
+	mav.addObject("dto", dto);
+	return mav;
+	} // applyBbsProc() end
+*/
+    @RequestMapping( value = "/mypage/delete.do", 
+                  method = RequestMethod.GET )
+    public ModelAndView deleteProc(MateDTO dto) {
+       ModelAndView mav = new ModelAndView();
+       System.out.println(dto);
+       mav.setViewName("redirect:/mypage/mateReceive.do");
+       int count = dao.delete(dto);
+       mav.addObject("count", count);
+       mav.addObject("dto", dto);
+       return mav;
+    } // deleteProc() end
     
     @RequestMapping( value  = "/mate/mateChat.do", 
     				 method = RequestMethod.POST )
@@ -84,7 +140,7 @@ public class MateCont {
 	
 	mav.addObject("mateChat", mateChat);
 	return mav;
-	} // deleteProc() end
+	} // mateChat() end
     
     @RequestMapping( value  = "/mate/submit.do", 
 				 	 method = RequestMethod.GET )
@@ -97,7 +153,7 @@ public class MateCont {
 	mav.addObject("chatName", chatName);
 	mav.addObject("chatContent", chatContent);
 	return mav;
-	} // deleteProc() end
+	} // submitForm() end
     
     @RequestMapping( value  = "/mate/submit.do", 
     				 method = RequestMethod.POST )
@@ -111,6 +167,6 @@ public class MateCont {
 	
 	mav.addObject("count", count);
 	return mav;
-	} // deleteProc() end
+	} // submit() end
     
 } // class end

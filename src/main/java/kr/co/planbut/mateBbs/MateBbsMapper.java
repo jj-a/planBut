@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import kr.co.planbut.applyBbs.ApplyBbsDTO;
-import kr.co.planbut.applyRecm.ApplyRecmDTO;
 import kr.co.planbut.common.CityplanDTO;
 import kr.co.planbut.common.PlannerDTO;
+import kr.co.planbut.mate.ApplyRecm_DTO;
 
 public interface MateBbsMapper {
    /*
@@ -15,7 +15,7 @@ public interface MateBbsMapper {
    */
 
    // <insert id="applyRecm"> 추천아이디에 동행신청
-   public int applyRecm(ApplyRecmDTO dto);
+   public int applyRecm(ApplyRecm_DTO dto);
    
    // <insert id="create">
    public int create(MateBbsDTO dto);

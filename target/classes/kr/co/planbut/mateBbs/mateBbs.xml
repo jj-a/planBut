@@ -14,7 +14,7 @@
    -->
    
    <!-- 추천아이디에 동행신청 -->
-   <insert id="applyRecm" parameterType="ApplyRecmDTO">
+   <insert id="applyRecm" parameterType="ApplyRecm_DTO">
       <selectKey keyProperty="ma_code" resultType="String" order="BEFORE"> 
       <![CDATA[
          select concat(

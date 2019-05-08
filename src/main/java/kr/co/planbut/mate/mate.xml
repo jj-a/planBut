@@ -31,7 +31,7 @@
 	
 	<select id="myMateBbs" resultType="ApplyBbs_DTO">
 	    <![CDATA[
-		    select BB.b_no, sp_id, people, mate_code, ma_code
+		    select BB.mp_id, BB.m_date, BB.ct_code, BB.b_no, sp_id, people, mate_code, ma_code
 			from(
 			select b_no, sp_id, people, mate_code, ma_code
 			from mateapply_b
@@ -43,9 +43,11 @@
 	
 	<select id="myMateRecm" resultType="ApplyRecm_DTO">
         <![CDATA[
-            select ma_code, sp_id, m_date, mate_code
+            select bb.ct_code, aa.ma_code, aa.sp_id, aa.m_date, aa.mate_code, aa.mp_id
+			from(select cp_code, ma_code, sp_id, m_date, mate_code, mp_id
 			from mateapply_r
-			where mp_id = #{mp_id}     
+			where mp_id = #{mp_id})aa join cityplan bb
+			on aa.cp_code=bb.cp_code
        ]]>
     </select>
     
@@ -57,7 +59,7 @@
 			from mateapply_b
 			) AA join mateboard BB
 			on AA.b_no = BB.b_no
-			where sp_id = #{sp_id}      
+			where sp_id = #{sp_id}
        ]]>
     </select>
     
@@ -89,19 +91,45 @@
 		   )as code
 		 from mate
 		 group by code
-		 ;
       ]]>
       </selectKey>
         
       <![CDATA[
-         insert into mateapply_b(ma_code, b_no, sp_id, people, mate_code)
-         values(#{ma_code}, #{b_no}, #{sp_id}, #{people}, 0)
+         insert into mate(mate_code, m_date, ct_code, mp_id, mate_list, mate_type )
+         values(#{mate_code}, #{m_date}, #{ct_code}, #{mp_id}, #{mate_list}, #{mate_type})
       ]]>
    </insert>
-    
+
+   <update id="applyBbs" parameterType="MateDTO">
+            update mateapply_b
+            set mate_code = #{mate_code}
+            where ma_code = #{ma_code}
+   </update>
+   
+   <update id="applyRecm" parameterType="MateDTO">
+            update mateapply_r
+            set mate_code = #{mate_code}
+            where ma_code = #{ma_code}
+   </update>
+   
+   <delete id="delete" parameterType="MateDTO">
+        <![CDATA[
+            delete from mate
+			where mate_code=#{mate_code}
+       ]]>
+    </delete>
+
     <update id="recBbsChange" parameterType="ApplyBbs_DTO">
         <![CDATA[
             update mateapply_b
+            set mate_code = #{mate_code}
+            where ma_code = #{ma_code}
+        ]]>
+    </update>
+    
+    <update id="recRecmChange" parameterType="ApplyBbs_DTO">
+        <![CDATA[
+            update mateapply_r
             set mate_code = #{mate_code}
             where ma_code = #{ma_code}
         ]]>

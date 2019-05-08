@@ -90,53 +90,23 @@
 			<!-- 컨텐츠 -->
 			<div class="contents">
 			
-				<div class="mymate-body">
-				<table>
-				<tr>
-				<th>
-				    <a href="./mymate.do" class="list-group-item active">■ 동행 확정 목록</a>
-			    </th>
-			    <th>
-				    <a href="./mateApply.do">■ 동행 신청 목록</a>
-			    </th>
-                <th>
-				    <a href="./mateReceive.do">■ 동행 신청 받은 내역</a>
-			    </th>
-				</tr>
-				</table>
-				
-                <h3>동행 확정 목록</h3>
+                <h3>동행 승인</h3>
     
-                <table border="1" style="margin: auto;">
-                <c:forEach var="dto" items="${mateOk }">
-                <tr>
-                	<th></th>
-                </tr>
-                <tr>
-                <th>동행 하는 사람들</th>
-                <td>${dto.mate_list }</td>
-                <th>모집자 아이디</th>
-                <td>${dto.mp_id }</td>
-                <th>여행 도시</th>
-                <td>${dto.ct_code }</td>
-                <th>동행 날짜</th>
-                <td>${dto.m_date.substring(0,10) }</td>
-                <th>신청경로</th>
-                <td>
-                <c:if test="${dto.mate_type == 'R' }">추천</c:if>
-                <c:if test="${dto.mate_type == 'B' }">게시판</c:if>
-                </td>
-                </tr>
-                </c:forEach>
-                </table>    
+                <form method="POST" action="./applyBbs.do">
+					<input type="hidden" name="mate_type" value="${dto.mate_type }">
+					<input type="hidden" name="mate_code" value="${dto.mate_code }">
+					<input type="hidden" name="ma_code" value="${dto.ma_code }">
+					
+					<input type="submit" value="승인확정">
+					<input type="button" value="취소" onclick="Check(this.form, 2)">
+				</form>
 					<div style="clear: both"></div>
 
-				</div>
+			</div>
 				<!-- panel-body end -->
 				
 
 
-			</div>
 		</div>
 	</div>
 </div>
@@ -148,7 +118,22 @@
 
 <script>
 //////////////////// 부가 기능 Script ////////////////////
-
+function Check(f, i) {
+	if(i==2){
+		f.method="GET";
+		f.action="./delete.do";
+		var message="취소하시겠습니까?";
+	}
+        /* 
+	if(i==2){
+		f.method="GET";
+		f.action="./applyBbs.do";
+		var message="게시물을 수정하시겠습니까?";
+	}
+     */
+	if(confirm(message)) f.submit();
+} // Check() end
+    
 /* 접근 권한 제어 */
 $(function(){
 	var m_id='${session_m_id}';

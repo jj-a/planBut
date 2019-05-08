@@ -145,8 +145,7 @@ width: 800px;
     function applyR(f, i) {
     	var mpid=$(i).parent().children().eq(1).attr("value");
     	var code=$(i).parent().children().eq(2).attr("value");
-    	//alert(mpid);
-    	alert(code);
+
         f.mp_id.value = mpid;
         f.cp_code.value = code;
 		f.action="./applyRecm.do";
