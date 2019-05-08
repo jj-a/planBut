@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.planbut.mateBbs.MateBbsDAO;
-import kr.co.planbut.mateBbs.MateBbsDTO;
 
 @Controller
 public class MateCont {	
@@ -138,7 +137,7 @@ public class MateCont {
     } // deleteProc() end
     
     @RequestMapping( value  = "/mate/mateChat.do", 
-				 method = RequestMethod.GET )
+    				 method = RequestMethod.GET )
 	public ModelAndView mateChatForm(String nowTime) {
 	ModelAndView mav = new ModelAndView();
 	mav.setViewName("mate/mateChat");
@@ -184,5 +183,6 @@ public class MateCont {
     	mav.addObject("count", count);
     	return mav;
     }
+   
     
 } // class end

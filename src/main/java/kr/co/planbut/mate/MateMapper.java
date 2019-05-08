@@ -51,8 +51,7 @@ public interface MateMapper {
 	
 	// <update id="update">
 	public int submit(ChatDTO dto);
-	
-	
+
 	/*
 	// <delete id="delete">
 	public int delete(NoticeDTO dto);
