@@ -3,7 +3,6 @@
 <script src="${pageContext.request.contextPath }/js/tour_submenu.js"></script>
 <script src="${pageContext.request.contextPath }/css/tour.css"></script>
 
-
 <style>
 #tour1 {
 	margin-top: 70px;
@@ -62,6 +61,12 @@
 	height : 160px;
 }
 
+    .menu a{cursor:pointer;}
+    .menu .hide{display:none;}
+
+.list{
+	padding : 0;
+}
 
 </style>
 
@@ -93,40 +98,33 @@
 <div class="credits__container"></div>
 
 <div id="tour3">
-	<div>
-		<div class="main-title">
-			<div>
-				<h2>국가</h2>
-			</div>
-			<div>
-				<h2>▼</h2>
-			</div>
-		</div>
-		<div>
-			<c:forEach var="dto" items="${countrylist }">
+
+ 	<div class="main-title">
+		<ul class="list">
+			<li><a>국가 ▼</a>
 				<ul>
-					<li><a>${dto.countryDTO.c_name }</a></li>
+					<c:forEach var="dto" items="${countrylist }">
+						<li><a>${dto.countryDTO.c_name }</a></li>
+					</c:forEach>
 				</ul>
-			</c:forEach>
-		</div>
+			</li>
+		</ul>
 	</div>
 
 	<div>
-		<div>
-			<div>
-				<h2>도시</h2>
-			</div>
-			<div>
-				<h2>▼</h2>
-			</div>
-		</div>
-		<div>
-			<c:forEach var="dto" items="${citylist }">
+		<ul class="list">
+			<li><a>도시▼</a> 
+			<!-- 국가 선택 안했을 때 -->
+			<!-- <p>국가를 선택 해주세요 -->
+			<!-- 국가 선택했을 때 도시리스트 출력 -->
 				<ul>
-					<li><a href="./tourlist.do?ct_code=${dto.ct_code }">${dto.cityDTO.ct_name}</a></li>
+					<c:forEach var="dto" items="${citylist }">
+		<%-- 				<li class="ct_list"><a href="./tourlist.do?ct_code=${dto.ct_code }">${dto.cityDTO.ct_name}</a></li> --%>
+						<li><a id="ct_list">${dto.cityDTO.ct_name}</a></li>
+					</c:forEach>
 				</ul>
-			</c:forEach>
-		</div>
+			</li>
+		</ul>
 	</div>
 </div>
 
@@ -148,12 +146,53 @@
 </div>
 
 <div id="tour5">
-	<p>인기있는 도시</p>
+	
 </div>
 
-
 <script>
+//ajax
+	$(document).ready(function(){
+		
+		$("#ct_list").on('click', function(){
+			
+			$.ajax({
+				
+				type: "get",
+				contentType: "application/json; charset=UTF-8", 
+				url: "${pageContext.request.contextPath}/tour/tour",
+				data: {
+					ct_code : "${dto.cityDTO.ct_code}"
+				},
+				dataType : "json",
+				success : function (data) {
+					 console.log(data);
+					 tu_list(data, tour);
+				},
+				error : function(error){
+					alert("error" + error);
+				}
+				
+			});//ajax end
+		});
+	});
 
+function tu_list(data) {
+	
+	$.each(data, function(idx, tour){
+	
+		var tour_name = tour.tour_name;
+		var photo = tour.photo;
+		var price = tour.price;
+		
+		$("<div/>",{ "class" : "tour5", html : [
+		$("<p/>", { "class": "tname", html: "투어이름 : "+tour.tour_name }),
+		$("<p/>", { "class": "tphoto", html: "투어사진 : "+tour_photo }), 
+		$("<p/>", { "class": "tprice", html: "금액 : "+tour.price }), 
+		]})
+		
+	});//for end
+
+	}//tu_list end
 </script>
 
 <%@ include file='../footer.jsp'%>

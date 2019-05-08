@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.planbut.member.MemberDAO;
@@ -41,6 +42,21 @@ public class TourCont {
 		
 		return mav;
 	}//list end
+	
+	@ResponseBody
+	 @RequestMapping(value="/tour/tour", produces = "application/json", method=RequestMethod.GET)
+	   public ArrayList<TourDTO> tourlistload(TourDTO dto) {
+
+	      System.out.println("tour_code:"+dto.getTour_code());
+	      System.out.println("tour_name:"+dto.getTour_name());
+	      System.out.println("price:"+dto.getPrice());
+	      
+	      ArrayList<TourDTO> list=dao.tourlist(dto);   // 캘린더(calendar) 리스트 -> 수정 시
+	      
+	      System.out.println("투어 리스트: "+list.size());
+	      
+	      return list;
+	   }// calendarLoad() end
 	
 	@RequestMapping(value="/tour/city.do", method=RequestMethod.GET)
 	public ModelAndView city() {
