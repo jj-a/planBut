@@ -1,6 +1,8 @@
 package kr.co.planbut.mate;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.planbut.mateBbs.MateBbsDAO;
@@ -132,41 +136,51 @@ public class MateCont {
     } // deleteProc() end
     
     @RequestMapping( value  = "/mate/mateChat.do", 
-    				 method = RequestMethod.POST )
-	public ModelAndView mateChat(String nowTime) {
-	ModelAndView mav = new ModelAndView();
-	mav.setViewName("mate/mateChat");
-	ArrayList<ChatDTO> mateChat = dao.mateChat(nowTime);
-	
-	mav.addObject("mateChat", mateChat);
-	return mav;
-	} // mateChat() end
-    
-    @RequestMapping( value  = "/mate/submit.do", 
-				 	 method = RequestMethod.GET )
-	public ModelAndView submitForm(HttpServletRequest request, HttpServletResponse response, String chatName, String chatContent) {
-	ModelAndView mav = new ModelAndView();
-	mav.setViewName("mate/mateChat");
-	chatName = request.getParameter(chatName);
-	chatContent = request.getParameter(chatContent);
-	
-	mav.addObject("chatName", chatName);
-	mav.addObject("chatContent", chatContent);
-	return mav;
-	} // submitForm() end
-    
-    @RequestMapping( value  = "/mate/submit.do", 
-    				 method = RequestMethod.POST )
-	public ModelAndView submit(HttpServletRequest request, HttpServletResponse response, String chatName, String chatContent) {
-	ModelAndView mav = new ModelAndView();
-	mav.setViewName("mate/mateChat");
-	chatName = request.getParameter(chatName);
-	chatContent = request.getParameter(chatContent);
-	
-	int count = dao.submit(chatName, chatContent);
-	
-	mav.addObject("count", count);
-	return mav;
-	} // submit() end
+            method = RequestMethod.GET )
+  public ModelAndView mateChatForm(String nowTime) {
+  ModelAndView mav = new ModelAndView();
+  mav.setViewName("mate/mateChat");
+  nowTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+  ArrayList<ChatDTO> mateChat = dao.mateChat(nowTime);
+  System.out.println(nowTime);
+  mav.addObject("nowTime", nowTime);
+  mav.addObject("mateChat", mateChat);
+  System.out.println(mateChat);
+  return mav;
+  } // mateChatForm() end
+   
+   @RequestMapping( value  = "/mate/mateChat.do", 
+                method = RequestMethod.POST )
+  public ModelAndView mateChat(String nowTime) {
+  ModelAndView mav = new ModelAndView();
+  mav.setViewName("redirect:/mate/mateChat.do");
+  nowTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+  ArrayList<ChatDTO> mateChat = dao.mateChat(nowTime);
+  
+  mav.addObject("nowTime", nowTime);
+  mav.addObject("mateChat", mateChat);
+  return mav;
+  } // mateChat() end
+   
+   @RequestMapping( value  = "/mate/submit.do", 
+                method = RequestMethod.GET )
+  public ModelAndView submitForm(String chatName, String chatContent) {
+  ModelAndView mav = new ModelAndView();
+  mav.setViewName("mate/mateChat");
+  
+  return mav;
+  } // submitForm() end
+   
+   @RequestMapping( value  = "/mate/submit.do", 
+                method = RequestMethod.POST )
+   @ResponseBody
+  public ModelAndView submit(@RequestParam("chatName") String chatName, @RequestParam("chatContent") String chatContent, ChatDTO dto) {
+      ModelAndView mav = new ModelAndView();
+      mav.setViewName("redirect:/mate/mateChat.do");
+      int count = dao.submit(dto);
+      
+      mav.addObject("count", count);
+      return mav;
+   }
     
 } // class end

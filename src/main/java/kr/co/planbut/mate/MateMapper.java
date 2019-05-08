@@ -48,7 +48,7 @@ public interface MateMapper {
 	public ArrayList<ChatDTO> mateChat(String nowTime);
 	
 	// <update id="update">
-	public int submit(String chatName, String chatContent);
+	public int submit(ChatDTO dto);
 	/*
 	// <delete id="delete">
 	public int delete(NoticeDTO dto);

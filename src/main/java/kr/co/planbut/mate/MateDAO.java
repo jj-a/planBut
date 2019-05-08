@@ -96,9 +96,9 @@ public class MateDAO {
 		return mateChat;
 	} // mateChat() end
 	
-	public int submit(String chatName, String chatContent) {
+	public int submit(ChatDTO dto) {
 		MateMapper mapper = sqlSession.getMapper(MateMapper.class);
-		int count = mapper.submit(chatName, chatContent);
+		int count = mapper.submit(dto);
 		return count;
 	} //submit() end
 	
