@@ -117,8 +117,6 @@ public class PlanController {
 	@ResponseBody
 	@RequestMapping(value="/plan/calendar", produces = "application/json", method=RequestMethod.GET)
 	public ArrayList<CalendarDTO> calendarLoad(CalendarDTO dto) {
-//		ModelAndView mav = new ModelAndView();
-//		mav.setViewName("redirect:/plan/calendar.do?plan_code="+dto.getPlan_code());
 
 		System.out.println("plancode:"+dto.getPlan_code());
 		System.out.println("date:"+dto.getDate());
@@ -186,7 +184,7 @@ public class PlanController {
 			JSONArray jsonArray = (JSONArray) jsonParser.parse(json);
 			
 			String plan_code =(String) ((JSONObject) jsonArray.get(0)).get("plan_code");
-			System.out.println("clearCP 결과 : "+dao.clearCP(plan_code));
+			//System.out.println("clearCP 결과 : "+dao.clearCP(plan_code));
 			
             for(int i=0 ; i<jsonArray.size() ; i++){ //json에 있는 도시계획들 파싱
                 JSONObject jsonObj = (JSONObject) jsonArray.get(i);
@@ -204,10 +202,18 @@ public class PlanController {
                 dto.setS_date((String) jsonObj.get("s_date"));
                 dto.setRm_ok((String) jsonObj.get("rm_ok"));
                 //((Long)parse_response.get("age")).intValue();
-
-                result = dao.insertCP(dto); //insert 실행
-                System.out.println("insertCP 결과 : "+result);
-            }
+                
+                System.out.println(jsonObj.get("cp_code").equals("제거"));
+                
+                if (jsonObj.get("cp_code").equals("제거")) {//저장 안되어있던것만 insert
+	                result = dao.insertCP(dto); //insert 실행
+	                System.out.println("insertCP 결과 : "+result +"\n--------------------");
+                }else {                	
+                	dto.setCp_code((String) jsonObj.get("cp_code"));
+					result = dao.updateCP(dto);
+					System.out.println("updateCP 결과 : "+result +"\n--------------------");
+				}// if end
+            }//for end
             
 			
 			
@@ -223,6 +229,30 @@ public class PlanController {
 		}// try end
 		//return "결과";
 
+	}//cityPlanCreate() end
+	
+	@RequestMapping(value="/plan/delCP.do", method=RequestMethod.POST)
+	public void delCP(HttpServletRequest req, HttpServletResponse resp, String cp_code)throws IOException {
+		System.out.println(cp_code);
+		
+		try {
+			int result = 0;
+			
+			result = dao.delCP(cp_code); //insert 실행
+			System.out.println("delCP 결과 : "+result +"--------------------");
+			
+			resp.setContentType("text/plain; charset=UTF-8");
+			PrintWriter out=resp.getWriter();
+			out.println(result);
+			out.flush();
+			out.close();
+			
+		} catch (Exception e) {
+			System.out.println(e);
+			
+		}// try end
+		//return "결과";
+		
 	}//cityPlanCreate() end
 	
 }// class end

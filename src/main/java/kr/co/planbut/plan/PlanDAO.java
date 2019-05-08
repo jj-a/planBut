@@ -118,6 +118,25 @@ public class PlanDAO {
 		return result;
 		
 	}
+
+	public int delCP(String cp_code) {
+		PlanMapper mapper = sqlSession.getMapper(PlanMapper.class);		
+		int result = mapper.delCP(cp_code);
+		return result;
+	}
+
+	public int updateCP(CityplanDTO dto) {
+		PlanMapper mapper = sqlSession.getMapper(PlanMapper.class);	
+		System.out.println("------------------");
+		System.out.println(dto.getCp_code());
+		System.out.println(dto.getDay());
+		System.out.println(dto.getTrans());
+		System.out.println(dto.getOrder_code());
+		System.out.println(dto.getS_date());
+		System.out.println(dto.getRm_ok());
+		int result = mapper.updateCP(dto);
+		return result;
+	}
 	
 	
 }// PlanDAO end

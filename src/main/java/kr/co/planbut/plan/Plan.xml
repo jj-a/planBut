@@ -290,9 +290,31 @@
     <delete id="clearCP" parameterType="String">
 		<![CDATA[
 		delete from cityplan 
-        where plan_code = #{plan_code};
+        where plan_code = #{plan_code}
 		]]>
 	</delete>
+
+    <!-- cityplan 삭제 -->
+    <delete id="delCP" parameterType="String">
+		<![CDATA[
+		delete from cityplan 
+        where cp_code = #{cp_code}
+		]]>
+	</delete>
+
+    <!-- cityplan 수정 -->
+	<update id="updateCP" parameterType="kr.co.planbut.common.CityplanDTO">
+		<![CDATA[
+		update cityplan
+        set order_code  = #{order_code}, 
+            day         = #{day}, 
+            trans       = #{trans}, 
+            rm_ok       = #{rm_ok}, 
+            s_date      = #{s_date}
+        where cp_code = #{cp_code}
+		]]>
+	</update>
+
 
 </mapper>
  

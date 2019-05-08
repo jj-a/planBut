@@ -68,51 +68,22 @@ padding-right: 0px !important;
 					<c:forEach var="cp" items="${cplist }">
 					<li class="list-group-item" id="cityli">
 						
-						<!-- 이동일 계산 -->
+						<%-- <!-- 이동일 계산 -->
 						
 						<!-- 하루 단위 숫자 -->
 						<fmt:parseNumber var="dayUnit" value="${1000*60*60*24 }" /> 
-						<%--
-						<c:set var="e_date" value="<%=new Date(new Date().getTime() + 1000*60*60*24) %>"/>
-						<h5>${e_date }</h5>
-						<h5>${dayUnit }</h5>
-						--%>
 						<!-- 시작일 -->
 						<c:set var="s_date" value="${fn:substring(cp.s_date, 0,10)}" property="time" />
-						<%--
-						<h5>시작일: ${s_date }</h5>
-						--%>
 						<fmt:parseDate var="s_date" value="${s_date}" pattern="yyyy-MM-dd" /> <!-- String to Date -->
-						<%--
-						<h5>시작일(Date): ${s_date }</h5>
-						<h5>시작일( time): ${s_date.time }</h5>
-						<fmt:parseDate var="dayDate" value="${cp.day }" pattern="dd" />
-						<h5>기간(Date): ${dayDate }</h5>
-						<fmt:parseNumber var="dayNum" value="${dayUnit*cp.day }"/> <!-- Date to Number -->
-						<h5>기간(Number): ${dayNum }</h5>
-						<fmt:parseNumber var="sdateNum" value="${s_date.time / dayUnit}" integerOnly="true"/> <!-- Date to Number --> <!-- 일수 출력 -->
-						<h5>시작일(Number): ${sdateNum }</h5>
-						<fmt:parseNumber var="e_date" value="${(s_date.time + dayNum)/dayUnit}" integerOnly="true"/>						
-						 --%>
-						<%--<fmt:parseNumber var="e_date" value="<%=new Date((pageContext.getAttribute(s_date)).getTime() + 1000*60*60*24*3)) %>"/>--%>
-						<%--
-						<h5>이동일(Number): ${e_date }</h5>
-						<fmt:parseDate var="e_date" value="${e_date}" pattern="yyyy-MM-dd" /> <!-- Date to String -->
-						<h5>이동일(Date): ${e_date }</h5>
-						 --%>
-						
 						<!-- 최종 포맷 -->
 						<fmt:formatDate var="s_date" value="${s_date}" pattern="yyyy-MM-dd"  /> <!-- Date to String -->
-						<%--
 						<fmt:formatDate var="e_date" value="${e_date}" pattern="yyyy-MM-dd" /> <!-- Date to String -->
-						<h4>시작일: ${s_date }</h4>
-						<h4>이동일: ${e_date }</h4>
-						 --%>
-						<!-- 이동일 계산 -->
+						
+						<!-- 이동일 계산 --> --%>
 						
 						<h3 class="root-city" id="ct_name">${cp.city.ct_name }</h3> 
 						<span class="root-day">
-						<select id="day" >
+						<select id="day" class="daySelector" onchange="changeCP()">
 							<c:forEach var="i" begin="1" end="10" step="1">
 						        <c:choose>
 									<c:when test="${i eq cp.day }">
@@ -123,17 +94,18 @@ padding-right: 0px !important;
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
-			    		</select>박
-						</span> 
-						<span class="root-date">${fn:substring(s_date, 5,10)} ~ ${e_date} </span> 
+			    		</select>박&nbsp;
+						</span>
+				   <%-- <span class="root-date">${fn:substring(s_date, 5,10)} ~ </span>  --%>
+						<span class="root-date">${fn:substring(cp.s_date,0,10)} ~ </span>&nbsp;
 						<span class="root-transport">
 						<select id="trans">
-							<c:set var="array">기차, 항공, 버스, 페리, 기타</c:set>
+							<c:set var="array">기차,항공,버스,페리,기타</c:set>
 							
 							<c:forEach var="item" items="${array}" varStatus="idx">
 								<c:choose>
 									<c:when test="${cp.trans eq item  }">
-							        	<option value="${item }" selected>${item }</option>
+							        	<option value="${item}" selected>${item}</option>
 									</c:when>
 									<c:otherwise>									
 								        <option value="${item }">${item }</option>
@@ -154,6 +126,7 @@ padding-right: 0px !important;
 						</c:choose>
 						<span id="lat" style="display: none;">${cp.city.lat }</span>
 						<span id="lng" style="display: none;">${cp.city.lng }</span>
+						<span id="cp_code" style="display: none;" value="${cp.cp_code }">${cp.cp_code }</span>
 						<button onclick="delCP(this)">제거</button>
 					</li>
 					</c:forEach>
@@ -261,7 +234,7 @@ padding-right: 0px !important;
 					<a href="javascript:creatcp('${article.plan_code}');" class="btn btn-success" role="button">저장</a>
 
 					<%-- ${pageContext.request.contextPath}/plan/create.do?plan_code=${article.plan_code} --%>
-					<a href="${pageContext.request.contextPath}/plan/course.do?plan_code=${article.plan_code}" class="btn btn-info" role="button">다음단계로</a>
+					<a href="${pageContext.request.contextPath}/plan/course.do?plan_code=${article.plan_code}" class="btn btn-info" role="button" onclick="creatcp('${article.plan_code}');">다음단계로</a>
 					</c:when>
 					<c:when test="${empty session_m_id}">	<!-- 비회원일 시 -->
 					<a class="btn btn-default" role="button"></a>
@@ -457,27 +430,38 @@ padding-right: 0px !important;
 		flightPath.setMap(null);
 		//flightPath = null;
 	}//removeLine end
-/* 
-	// 경로 수정됬을떄 폴리라인 다시그리기-----------------
-	$("#cityli").mouseup(function(){
-		linePath = new Array();
-		
-		var lis =  $('#ul').children();		
-		lis.each(function(idx,li) {
-				//alert($(this).children().eq(7).text()+"****************"+$(this).children().eq(8).text());
-				//alert();
-				linePath.push(new google.maps.LatLng($(this).children().eq(7).text(), $(this).children().eq(8).text()));	
-		});	//lis.each end
-        addLine();
-		//alert("mouseup");
-    });// 경로 수정됬을떄 폴리라인 다시그리기--------------
 
-	 */
-	function addCity(idx, ct_code, ct_name, lat, lng) {//마커에서 추가버튼눌렀을떄 여행지 리스트에 추가
+	 
+	//마커에서 추가버튼눌렀을떄 여행지 리스트에 추가
+	function addCity(idx, ct_code, ct_name, lat, lng) {
+    	/* var sd = '${fn:substring(article.s_date, 0,10)}';
+    	var mo = moment("${article.s_date}").format("YYYY-MM-DD").toString() ;
+    	var ad = moment("${article.s_date}").add('days', 5).format("YYYY-MM-DD").toString() ;
+    	//alert(sd+"\n"+mo+"\n"+ad);
+    	*/
+		var lis =  $('#ul').children();		
+		var daytoadd = 0;
+		var s_date;
+		var e_date;
+		//alert(lis.length);
+    	if (lis.length==0) {
+	    	s_date= '${fn:substring(article.s_date, 0,10)}';
+	    	e_date= moment("${article.s_date}").add('days', 1).format("YYYY-MM-DD").toString();
+			//alert("s_date = "+ s_date);
+		} else {			
+			lis.each(function(idx,li) {
+					//alert( $(this).find("#day option:selected").val());
+					daytoadd+=parseInt($(this).find("#day option:selected").val());
+					s_date=moment("${article.s_date}").add('days', daytoadd).format("YYYY-MM-DD").toString();
+					e_date=moment(s_date).add('days', 1).format("YYYY-MM-DD").toString();
+			});	//lis.each end
+
+		}
+    	
 		var $li = $('<li class="list-group-item" id="cityli">\n'+
 			    '<h3 class="root-city" id="ct_name">'+ct_name+'</h3>\n'+
 			    '<span class="root-day">\n'+
-			    '<select id="day">\n'+
+			    '<select id="day" class="daySelector" onchange="changeCP()">\n'+
 			        '<option value="1">1</option>\n'+
 			        '<option value="2">2</option>\n'+
 			        '<option value="3">3</option>\n'+
@@ -489,9 +473,9 @@ padding-right: 0px !important;
 			        '<option value="9">9</option>\n'+
 			        '<option value="10">10</option>\n'+
 			    '</select>\n'+
-			    '박\n'+	
+			    '박 &nbsp; \n'+	
 			    '</span>\n'+
-			    '<span class="root-date">MM-DD ~ MM-DD</span>\n'+
+			    '<span class="root-date">'+s_date+' ~ '+e_date+'</span>&nbsp;\n'+
 			    '<span class="root-transport">\n'+
 			    '이동수단\n'+
 			    '<select id="trans">\n'+
@@ -520,24 +504,110 @@ padding-right: 0px !important;
 		
 	}//addCity() end
 	
-	function delCP(b) {// list에서 CP 하나 제거
-		b.parentElement.remove();
+	
+	//제거버튼 눌렀을 때
+	function delCP(btn) {// list에서 CP 하나 제거
+		//alert(btn.parentElement.children.length);
+		//alert(btn.parentElement.children);
+		//alert(btn.parentElement.childNodes);
+		/* 
+		for (i = 0; i <btn.parentElement.children.length; i++) {
+			//alert(btn.parentElement.children[i]);
+		  }
+		
+		 alert(btn.parentElement.children[8]);
+		 alert(btn.parentElement.children[9]);
+		 alert(btn.parentElement.children[10]);
+		  */
+		
+		/* valu.forEach(function(element, index, array) {
+			 console.log(element);
+			 alert(element);
+		}); */
+		
+		if (btn.parentElement.children[9].childNodes[0].nodeValue=="제거") {
+				alert("목록에서 제거했습니다."); //저장 안한거 지울때	
+				btn.parentElement.remove();
+		}else{//저장되어있던거 지울때
+			var cp_code = btn.parentElement.children[9].childNodes[0].nodeValue;
+				var con = confirm("제거를 진행하시면 저장되어있는 세부일정이 함께 제거됩니다. \n제거를 진행하시겠습니까?");
+				if (con==true) {
+					$.ajax({
+					       url: "${pageContext.request.contextPath}/plan/delCP.do",
+					       type:'POST',
+					       //dataType:"JSON",
+					       data: {cp_code:cp_code},
+					       success:function(result){
+					       	if (result==1) {
+					            alert("제거 되었습니다.");	
+							}else{
+					            alert("저장에 실패 하였습니다.");						
+							}
+					       },
+					       error:function(jqXHR, textStatus, errorThrown){
+					           alert("에러 발생~~ \n" + textStatus + " : " + errorThrown);
+					           //self.close();
+					       }
+						 });
+						
+						btn.parentElement.remove();
+				}//if end
+				
+			
+		}//if end
+		
+		/* 
+			  console.log(btn.parentElement.childNodes[31].nodeValue);
+		//alert(btn.parentElement.childNodes[31].nodeValue);
+		//alert(btn.parentElement.childen);
+		
+		console.log(btn.parentElement.childNodes[0].nodeValue);
+		console.log(btn.parentElement.childNodes[1].nodeValue);
+		console.log(btn.parentElement.childNodes[2].nodeValue);
+		console.log(btn.parentElement.childNodes[3].nodeValue);
+		console.log(btn.parentElement.childNodes[4].nodeValue);
+		console.log(btn.parentElement.lastChild.previousSibling.previousSibling.previousSibling.nodeValue);
+		 */ 
 		changeCP();
 	}//delCP() end
-	function changeCP() {// list 바뀌면 폴리라인 다시호출
-		linePath = new Array();
+	
+	function changeCP() {// list 바뀌면 폴리라인 다시호출		
+		
+		
+		removeLine();//폴리라인 지우기
+		linePath = new Array();//폴리라인그릴 경로Array초기화
+		var s_date;
+		var e_date;
+		var endcnt=0;
+		var day;
 		
 		var lis =  $('#ul').children();		
 		lis.each(function(idx,li) {
-				//alert($(this).children().eq(7).text()+"****************"+$(this).children().eq(8).text());
-				//alert();
-				linePath.push(new google.maps.LatLng($(this).children().eq(7).text(), $(this).children().eq(8).text()));	
+			linePath.push(new google.maps.LatLng($(this).children().eq(7).text(), $(this).children().eq(8).text()));	
+			day= parseInt($(this).find("#day option:selected").val());
+			//alert(day);
+			if (idx==0) {
+				s_date= '${fn:substring(article.s_date, 0,10)}';
+		    	e_date= moment("${article.s_date}").add('days', day).format("YYYY-MM-DD").toString();
+				endcnt+=day;
+		    	$(this).children().eq(2).text(s_date+' ~ '+e_date);
+				
+			}else{
+				s_date=moment("${article.s_date}").add('days', endcnt).format("YYYY-MM-DD").toString();
+				e_date=moment("${article.s_date}").add('days', endcnt+day).format("YYYY-MM-DD").toString();
+				
+				endcnt += day
+		    	$(this).children().eq(2).text(s_date+' ~ '+e_date);
+				
+			}		
+				
 		});	//lis.each end
-        addLine();
-	}//delCP() end
+		
+        addLine();//폴리라인 그리기
+	}//delCP() end초뭏
 	
-	/* 저장버튼눌렀을떄 1단계 계획 저장 */
-	function creatcp(plan_code) {
+	/* 저장버튼눌렀을떄 1단계 계획 저장 */	
+	function creatcp(plan_code) {//추가버튼 눌렀을
 		
 		var params= new Array;
 		var jsonData;
@@ -561,8 +631,12 @@ padding-right: 0px !important;
 			param.order_code = idx; 
 			param.day        = $(this).find("#day option:selected").val(); 
 			param.trans      = $(this).find("#trans option:selected").text(); 
-			param.s_date     = '2016-05-20';
+			param.s_date     = $(this).children().eq(2).text().substring(0,10);
 			param.rm_ok      = $(this).find("#rm_ok ").is(":checked")? 'Y': 'N';
+			param.cp_code    = $(this).children().eq(9).text();
+			
+			//alert($(this).children().eq(2).text().substring(0,10));
+			
 			
 			params.push(param);
 			//alert($(this).children().eq(7).text());
@@ -596,6 +670,8 @@ padding-right: 0px !important;
 		
 	}//creatcp() end
 	
+
+	
 	
 </script>
 
@@ -623,7 +699,8 @@ $(function(){
 </script>
 
 <!-- Cityplan Soctable ----------------------->
-<script src="./jquery-ui.min.js"></script>
+<script src="../js/jquery-ui.min.js"></script>
+<script src="../js/moment.js"></script>
 <script>
 $( function() {
   $( "#ul" ).sortable({
@@ -633,7 +710,12 @@ $( function() {
   });
   $( "#ul" ).disableSelection();
 })
-
+/* 
+$( ".daySelector" ).change(function() {
+  changeCP();
+  alert( "Handler for .change() called." );
+});
+ */
 </script>
 <!-- Cityplan Soctable end-------------------->
 

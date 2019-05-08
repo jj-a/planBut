@@ -31,5 +31,9 @@ public interface PlanMapper {
 	public int insertCP(CityplanDTO dto);
 
 	public int clearCP(String plan_code);
+
+	public int delCP(String cp_code);
+
+	public int updateCP(CityplanDTO dto);
 	
 } // PlanMapper end

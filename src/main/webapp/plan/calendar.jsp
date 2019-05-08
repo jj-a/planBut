@@ -86,7 +86,6 @@ html, body {
 
 		<!-- 우측 컨텐츠 -->
 		<div class="row-fluid col-xs-8 col-md-9">
-
 			<!-- 상단 메뉴 -->
 			<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
 				<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code}" class="btn btn-default" role="button">루트</a> <a
