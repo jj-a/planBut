@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Component
 public class MateDAO {
@@ -64,13 +65,13 @@ public class MateDAO {
 		MateMapper mapper = sqlSession.getMapper(MateMapper.class);
 		ArrayList<ChatDTO> mateChat = mapper.mateChat(nowTime);
 		return mateChat;
-	} // mateOk() end
+	} // mateChat() end
 	
-	public int submit(String chatName, String chatContent) {
-		MateMapper mapper = sqlSession.getMapper(MateMapper.class);
-		int count = mapper.submit(chatName, chatContent);
+	public int submit(ChatDTO dto) {
+		MateMapper mapper = sqlSession.getMapper(MateMapper.class);	
+		int count = mapper.submit(dto);
 		return count;
-	} // create() end
+	} // submit() end
 	
 	/*
 	public NoticeDTO read(NoticeDTO dto) {
