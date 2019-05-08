@@ -5,6 +5,7 @@ public class ApplyRecm_DTO {
 	private String mate_code;
 	private String m_date;
 	private String cp_code;
+	private String ct_code;
 	private String mp_id;
 	private String ma_code;
 	private String sp_id;
@@ -35,6 +36,14 @@ public class ApplyRecm_DTO {
 		this.cp_code = cp_code;
 	}
 
+	public String getCt_code() {
+		return ct_code;
+	}
+
+	public void setCt_code(String ct_code) {
+		this.ct_code = ct_code;
+	}
+
 	public String getMp_id() {
 		return mp_id;
 	}
@@ -61,8 +70,8 @@ public class ApplyRecm_DTO {
 
 	@Override
 	public String toString() {
-		return "ApplyRecm_DTO [mate_code=" + mate_code + ", m_date=" + m_date + ", cp_code=" + cp_code + ", mp_id="
-				+ mp_id + ", ma_code=" + ma_code + ", sp_id=" + sp_id + "]";
+		return "ApplyRecm_DTO [mate_code=" + mate_code + ", m_date=" + m_date + ", cp_code=" + cp_code + ", ct_code="
+				+ ct_code + ", mp_id=" + mp_id + ", ma_code=" + ma_code + ", sp_id=" + sp_id + "]";
 	}
 
 }//class end

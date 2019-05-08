@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.planbut.applyBbs.ApplyBbsDTO;
-import kr.co.planbut.applyRecm.ApplyRecmDTO;
+import kr.co.planbut.mate.ApplyRecm_DTO;
 
 @Controller
 public class MateBbsCont {
@@ -27,7 +27,7 @@ public class MateBbsCont {
    //동행추천 아이디에 동행신청하기
    @RequestMapping( value = "/mate/applyRecm.do", 
              method = RequestMethod.GET )
-       public ModelAndView applyRecmForm(ApplyRecmDTO dto) {
+       public ModelAndView applyRecmForm(ApplyRecm_DTO dto) {
          ModelAndView mav = new ModelAndView();
          mav.setViewName("mate/applyRecmForm");
          mav.addObject("dto", dto);
@@ -36,7 +36,7 @@ public class MateBbsCont {
       
        @RequestMapping( value = "/mate/applyRecm.do", 
                 method = RequestMethod.POST )
-       public ModelAndView applyRecmProc(ApplyRecmDTO dto) {
+       public ModelAndView applyRecmProc(ApplyRecm_DTO dto) {
          ModelAndView mav = new ModelAndView();
          mav.setViewName("redirect:/mate/list.do");
          int count = dao.applyRecm(dto);

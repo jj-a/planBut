@@ -101,7 +101,7 @@
 				    <a href="./mymate.do">■ 동행 확정 목록</a>
 			    </th>
 			    <th>
-				    <a href="./mateApply.do">■ 동행 신청 목록</a>
+				    <a href="./mateApply.do" class="list-group-item active">■ 동행 신청 목록</a>
 			    </th>
                 <th>
 				    <a href="./mateReceive.do">■ 동행 신청 받은 내역</a>

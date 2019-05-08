@@ -2,6 +2,7 @@ package kr.co.planbut.mate;
 
 public class MateDTO {
 	private String mate_code;
+	private String ma_code;
 	private String m_date;
 	private String ct_code;
 	private String mp_id;
@@ -16,6 +17,14 @@ public class MateDTO {
 
 	public void setMate_code(String mate_code) {
 		this.mate_code = mate_code;
+	}
+
+	public String getMa_code() {
+		return ma_code;
+	}
+
+	public void setMa_code(String ma_code) {
+		this.ma_code = ma_code;
 	}
 
 	public String getM_date() {
@@ -60,8 +69,8 @@ public class MateDTO {
 
 	@Override
 	public String toString() {
-		return "MateDTO [mate_code=" + mate_code + ", m_date=" + m_date + ", ct_code=" + ct_code + ", mp_id=" + mp_id
-				+ ", mate_list=" + mate_list + ", mate_type=" + mate_type + "]";
+		return "MateDTO [mate_code=" + mate_code + ", ma_code=" + ma_code + ", m_date=" + m_date + ", ct_code="
+				+ ct_code + ", mp_id=" + mp_id + ", mate_list=" + mate_list + ", mate_type=" + mate_type + "]";
 	}
-	
+
 }//class end
