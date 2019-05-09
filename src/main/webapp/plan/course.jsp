@@ -333,6 +333,7 @@ h4 {
 				e_date=moment(s_date).add('days', 1).format("YYYY-MM-DD").toString();
 		});	//lis.each end
  */
+ 		alert(p_name);
  		var $li= $(
  			'<li class="list-group-item">\n'+
 			    '<h3 class="root-city"><span class="num" style="margin-right: 20px;">1</span>'+p_name+'</h3> '+
