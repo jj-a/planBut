@@ -58,7 +58,7 @@ background: yellow;
 						<input type="button" name="mpid" value="${dto2.m_id }">
 						<input type="hidden" name="code" value="${dto2.cp_code}">
 						<input type="button" value="동행신청" onclick="applyR(this.form, this)">
-						<input type="button" value="채팅" readonly>
+						<input type="button" value="채팅" onclick="location.href='./mateChat.do'">
                     	<span class="more" style="display: none;">
 							<strong><input type="text" name="s_date" id="s_date" value="${dto2.s_date.substring(0,10) }" size="10" readonly>
                         	<input type="text" name="day" id="day" value="${dto2.hey.substring(0,10) }" size="10" readonly></strong><br/> 
