@@ -88,8 +88,9 @@
 		<result column="ct_code" property="ct_code" />
 		<result column="p_name" property="p_name" />
 		<result column="address" property="address" />
-		<result column="xy" property="xy" />
 		<result column="content" property="content" />
+		<result column="lat" property="lat" />
+		<result column="lng" property="lng" />
 		<association property="placetype" javaType="kr.co.planbut.common.PlacetypeDTO" resultMap="placetype"/>
 	</resultMap>
 
@@ -213,7 +214,7 @@
 	</select>
 	
 
-	<!-- 일정(캘린더) 조회 (리스트) -->	<!-- where절에 #{date} 추가하기 -->
+	<!-- 일정(캘린더) 조회 (리스트) -->
 	<select id="calendar" resultMap="calendar" parameterType="kr.co.planbut.common.CalendarDTO">
 		<![CDATA[
 		select cal_code, CAL.cp_code, CP.order_code, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
@@ -222,30 +223,22 @@
 		on CAL.cp_code = CP.cp_code
 		join city CITY
 		on CAL.ct_code = CITY.ct_code
-		where plan_code= #{plan_code} and date like #{date} || '%' and CAL.cp_code= #{cp_code}
+		where plan_code= #{plan_code} and CAL.cp_code= #{cp_code} and date like concat(#{date},'%')
 		order by order_code asc, date asc, cal_code asc
 		]]>
 	</select>
 	
 
 	<!-- 2단계 경로계획 조회 (리스트) -->
-	<select id="courseplanList" resultMap="courseplan" parameterType="kr.co.planbut.common.PlannerDTO">
+	<select id="courseplanList" resultMap="courseplan" parameterType="kr.co.planbut.common.CalendarDTO">
 		<![CDATA[
-		select  cos_code, 
-			CP.cp_code, 
-			CP.plan_code, 
-			CP.ct_code, 
-			CITY.ct_name, 
-			CP.order_code, 
-			CP.day, 
-			course, 
-			date
+		select  cos_code, CP.cp_code, CP.plan_code, CP.ct_code, CITY.ct_name, CP.order_code, CP.day, course, date
 		from courseplan as CSP
 		join cityplan as CP
 		on CSP.cp_code = CP.cp_code 
 		join city as CITY
 		on CP.ct_code = CITY.ct_code
-		where plan_code= #{plan_code}
+		where plan_code= #{plan_code} and CP.cp_code= #{cp_code} and date like concat(#{date},'%')
 		order by order_code asc, date asc
 		]]>
 	</select>
@@ -254,7 +247,7 @@
 	<!-- 관광지 조회 (리스트) -->
 	<select id="placeList" resultMap="place">
 		<![CDATA[
-		select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, xy, content 
+		select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, content, lat, lng 
 		from place as PL
 		join placetype as PLT
 		on PL.pt_code = PLT.pt_code 
@@ -262,6 +255,20 @@
 		]]>
 	</select>
 	
+
+	<!-- 관광지 조회 (상세) -->
+	<select id="placeRead" resultMap="place" parameterType="kr.co.planbut.common.PlaceDTO">
+		<![CDATA[
+		select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, content, lat, lng 
+		from place as PL
+		join placetype as PLT
+		on PL.pt_code = PLT.pt_code 
+		where p_code = #{p_code}
+		]]>
+	</select>
+	
+	
+	<!-- 1단계 도시계획 추가 -->
     <insert id="insertCP" parameterType="kr.co.planbut.common.CityplanDTO">
 		<!-- 일련번호 생성 -->
         <!-- 
@@ -287,12 +294,15 @@
 
 	</insert>
 
+
+	<!-- 1단계 도시계획 삭제 -->
     <delete id="clearCP" parameterType="String">
 		<![CDATA[
 		delete from cityplan 
         where plan_code = #{plan_code};
 		]]>
 	</delete>
+
 
 </mapper>
  

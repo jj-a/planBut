@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@include file="../header.jsp"%>
+
+<script src="${pageContext.request.contextPath}/js/moment.js"></script>	<!-- 날짜/시간 라이브러리 -->
+
 <style>
 /* Set the size of the div element that contains the map */
 #map {
@@ -33,6 +36,11 @@ h4 {
 	margin-bottom: 15px;
 }
 
+li.day:hover {
+	cursor: pointer;
+	background:
+}
+
 
 </style>
 
@@ -59,107 +67,12 @@ h4 {
 			<div class="sub-menu col-xs-4 col-md-4" >
 				
 				<!-- 1단계 플래너 루트 리스트 -->
-			<div class="scrollable-menu">
-				<ul class="list-group">
-					
-					<!-- 저장된 경로계획 리스트 -->
-					<c:forEach var="csp" items="${csplist }">
-						<c:set var="ct_name" value="${csp.cityplan.city.ct_name }" />
-						<c:set var="order_code" value="${csp.cityplan.order_code }" />
-						<c:set var="day" value="${csp.cityplan.day }" />
-						<c:set var="date" value="${fn: substring(csp.date,0,10) }" />
-						<li class="list-group-item">
-							<h3 class="root-city">${ct_name }</h3> 
-							<span class="root-city">${csp.course }</span> 
-							<h5 class="root-date">${date }</h5>
-							<h5 class="root-day">도시순서: ${order_code }</h5>
-							<h5 class="root-day">숙박일: ${day }</h5>
-						</li>
-					</c:forEach>
+			<div class="day-wrap scrollable-menu">
+				<div class="day-list list-group">
 					
 					<!-- 저장된 도시계획 리스트 -->
-					<c:forEach var="cp" items="${cplist }">
-						<c:set var="ct_name" value="${cp.city.ct_name }" />
-						<c:set var="s_date" value="${fn: substring(cp.s_date,0,10) }" />
-						<li class="list-group-item">
-							<h4 class="root-city">${ct_name }</h4> 
-							<h6 class="root-date">${s_date } ~ ${e_date } (${cp.day }박)</h6> 
-						</li>
-						<fmt:parseNumber var="dayNum" value="${cp.day }" /> <!-- 도시별 일수 -->
-						<c:forEach var="i" begin="1" end="${dayNum }">
-							<li class="list-group-item"> 
-								<h4 class="root-day">DAY ${i }</h4>
-							</li>
-						</c:forEach>
-					</c:forEach>
 					
-					<!-- 샘플 -->
-					<li class="list-group-item">
-						<h4 class="root-city">런던</h4> 
-						<h6 class="root-date">MM-DD ~ MM-DD (3박)</h6> 
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 1</h4>
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 2</h4>
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 3</h4>
-					</li>
-					<li class="list-group-item">
-						<h4 class="root-city">파리</h4> 
-						<h6 class="root-date">MM-DD ~ MM-DD (3박)</h6> 
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 1</h4>
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 2</h4>
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 3</h4>
-					</li>
-					<li class="list-group-item">
-						<h4 class="root-city">뮌헨</h4> 
-						<h6 class="root-date">MM-DD ~ MM-DD (3박)</h6> 
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 1</h4>
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 2</h4>
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 3</h4>
-					</li>
-					<li class="list-group-item">
-						<h4 class="root-city">베를린</h4> 
-						<h6 class="root-date">MM-DD ~ MM-DD (3박)</h6> 
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 1</h4>
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 2</h4>
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 3</h4>
-					</li>
-					<li class="list-group-item">
-						<h4 class="root-city">프라하</h4> 
-						<h6 class="root-date">MM-DD ~ MM-DD (3박)</h6> 
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 1</h4>
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 2</h4>
-					</li>
-					<li class="list-group-item"> 
-						<h4 class="root-day">DAY 3</h4>
-					</li>
-				</ul>
+				</div>
 			</div>
 	
 	
@@ -224,11 +137,11 @@ h4 {
 			<div class="sub-menu col-xs-8 col-md-8" >
 				
 				<!-- 2단계 플래너 루트 리스트 -->
-				<div class="scrollable-menu">
-					<ul class="list-group">
-					
+				<div class="csp-wrap scrollable-menu">
+					<ul class="csp-list list-group">
 					
 						<!-- 샘플 -->
+						<!-- 
 						<li class="list-group-item">
 							<h3 class="root-city"><span class="num" style="margin-right: 20px;">1</span>국회의사당</h3> 
 							<span class="root-addr">주소</span>
@@ -249,6 +162,8 @@ h4 {
 							<h3 class="select-root-city"><span class="num" style="margin-right: 20px;">5</span>던트북스</h3>
 							<span class="root-addr">주소</span>
 						</li>
+						 -->
+						
 					</ul>
 				</div>
 				
@@ -269,26 +184,6 @@ h4 {
 				<a href="${pageContext.request.contextPath}/plan/create.do?plan_code=${article.plan_code}" class="btn btn-success" role="button">저장</a>
 			</div>
 
-			<!-- 버튼 형태 상단 메뉴 -->
-			<!-- 
-			<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
-				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default">
-						<font style="vertical-align: inherit;"><font style="vertical-align: inherit;">루트</font></font>
-					</button>
-				</div>
-				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default">
-						<font style="vertical-align: inherit;"><font style="vertical-align: inherit;">일정</font></font>
-					</button>
-				</div>
-				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default">
-						<font style="vertical-align: inherit;"><font style="vertical-align: inherit;">저장</font></font>
-					</button>
-				</div>
-			</div>
-			-->
 
 			<!-- 컨텐츠 -->
 			<div class="contents">
@@ -451,6 +346,7 @@ h4 {
 
 		map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
 	}
+
 </script>
 
 <!-- api key --><!-- 사용할 때만 활성화 -->
@@ -460,42 +356,203 @@ h4 {
  -->
  
  
- <script>
+<script>
 	//////////////////// 비동기통신(Ajax) Script ////////////////////
 	
-	$( document ).ready(function() {
-	function getContextPath() {
-		var hostIndex = location.href.indexOf( location.host ) + location.host.length;
-		return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
-	};
-
-	$("#btn").bind("click",function(){
-		if($('#bookCode').val()==""){
-			alert('값입력해요');
-		}
-	    $.ajax({
-	        url : getContextPath()+"/getRental",
-	        type: "POST",
-	        data : { "bookCode" : $("#bookCode").val() },
-	        success : function(responseData){
-	            var data = JSON.parse(responseData);
-	            if(!data){
-	                alert("해당도서의 대여정보가 없습니다.");
-	                return false;
-	            }
-	            $("#bookName").val(data.bookName);
-	            $("#memberName").val(data.memberName);
-	            $("#totalPrice").val(data.totalPrice);
-	            $("#rentalPayment").val(data.rentalPayment);
-	            $("#willPay").val(data.willPay);
-	            $("#rentalCode").val(data.rentalCode);
-	            $("#bookTotalDay").val(data.bookTotalDay);
-	        }
-	    });
+	
+	$(function(){
+		
+		loadCityplan();	// 페이지 로드 시 도시계획 정보 가져오기
+		$("#day-bt").get(0).click();
+		
 	});
-});
- 
- </script>
+	
+
+	// 도시계획 정보&버튼 로드
+	function loadCityplan(){
+	
+		$(".sub-menu .day-list").empty();	// 기존 도시계획 부분 비움
+
+		// 저장된 도시계획 리스트
+//		$.each(cplist, function(i, cp){	// java 객체 변환못해서 동작안됨
+		<c:forEach var="cp" items="${cplist }" varStatus="status">
+			<c:set var="ct_name" value="${cp.city.ct_name }" />
+			<c:set var="s_date" value="${fn: substring(cp.s_date,0,10) }" />
+			
+			var cp_code =  "${cp.cp_code }";
+			var ct_name = "${cp.city.ct_name }";
+			var day = parseInt("${cp.day }");
+			var s_date = "${fn: substring(cp.s_date,0,10) }";
+			var e_date = moment(s_date).add(day, "d").format("YYYY-MM-DD").toString();
+			
+			// 출력 //
+			$("<li/>", {
+			    "class": "cp list-group-item city-${status.index}",	// TODO: class에 index이름 붙이기
+			    html: [ 
+					$("<span/>", { "class": "root-city", "id": "cp_code", html: cp_code, "style": "display: none;" }),
+					$("<h4/>", { "class": "root-city", "id": "ct_name", html: ct_name }),
+					$("<h6/>", { "class": "root-date", html: [
+						s_date, 
+						" ~ ", 
+						e_date, 
+						" ("+day+"박)"
+					] })
+			    ]
+			}).appendTo(".sub-menu .day-list");
+			// 출력 //
+			
+			//var dayNum = parseInt(day);	// 도시별 일수
+			
+			for(var i=1; i<=day+1; i++){ // 1~dayNum 반복 (1~dayNum+1)
+
+				// 출력 //
+				$("<a/>", {
+					"class": "day list-group-item",
+					"id": "day-bt", 
+					"href": "javascript:void(0)",
+					html: [ 
+						$("<h4/>", { "class": "root-day", "id": "day", html: "DAY "+i }),
+						$("<h6/>", { "class": "root-date", "id": "date", html: moment(s_date).add(i-1, "d").format("YYYY-MM-DD").toString() })
+					]
+				}).appendTo(".sub-menu .day-list .cp.city-${status.index}");
+				// 출력 //
+			
+			}; // for end
+		</c:forEach>
+//		}); // forEach end
+		
+		
+	} // loadCityplan() end
+
+	
+	// DAY 클릭 시
+	$(document).on("click", ".cp a.day", function() {
+		console.log(this);
+			$(".cp a.day").removeClass("active");
+			$(this).addClass("active");
+	
+			var cp_code = $(this).parent().children("#cp_code").get(0).innerText;
+			var date = $(this).children("#date").get(0).innerText;
+			//console.log(cp_code);
+			//console.log(date);
+			
+			viewCourse(cp_code, date);	//
+		
+	});
+
+	function viewCourse(cp_code, date){
+
+		// ① courseplan 테이블 데이터 조회
+		$.ajax({
+			type : "get",
+			contentType : "application/json; charset=UTF-8",
+			url : "${pageContext.request.contextPath}/plan/courseplan",
+			data : {
+				plan_code : "${article.plan_code}",
+				cp_code : cp_code,
+				date : date
+			},
+			dataType : "json",
+			async : false,
+			success : function(data) {
+				console.log(data); // chrome console에 출력
+				courseList(data); // 일별 경로
+			},
+			error : function(xhr, status, error) {
+				alert("Error! " + error);
+			}
+		}); // ajax end
+		
+	} // viewCourse() end
+
+	
+
+	// 일별 경로 출력
+	function courseList(data){
+		
+		$(".sub-menu .csp-list").empty();	// 기존 경로 리스트 비움
+		
+		if(data.length!=0){	// data가 있을 때만 동작
+	
+			var csp = data[0];
+			
+			// 저장된 경로계획 리스트
+			var ct_name = csp.cityplan.city.ct_name;
+			var order_code = csp.cityplan.order_code;
+			var day = csp.cityplan.day;
+			var date = csp.date.substring(0,10);
+			
+			var course = csp.course;
+			var p_list = course.split(",");
+			//console.log(p_list);
+			
+			// parameter 저장용 출력 //
+			$("<li/>", {
+			    "class": "csp list-group-item",
+			    html: [ 
+					$("<h4/>", { "class": "root-city", "id": "ct_name", html: ct_name }),
+					$("<span/>", { "class": "root-city", "id": "course", html: course }),
+					$("<h5/>", { "class": "root-date", "id": "date", html: date }), 
+					$("<h5/>", { "class": "root-day", "id": "order_code", html: order_code }), 
+					$("<h5/>", { "class": "root-day", "id": "day", html: day })
+			    ], 
+			    "style": "display: none;"	// 숨김
+			}).appendTo(".sub-menu .csp-list");
+			
+			
+			// 경로 리스트에 관광지 정보 매칭
+			
+			$.each(p_list, function(idx, p_code){
+						
+				// ② place 테이블 데이터 조회
+				$.ajax({
+					type: "get",
+					contentType: "application/json; charset=UTF-8", 
+					url: "${pageContext.request.contextPath}/plan/course",
+					data: {
+						p_code: p_code
+					},
+					dataType: "json",
+					async : false ,
+					success: function (data) {
+						console.log(data);	// chrome console에 출력
+						placeInfo(data, idx);	// 관광지(코스) 정보
+					},
+	/* 				error: function (xhr, status, error) {
+						//alert("Error! " + error);
+					} */
+				}); // ajax end
+				
+				
+			}); // forEach end
+		
+		} // if end
+		
+	}	// courseList() end
+
+
+	
+	// 코스(경로) 출력
+	function placeInfo(data, idx){
+
+		// 목록 형태로 데이터 뿌리기
+		$("<li/>", {
+		    "class": "root list-group-item",
+		    html: [ 
+				$("<span/>", { "class": "root-place", "id": "p_code", html: data.p_code, "style": "display: none;" }),
+				$("<h3/>", { "class": "root-place", html: [
+					$("<span/>", { "class": "num", html: idx+1, "style": "margin-right: 20px;" }),
+					$("<span/>", { "class": "root-place", "id": "p_name", html: data.p_name })
+				] }),
+				$("<span/>", { "class": "root-addr", "id": "address", html: data.address })
+		    ]
+		}).appendTo(".sub-menu .csp-list");
+		
+	
+	}	// placeInfo() end
+	
+	
+</script>
 
 
 <script>

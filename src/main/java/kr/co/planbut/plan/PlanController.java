@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.planbut.common.CalendarDTO;
-import kr.co.planbut.common.CityDTO;
-import kr.co.planbut.common.CityplanDTO;
-import kr.co.planbut.common.PlannerDTO;
+import kr.co.planbut.common.*;
 
 
 @Controller
@@ -116,19 +113,16 @@ public class PlanController {
 	@ResponseBody
 	@RequestMapping(value="/plan/calendar", produces = "application/json", method=RequestMethod.GET)
 	public ArrayList<CalendarDTO> calendarLoad(CalendarDTO dto) {
-//		ModelAndView mav = new ModelAndView();
-//		mav.setViewName("redirect:/plan/calendar.do?plan_code="+dto.getPlan_code());
 
 		System.out.println("plan_code:"+dto.getPlan_code());
+		//System.out.println("plan_code2:"+dto.getCityplan().getPlan_code());
 		System.out.println("cp_code:"+dto.getCp_code());
 		System.out.println("date:"+dto.getDate());
+		
 		ArrayList<CalendarDTO> list=dao.calendar(dto);	// 캘린더(calendar) 리스트 -> 수정 시
 		
 		System.out.println("캘린더 리스트: "+list.size());
 		
-//		mav.addObject("calendar", list);
-		
-//		return mav;
 		return list;
 	}// calendarLoad() end
 	
@@ -139,10 +133,36 @@ public class PlanController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/course");
 
+		
+		// JSONArray 변환
+		/*
+		ArrayList<CityplanDTO> cplist = dao.cityplanList(dto);
+		JSONObject<CityplanDTO> cpJson = new JSONObject<CityplanDTO>();
+		try {
+			JSONArray jArray = new JSONArray();// 배열이 필요할때
+			for (int i = 0; i < cplist.size(); i++)// 배열
+			{
+				JSONObject obj = new JSONObject();// 배열 내에 들어갈 json
+				obj.put("cp_code", cplist.get(i).getCp_code());
+				obj.put("cp_code", cplist.get(i).getCp_code());
+				obj.put("cp_code", cplist.get(i).getCp_code());
+				obj.put("cp_code", cplist.get(i).getCp_code());
+				jArray.add(obj);
+			}
+			cpJson.put("planName", "planA");
+			cpJson.put("id", "userID");
+			cpJson.put("item", jArray);// 배열을 넣음
+
+			System.out.println(cpJson.toString());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		*/
+
 		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
 		mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
 		mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트 -> 수정 시
-		mav.addObject("csplist", dao.courseplanList(dto));	// 경로계획(courseplan) 리스트 -> 수정 시
 		mav.addObject("placelist", dao.placeList());	// 관광지(place) 리스트
 
 		}else {
@@ -153,6 +173,36 @@ public class PlanController {
 		
 		return mav;
 	}// course() end
+	
+
+	// 계획짜기 > 2단계 플래너 (경로계획) - 일별 경로 조회 (ajax 로드)
+	@ResponseBody
+	@RequestMapping(value="/plan/courseplan", produces = "application/json", method=RequestMethod.GET)
+	public ArrayList<CourseplanDTO> courseLoad(CalendarDTO dto) {
+
+		System.out.println("plan_code:"+dto.getPlan_code());
+		System.out.println("cp_code:"+dto.getCp_code());
+		System.out.println("date:"+dto.getDate());
+		
+		ArrayList<CourseplanDTO> list=dao.courseplanList(dto);	// 경로계획(courseplan) 리스트 -> 수정 시
+	
+		return list;
+	}// courseLoad() end
+	
+
+	// 계획짜기 > 2단계 플래너 (경로계획) - 코스(경로)별 관광지 정보 조회 (ajax 로드)
+	@ResponseBody
+	@RequestMapping(value="/plan/course", produces = "application/json", method=RequestMethod.GET)
+	public PlaceDTO courseView(PlaceDTO dto) {
+
+		System.out.println("p_code:"+dto.getP_code());
+		
+		dto=dao.placeRead(dto);	// 관광지(place) 정보
+		
+		System.out.println("관광지: "+dto.getP_name());
+	
+		return dto;
+	}// courseView() end
 	
 	
 	@RequestMapping(value="/plan/planTest.do", method=RequestMethod.GET)
@@ -173,6 +223,7 @@ public class PlanController {
 		mav.setViewName("plan/planTestResult");
 		return mav;
 	}//planTestResult end
+	
 	
 	@RequestMapping(value="/plan/create.do", method=RequestMethod.POST)
 	public void cityPlanCreate(HttpServletRequest req, HttpServletResponse resp, String json)throws IOException {
@@ -209,8 +260,6 @@ public class PlanController {
                 System.out.println("insertCP 결과 : "+result);
             }
             
-			
-			
 			resp.setContentType("text/plain; charset=UTF-8");
 			PrintWriter out=resp.getWriter();
 			out.println(result);

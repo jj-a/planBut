@@ -161,7 +161,7 @@ join cityplan CP
 on CAL.cp_code = CP.cp_code
 join city CITY
 on CAL.ct_code = CITY.ct_code
-where plan_code= #{cityplan.plan_code} and date like #{date} || '%' and CAL.cp_code= #{cp_code}
+where plan_code= #{plan_code} and CAL.cp_code= #{cp_code} and date like concat(#{date},'%')
 order by order_code asc, date asc, cal_code asc
 ;
 -- (ex) 전체
@@ -181,7 +181,7 @@ join cityplan CP
 on CAL.cp_code = CP.cp_code
 join city CITY
 on CAL.ct_code = CITY.ct_code
-where plan_code='P001' and date like '2019-04-22%' and CAL.cp_code='CP003'
+where plan_code='P001' and CAL.cp_code='CP002' and date like concat('2019-04-20','%')
 order by order_code asc, date asc
 ;
 
@@ -248,10 +248,10 @@ join cityplan as CP
 on CSP.cp_code = CP.cp_code 
 join city as CITY
 on CP.ct_code = CITY.ct_code
-where plan_code= #{plan_code}
+where plan_code= #{plan_code} and CP.cp_code= #{cp_code} and date like concat(#{date},'%')
 order by order_code asc, date asc
 ;
--- (ex)
+-- (ex) 전체
 -- select cos_code, CP.cp_code, plan_code, CP.ct_code, CITY.ct_name, order_code, day, course, trans, s_date, rm_ok
 select  cos_code, CP.cp_code, CP.plan_code, CP.ct_code, CITY.ct_name, CP.order_code, CP.day, course, date -- , P.p_name
 from courseplan as CSP
@@ -264,7 +264,19 @@ on CP.ct_code = CITY.ct_code
 where plan_code='P001'
 order by order_code asc, date asc
 ;
-
+-- (ex) 일별
+-- select cos_code, CP.cp_code, plan_code, CP.ct_code, CITY.ct_name, order_code, day, course, trans, s_date, rm_ok
+select  cos_code, CP.cp_code, CP.plan_code, CP.ct_code, CITY.ct_name, CP.order_code, CP.day, course, date -- , P.p_name
+from courseplan as CSP
+join cityplan as CP
+on CSP.cp_code = CP.cp_code 
+join city as CITY
+on CP.ct_code = CITY.ct_code
+-- join place as P
+-- on CITY.ct_code = P.ct_code
+where plan_code='P001' and CP.cp_code='CP002' and date like concat('2019-04-20','%')
+order by order_code asc, date asc
+;
 
 -- courseplan 추가
 
@@ -294,16 +306,31 @@ values('CP002', 'P001', 'LD', 2, '3', '항공', '2019-04-19 00:00')
 
 -- place 조회 (리스트)
 -- placetype 테이블 join, 전체 조회 (유형O)
-select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, xy, content 
+select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, content, lat, lng 
 from place as PL
 join placetype as PLT
 on PL.pt_code = PLT.pt_code 
 order by p_code asc
 ;
 -- 관광지만 조회 (유형X)
-select p_code, pt_code, ct_code, p_name, address, xy, content 
+select p_code, pt_code, ct_code, p_name, address, content, lat, lng 
 from place as PL
 order by p_code asc
+;
+
+
+-- place 조회 (상세)
+-- placetype 테이블 join (유형O)
+select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, content, lat, lng 
+from place as PL
+join placetype as PLT
+on PL.pt_code = PLT.pt_code 
+where p_code = #{p_code}
+;
+-- 관광지만 조회 (유형X)
+select p_code, pt_code, ct_code, p_name, address, content, lat, lng 
+from place as PL
+where p_code = 'T001'
 ;
 
 

@@ -9,7 +9,7 @@ public class CalendarDTO {
 	
 	private CityplanDTO cityplan;		// cityplan 테이블 조인
 	private CityDTO city;	// city 테이블 조인
-	private String plan_code;	//ㅠㅠ
+	private String plan_code;	// ajax parameter
 
 
 	// Constructor

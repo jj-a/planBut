@@ -2,7 +2,7 @@
 <%@ page import="java.util.Date" %>
 <%@include file="../header.jsp"%>
 
-<script src="${pageContext.request.contextPath}/js/moment.js"></script>
+<script src="${pageContext.request.contextPath}/js/moment.js"></script>	<!-- 날짜/시간 라이브러리 -->
 
 <style>
 /* Set the size of the div element that contains the map */

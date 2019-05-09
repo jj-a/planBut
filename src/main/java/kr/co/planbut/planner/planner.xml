@@ -80,8 +80,9 @@
 		<result column="ct_code" property="ct_code" />
 		<result column="p_name" property="p_name" />
 		<result column="address" property="address" />
-		<result column="xy" property="xy" />
 		<result column="content" property="content" />
+		<result column="lat" property="lat" />
+		<result column="lng" property="lng" />
 		<association property="placetype" javaType="kr.co.planbut.common.PlacetypeDTO" resultMap="placetype"/>
 	</resultMap>
 
@@ -216,11 +217,23 @@
 	<!-- 관광지 조회 (리스트) -->
 	<select id="placeList" resultMap="place">
 		<![CDATA[
-		select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, xy, content 
+		select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, content, lat, lng 
 		from place as PL
 		join placetype as PLT
 		on PL.pt_code = PLT.pt_code 
 		order by p_code asc
+		]]>
+	</select>
+	
+
+	<!-- 관광지 조회 (상세) -->
+	<select id="placeRead" resultMap="place" parameterType="kr.co.planbut.common.PlaceDTO">
+		<![CDATA[
+		select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, content, lat, lng 
+		from place as PL
+		join placetype as PLT
+		on PL.pt_code = PLT.pt_code 
+		where p_code = #{p_code}
 		]]>
 	</select>
 	

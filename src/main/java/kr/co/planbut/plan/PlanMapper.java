@@ -20,9 +20,11 @@ public interface PlanMapper {
 	public int count(PlannerDTO dto);
 	
 	public ArrayList<CityplanDTO> cityplanList(PlannerDTO dto);
-	public ArrayList<CourseplanDTO> courseplanList(PlannerDTO dto);
+	public ArrayList<CourseplanDTO> courseplanList(CalendarDTO dto);
 	public ArrayList<CalendarDTO> calendar(CalendarDTO dto);
+	
 	public ArrayList<PlaceDTO> placeList();	// 관광지리스트
+	public PlaceDTO placeRead(PlaceDTO dto);
 	
 	//<select id="getCitys">
 	public ArrayList<CityDTO> getCitys();

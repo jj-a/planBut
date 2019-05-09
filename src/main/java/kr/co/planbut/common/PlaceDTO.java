@@ -5,7 +5,9 @@ package kr.co.planbut.common;
 public class PlaceDTO {
 
 	// Variable
-	private String p_code, pt_code, ct_code, p_name, address, xy, content;
+	private String p_code, pt_code, ct_code, p_name, address, content;
+	private double lat, lng;
+	
 	private PlacetypeDTO placetype;	// placetype 테이블 조인
 
 
@@ -57,20 +59,28 @@ public class PlaceDTO {
 		this.address = address;
 	}
 
-	public String getXy() {
-		return xy;
-	}
-
-	public void setXy(String xy) {
-		this.xy = xy;
-	}
-
 	public String getContent() {
 		return content;
 	}
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public double getLat() {
+		return lat;
+	}
+
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+
+	public double getLng() {
+		return lng;
+	}
+
+	public void setLng(double lng) {
+		this.lng = lng;
 	}
 	
 	public PlacetypeDTO getPlacetype() {

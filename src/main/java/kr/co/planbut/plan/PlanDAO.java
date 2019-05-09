@@ -81,11 +81,11 @@ public class PlanDAO {
 		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
 		ArrayList<CalendarDTO> list=mapper.calendar(dto);
 		return list;		
-	} // courseplanList() end
+	} // calendar() end
 
 	
-	// 2단계 경로계획 조회 (리스트)
-	public ArrayList<CourseplanDTO> courseplanList(PlannerDTO dto) {
+	// 2단계 경로계획 조회 (리스트) - 단일데이터
+	public ArrayList<CourseplanDTO> courseplanList(CalendarDTO dto) {
 		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
 		ArrayList<CourseplanDTO> list=mapper.courseplanList(dto);
 		return list;		
@@ -99,24 +99,36 @@ public class PlanDAO {
 		return list;		
 	} // placeList() end
 	
+	
+	// 관광지 조회 (상세)
+	public PlaceDTO placeRead(PlaceDTO dto) {
+		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
+		PlaceDTO place=mapper.placeRead(dto);
+		return place;
+	} // placeRead() end
+	
+
+	// getCitys
 	public ArrayList<CityDTO> getCitys() { 
 		PlanMapper mapper = sqlSession.getMapper(PlanMapper.class);		
 		ArrayList<CityDTO> CityDTOs = mapper.getCitys();
 		return CityDTOs;
 	}
 
+	
+	// 1단계 도시계획 추가
 	public int insertCP(CityplanDTO dto) {
 		PlanMapper mapper = sqlSession.getMapper(PlanMapper.class);		
 		int result = mapper.insertCP(dto);
 		return result;
-		
 	}
 
+	
+	// 1단계 도시계획 삭제
 	public int clearCP(String plan_code) {
 		PlanMapper mapper = sqlSession.getMapper(PlanMapper.class);		
 		int result = mapper.clearCP(plan_code);
 		return result;
-		
 	}
 	
 	
