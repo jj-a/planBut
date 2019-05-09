@@ -1,11 +1,6 @@
 package kr.co.planbut.mate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.springframework.web.bind.annotation.RequestParam;
-
-import kr.co.planbut.mateBbs.MateBbsDTO;
 
 public interface MateMapper {
 	/*

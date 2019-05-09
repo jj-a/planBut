@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %> 
 <%@ include file="../header.jsp"%>
-<link rel="stylesheet" type="text/css" href="../css/table.css">
+<link rel="stylesheet" type="text/css" href="../css/table.css?v=12">
 <!-- 본문시작 mateBbsList.jsp -->
 <%-- <c:if test="${empty sessionScope.session_m_id }">
 <% 
@@ -20,6 +20,7 @@
     </c:if> --%>
 <style>
 .dc{
+font-size: 25px;
 text-align: center;
 }
 .dgg{
@@ -29,10 +30,14 @@ text-align: center;
 text-align: center;
 }
 .tb{
-width: 800px;
+width: 80%;
+}
+.m_col{
+background: yellow;
 }
 </style>
     
+    <br>
     <div class="dc">
         <h3>동행 추천</h3>
         <c:choose>
@@ -69,53 +74,55 @@ width: 800px;
         </c:otherwise> 
         </c:choose>
     </div>
-    
+    <br>
     <div class="dgg">
 	<h3>동행 구하기 게시판</h3>
 	<form action=""> 
 	<input type="hidden" name="b_no" value="">
-	<table border="1" style="margin: auto;" class="tb">
-	<c:forEach var="dto" items="${list }">
-	   <tr>
-	        <th>모집자 : ${dto.mp_id }</th>
-			<th>작성일</th>
-			<td>${dto.regdt.substring(0,10) }</td>
-			<th>제목</th>
-			<td>${dto.subject }</td>
-			<th>내용</th>
-			<td ><div style="overflow-y:scroll; height:100%; width:100%">${dto.content }</div></td>
+	<table class="tb">
+		<tr class="m_col">
+			<th>글번호</th><th>도시</th><th colspan="2">동행일</th><th>성별</th><th>정원</th>
 		</tr>
+		<c:forEach var="dto" items="${list }">
 		<tr>
-		    <th>도시</th>
+            <td>${dto.b_no }</td>
             <td>${dto.ct_code }</td>
-			<th>동행날짜</th>
-			<td>${dto.m_date.substring(0,10) }</td>
-			<th>성별</th>
+			<td colspan="2">${dto.m_date.substring(0,10) }</td>
 			<td>${dto.gender }</td>
-			<th>현재확정인원 / 정원</th>
 			<td>${dto.people } / ${dto.capacity }</td>
 		</tr>
 		<tr>
-		    <th>번호</th>
-            <td>${dto.b_no }</td>
+			<th>제목</th>
+			<td colspan="3">${dto.subject }</td>
+	        <th>모집자</th>
+			<td>${dto.mp_id }</td>
+		</tr>
+		<tr>
+			<th rowspan="2">내용</th>
+			<td rowspan="2" colspan="3"><div style="overflow-y:scroll; height:100%; width:100%">${dto.content }</div></td>
+			<th>작성일</th>
+			<td>${dto.regdt.substring(0,10) }</td>
+		</tr>
+		<tr>
             <c:if test="${session_m_id == dto.mp_id}">
-            <th>
+            <td>
             <input type="button" value="글 삭제" onclick="mateCheck(this.form, getRowidx(this), 1)">
-            </th>
-            <th>
+            </td>
+            <td>
             <input type="button" value="글 수정" onclick="mateCheck(this.form, getRowidx(this), 2)">
-            </th>
+            </td>
             </c:if>
             <c:if test="${session_m_id != dto.mp_id && session_m_id != null}">
-            <th>
+            <td>
             <input type="button" value="신청하기" onclick="mateCheck(this.form, getRowidx(this), 3)">
-            </th>
+            </td>
             </c:if>
         </tr>
         </c:forEach>
-         </table>
-        </form>
-	   <br>
+	</table>
+	</form>
+	<br>
+    <br> 
 	</div>
 	<%-- <c:if test="${!(empty requestScope.list)}">
 	<!-- 검색시작 -->
@@ -138,7 +145,7 @@ width: 800px;
 	</c:if> --%>
 	
 	<div class="bottom">
-		<input type="button" value="글 등록" onclick="location.href='./create.do'">
+		<input type="button" value="글 등록" style="font-size:25px;" onclick="location.href='./create.do'">
 	</div>
 	
     <script>
