@@ -127,9 +127,9 @@ public class PlanController {
 	}// calendarLoad() end
 	
 	
-	// 계획짜기 > 일정 (캘린더) - 캘린더 "추가" (ajax 저장)
+	// 계획짜기 > 일정 (캘린더) - 캘린더 "추가" (ajax 통신)
 	@ResponseBody
-	@RequestMapping(value="/plan/cal-add", method=RequestMethod.POST)
+	@RequestMapping(value="/plan/calendar", method=RequestMethod.POST)
 	public int calendarAdd(CalendarDTO dto) {
 
 		System.out.println("cp_code:"+dto.getCp_code());
@@ -142,9 +142,9 @@ public class PlanController {
 	}// calendarAdd() end
 	
 	
-	// 계획짜기 > 일정 (캘린더) - 캘린더 "수정" (ajax 저장)
+	// 계획짜기 > 일정 (캘린더) - 캘린더 "수정" (ajax 통신)
 	@ResponseBody
-	@RequestMapping(value="/plan/cal-upd", method=RequestMethod.PUT) // 톰캣 server.xml - Connector태그의 parseBodyMethods에 PUT 추가
+	@RequestMapping(value="/plan/calendar", method=RequestMethod.PUT) // 톰캣 server.xml - Connector태그의 parseBodyMethods에 PUT 추가
 	public int calendarUpdate(CalendarDTO dto) {
 
 		System.out.println("cal_code:"+dto.getCal_code());
@@ -156,9 +156,9 @@ public class PlanController {
 	}// calendarUpdate() end
 	
 	
-	// 계획짜기 > 일정 (캘린더) - 캘린더 "삭제" (ajax 저장)
+	// 계획짜기 > 일정 (캘린더) - 캘린더 "삭제" (ajax 통신)
 	@ResponseBody
-	@RequestMapping(value="/plan/cal-del", method=RequestMethod.DELETE) // 톰캣 server.xml - Connector태그의 parseBodyMethods에 DELETE 추가
+	@RequestMapping(value="/plan/calendar", method=RequestMethod.DELETE) // 톰캣 server.xml - Connector태그의 parseBodyMethods에 DELETE 추가
 	public int calendarDelete(CalendarDTO dto) {
 
 		System.out.println("cal_code:"+dto.getCal_code());

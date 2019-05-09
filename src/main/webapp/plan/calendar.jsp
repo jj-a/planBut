@@ -558,7 +558,7 @@ var dataset = [
 		// calendar 테이블에 저장
 		$.ajax({
 			type: "post",
-			url: "${pageContext.request.contextPath}/plan/cal-add",
+			url: "${pageContext.request.contextPath}/plan/calendar",
 			data: dataset, 
 			dataType: "json",
 			async : false ,
@@ -594,7 +594,7 @@ var dataset = [
 			//contentType: "application/json; charset=UTF-8", 
 			//contentType: false,
 			processData: false,
-			url: "${pageContext.request.contextPath}/plan/cal-upd",
+			url: "${pageContext.request.contextPath}/plan/calendar",
 			data: dataset,
 			dataType: "json",
 			async : false ,
@@ -625,7 +625,7 @@ var dataset = [
 		// calendar 테이블에서 삭제
 		$.ajax({
 			type: "delete",
-			url: "${pageContext.request.contextPath}/plan/cal-del",
+			url: "${pageContext.request.contextPath}/plan/calendar",
 			data: dataset,
 			dataType: "json",
 			async : false ,
