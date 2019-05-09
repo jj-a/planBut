@@ -7,7 +7,7 @@
 <link href="${pageContext.request.contextPath}/css/fullcalendar/timegrid/main.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/css/fullcalendar/list/main.css" rel="stylesheet" />
 
-<script src="./jquery-ui.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/moment.js"></script>	<!-- 날짜/시간 라이브러리 -->
 <script src="${pageContext.request.contextPath}/js/fullcalendar/core/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/interaction/main.js"></script>
@@ -24,11 +24,15 @@ div.row div {
 
 .calendar-wrap {
 	background-color: #f0f99f;
-	padding: 20px 20px 20px 20px;
 }
 
 .note-wrap {
-	background-color: #cfb7ff;
+	background-color: #ccdfff;
+	opacity: 0.8;
+}
+
+.calendar-wrap, .note-wrap {
+	height: 88vh;
 	padding: 20px 20px 20px 20px;
 }
 
@@ -49,6 +53,7 @@ html, body {
 	left: 0;
 	right: 0;
 	bottom: 0;
+	margin: 0 20px;
 }
 
 .fc-header-toolbar {
@@ -60,6 +65,12 @@ html, body {
 	padding-left: 1em;
 	padding-right: 1em;
 }
+
+#notes {
+	margin: 20px;
+}
+
+
 </style>
 
 <!-- Contents -->
@@ -124,7 +135,7 @@ html, body {
 				</ul>
 				 -->
 				<!-- 캘린더 -->
-				<div class=" calendar-wrap col-xs-12 col-md-7">
+				<div class="calendar-wrap col-xs-12 col-md-7">
 
 					<!-- 캘린더 호출 -->
 					<div id="calendar-container">
@@ -137,8 +148,7 @@ html, body {
 				<!-- 메모 -->
 				<div class="note-wrap col-xs-12 col-md-5 scrollable-menu">
 
-					<div id="notes" style="height: 62vh">
-						<h3 class="note-date text-center"></h3>
+					<div id="notes">
 						<!-- 저장된 캘린더 메모 리스트 -->
 						<!-- <ul class="list"></ul> -->
 					</div>
@@ -151,30 +161,106 @@ html, body {
 </div>
 
 
+<!-- Modal -->
 
-
-<!-- 플래너 생성 창 -->
-<div id="plannermodal" class="modalDialog">
-	<div>
-		<a href="#close" title="Close" class="close">X</a>
-		<h2>새 플래너 생성</h2>
-		<form name="planFrm" method="post" action="${pageContext.request.contextPath}/plan/plan.do" onsubmit="return loginCheck(this)">
-			<input type="hidden" name="m_id" value="${session_m_id }">
-			<div>
-				<label for="">플래너 명</label>&nbsp;<input type="text" name="subject" id="subject" placeholder="ex) 나의 여행 플래너" required>
+<!-- 메모 추가 모달 창 -->
+<div class="modal modal-center fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-center">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">새 메모 추가</h4>
 			</div>
-			<div>
-				<label for="">여행 시작일</label>&nbsp;<input type="text" name="s_date" id="s_date" placeholder="ex) 2019-05-01" required>
+			<div class="modal-body">
+				<!-- ajax 데이터 전송용 폼 -->
+				<form name="addCalForm" id="addCalForm">
+					<input type="hidden" name="cp_code" value=""> 
+					<div>
+						<label for="date">날짜</label>
+						<input type="text" name="date" value="" maxlength="10"
+							onkeyup="auto_date_format(event, this)" onkeypress="auto_date_format(event, this)" readonly>
+					</div>
+					<div>
+						<label for="ct_name">도시</label>
+						<input type="text" name="ct_name" value="" readonly>
+					</div>
+					<div>
+						<label for="memo">메모</label>
+						<textarea class="form-control noresize" name="memo" required></textarea>
+					</div>
+				</form><!-- form end -->
 			</div>
-			<div>
-				<label for="">인원</label>&nbsp;<input type="text" name="people" id="people" placeholder="ex) 1" required>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick="addMemo()">저장</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 			</div>
-			<p>
-				<input type="submit" value="플래너 생성" style="cursor: pointer">
-			</p>
-		</form>
+		</div>
 	</div>
 </div>
+
+
+<!-- 메모 수정 모달 창 -->
+<div class="modal modal-center fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-center">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">메모 수정</h4>
+			</div>
+			<div class="modal-body">
+				<!-- ajax 데이터 전송용 폼 -->
+				<form name="editCalForm" id="editCalForm">
+					<input type="hidden" name="cal_code" value=""> 
+					<div>
+						<label for="date">날짜</label>
+						<input type="text" name="date" value="" maxlength="10"
+						onkeyup="auto_date_format(event, this)" onkeypress="auto_date_format(event, this)">
+					</div>
+					<div>
+						<label for="ct_name">도시</label>
+						<input type="text" name="ct_name" value="" readonly>
+					</div>
+					<div>
+						<label for="memo">메모</label>
+						<textarea class="form-control noresize" name="memo" required></textarea>
+					</div>
+				</form><!-- form end -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick="editMemo()">저장</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 메모 삭제 모달 창 -->
+<div class="modal modal-center fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-center modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+			</div>
+			<div class="modal-body">
+				<!-- ajax 데이터 전송용 폼 -->
+				<form name="delCalForm" id="delCalForm">
+					<input type="hidden" name="cal_code" value=""> 
+					<div><h5 id="memo" class="text-center"></h5></div>
+					<p>해당 메모를 삭제하시겠습니까?</p>
+				</form><!-- form end -->
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" onclick="deleteMemo()">삭제</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 
 <!-- Script 스크립트 -->
@@ -253,7 +339,7 @@ var dataset = [
 				
 				// 캘린더 이벤트 가져오기
 				var events = calendar.getEvents();
-				console.log(events);	// Chrome console창 출력
+				//console.log(events);	// Chrome console창 출력
 				
 				var cplist=new Array();	// 해당 날짜에 방문하는 도시 리스트
 
@@ -266,7 +352,7 @@ var dataset = [
 							s_date: moment(event.start)//, 
 							//e_date: event.end.substring(0,10)
 						});
-						alert(event.title);
+						//alert(event.title);
 					}
 				}); // forEach end
 				
@@ -293,9 +379,10 @@ var dataset = [
 	function viewDate(date, cplist){
 		// date: 선택 날짜, cplist: 해당 도시계획
 
-		$("#notes .note-date").html(date);	// 선택한 날짜
-
 		$("#notes").empty();	// 기존 메모 리스트 비움
+		$("<h3/>", { "class": "note-date text-center", "id": "date", 
+			html: moment(date, "YYYY-MM-DD").format("M월 D일").toString()
+		}).appendTo("#notes");	// 선택한 날짜
 		
 		// 도시계획별 메모리스트
 		
@@ -305,14 +392,21 @@ var dataset = [
 			$("<div/>", {
 			    "class": "cp",
 			    html: [ 
-					$("<h3/>", { "class": "root-city", html: cp.ct_name }), 
-					$("<p/>", { "class": "bt-add", html: [
-						$("<button/>", { "type": "button", "class": "btn btn-default", "onclick": "addMemo()", html: [
-							$("<span/>", { "class": "glyphicon glyphicon-plus"}), 
-							" 새 메모"
+					$("<span/>", { "id": "cp_code", html: cp.cp_code , "style": "display: none;"}), 
+					//$("<span/>", { "id": "ct_code", html: cp.ct_code, "style": "display: none;"}), // 값이 애초에 없음
+					$("<span/>", { "id": "date", html: date , "style": "display: none;"}), 
+					$("<h3/>", { html: [
+						$("<span/>", { "class": "root-city", "id": "ct_name", html: cp.ct_name }), " ", 
+						$("<small/>", { "class": "root-city", "id": "day_idx", html: moment(date).diff(cp.s_date, "day")+1+"일차" }), " ",  
+						$("<span/>", { "class": "bt-add", html: [
+							$("<button/>", { "type": "button", "class": "add btn btn-default", 
+								"data-toggle": "modal", "data-target": "#addModal", html: [
+								$("<span/>", { "class": "glyphicon glyphicon-plus"}), 
+								" 새 메모"
+							] })
 						] })
 					] }),
-					$("<ul/>", { "class": "list city-"+i}) // 메모 불러올 ul
+					$("<ul/>", { "class": "list well city-"+i}) // 메모 불러올 ul
 			    ]
 			}).appendTo("#notes");
 			
@@ -331,7 +425,7 @@ var dataset = [
 				dataType: "json",
 				async : false ,
 				success: function (data) {
-					console.log(data);	// chrome console에 출력
+					console.log("ajax-calendar data:", data);	// chrome console에 출력
 					memoList(data, i);	// 일별 메모
 				},
 				error: function (xhr, status, error) {
@@ -348,44 +442,210 @@ var dataset = [
 	// 일별 메모 출력
 	function memoList(data, idx){
 		
-		$("#notes ul.list").empty();	// 기존 메모 리스트 비움
+		//$("#notes ul.list").empty();	// 기존 메모 리스트 비움
 		
-		$.each(data, function(i, cal){
+		if(data.length!=0){
+		
+			$.each(data, function(i, cal){
+		
+				//alert(cal.ct_code);
 	
-			//alert(cal.ct_code);
-
-			var ct_name=cal.city.ct_name;	// calendar테이블의 ct_code로 조회한 ct_name
-			var order_code=cal.cityplan.order_code;
-			var day=cal.cityplan.day;
-			var date=cal.date.substring(0,10);
-
-			// 목록 형태로 데이터 뿌리기
-			$("<li/>", {
-			    "class": "memo",
-			    html: [ 
-					//$("<h3/>", { "class": "root-city", html: ct_name }), 
-					$("<p/>", { "class": "root-date", html: cal.memo }),
-					//$("<p/>", { "class': "root-date", html: date }), 
-					$("<p/>", { "class": "root-day", html: "도시순서: "+order_code }),
-					$("<p/>", { "class": "root-day", html: "숙박일: "+day }), 
-					$("<p/>", { "class": "bt-edit", html: [
-						$("<button/>", { "type": "button", "class": "btn btn-default btn-sm", "onclick": "editMemo()", html: [
-							$("<span/>", { "class": "glyphicon glyphicon-pencil"}), 
-							" 메모 수정"
-						] }),
-						$("<button/>", { "type": "button", "class": "btn btn-default btn-sm", "onclick": "deleteMemo()", html: [
-							$("<span/>", { "class": "glyphicon glyphicon-minus"}), 
-							" 메모 삭제"
+				var ct_name=cal.city.ct_name;	// calendar테이블의 ct_code로 조회한 ct_name
+				var order_code=cal.cityplan.order_code;
+				var day=cal.cityplan.day;
+				var date=cal.date.substring(0,10);
+	
+				// 목록 형태로 데이터 뿌리기
+				$("<li/>", {
+				    "class": "memo well",
+				    html: [ 
+						$("<span/>", { "id": "cal_code", html: cal.cal_code, "style": "display: none;" }), 
+						$("<p/>", { "class": "root-date", "id": "memo", html: cal.memo }),
+						//$("<p/>", { "class": "root-day", html: "숙박일: "+day }), 
+						$("<p/>", { "class": "bt-edit", "style": "margin-top: 20px;", html: [
+							$("<button/>", { "type": "button", "class": "edit btn btn-default btn-sm", 
+								"data-toggle": "modal", "data-target": "#editModal", html: [
+								$("<span/>", { "class": "glyphicon glyphicon-pencil"}), 
+								" 메모 수정"
+							] }),
+							$("<button/>", { "type": "button", "class": "delete btn btn-default btn-sm", 
+								"data-toggle": "modal", "data-target": "#deleteModal", html: [
+								$("<span/>", { "class": "glyphicon glyphicon-minus"}), 
+								" 메모 삭제"
+							] })
 						] })
-					] })
-			    ]
-			}).appendTo("#notes ul.list.city-"+idx);
-			
-			
-		}); // forEach end
-		
+				    ]
+				}).appendTo("#notes ul.list.city-"+idx);
+				
+				
+			}); // forEach end
+
+		} else {
+			$("<h6/>", { html:  "메모가 없습니다." }).appendTo("#notes ul.list.city-"+idx);
+		} // if-else end
+
 		
 	}	// memoList() end
+	
+	
+	
+	// 메모 추가 버튼 클릭 시 - 모달창에 데이터 저장
+	$(document).on("click", ".cp button.add", function() {
+		
+		//console.log("add element:", this); // chrome console에 출력
+		//console.log("parents element:", $(this).closest(".cp")); // chrome console에 출력
+		
+		var cp_code = $(this).closest(".cp").children("#cp_code").get(0).innerText;
+		var ct_name = $(this).closest(".cp").find("#ct_name").get(0).innerText;
+		var date = $(this).closest(".cp").children("#date").get(0).innerText;
+		console.log("cp_code:", cp_code);
+		console.log("ct_name:", ct_name);
+		console.log("date:", date);
+
+		$("#addModal").find("input[name=cp_code]").val(cp_code);
+		$("#addModal").find("input[name=ct_name]").val(ct_name);
+		$("#addModal").find("input[name=date]").val(date);
+		
+	}); // onclick(add) end
+	
+	
+	// 메모 수정 버튼 클릭 시 - 모달창에 데이터 저장
+	$(document).on("click", ".cp button.edit", function() {
+		
+		//console.log("edit element:", this); // chrome console에 출력
+		//console.log("parents element:", $(this).closest(".cp")); // chrome console에 출력
+		
+		var cal_code = $(this).closest("li.memo").find("#cal_code").get(0).innerText;
+		var ct_name = $(this).closest(".cp").find("#ct_name").get(0).innerText;
+		var date = $(this).closest(".cp").children("#date").get(0).innerText;
+		var memo = $(this).closest("li.memo").find("#memo").get(0).innerText;
+		console.log("cal_code:", cal_code);
+		console.log("ct_name:", ct_name);
+		console.log("date:", date);
+		console.log("memo:", memo);
+
+		$("#editModal").find("input[name=cal_code]").val(cal_code);
+		$("#editModal").find("input[name=ct_name]").val(ct_name);
+		$("#editModal").find("input[name=date]").val(date);
+		$("#editModal").find("textarea[name=memo]").text(memo);
+		
+	}); // onclick(edit) end
+	
+	
+	// 메모 삭제 버튼 클릭 시 - 모달창에 데이터 저장
+	$(document).on("click", ".cp button.delete", function() {
+		
+		//console.log("delete element:", this); // chrome console에 출력
+		//console.log("parents element:", $(this).closest(".cp")); // chrome console에 출력
+
+		var cal_code = $(this).closest("li.memo").find("#cal_code").get(0).innerText;
+		var memo = $(this).closest("li.memo").find("#memo").get(0).innerText;
+		console.log("cal_code:", cal_code);
+		console.log("memo:", memo);
+
+		$("#deleteModal").find("input[name=cal_code]").val(cal_code);
+		$("#deleteModal").find("h5#memo").text("\" "+memo+" \"");
+		
+	}); // onclick(delete) end
+	
+	
+	
+	// 캘린더 메모 추가
+	function addMemo(){
+		
+		var dataset = $("form[name=addCalForm]").serialize();
+		
+		// calendar 테이블에 저장
+		$.ajax({
+			type: "post",
+			url: "${pageContext.request.contextPath}/plan/cal-add",
+			data: dataset, 
+			dataType: "json",
+			async : false ,
+			success: function (result) {
+				console.log("add result:", result);	// chrome console에 출력
+				if(result!=0){	// 성공 시
+					$("#addModal").modal("hide");
+					alert("등록되었습니다.");
+					// TODO: 부분 새로고침 혹은 페이지 전체 새로고침하기
+					location.reload();
+				}else{
+					alert("오류가 발생하여 등록되지 않았습니다.");
+				}
+				
+			},
+			error: function (xhr, status, error) {
+				alert("Error! " + error);
+			}
+		}); // ajax end
+		
+	} // addMemo() end
+	
+	
+	// 캘린더 메모 수정
+	function editMemo(){
+		
+		var dataset = $("form[name=editCalForm]").serialize();
+		console.log(dataset);
+		
+		// calendar 테이블에 수정
+		$.ajax({
+			type: "put",
+			//contentType: "application/json; charset=UTF-8", 
+			//contentType: false,
+			processData: false,
+			url: "${pageContext.request.contextPath}/plan/cal-upd",
+			data: dataset,
+			dataType: "json",
+			async : false ,
+			success: function (result) {
+				console.log("ajax edit result:", result);	// chrome console에 출력
+				if(result!=0){	// 성공 시
+					$("#editModal").modal("hide");
+					alert("수정되었습니다.");
+					// TODO: 부분 새로고침 혹은 페이지 전체 새로고침하기
+					location.reload();
+				}else{
+					alert("오류가 발생하여 수정되지 않았습니다.");
+				}
+			},
+			error: function (xhr, status, error) {
+				alert("Error! " + error);
+			}
+		}); // ajax end
+		
+	} // editMemo() end
+	
+	
+	// 캘린더 메모 삭제
+	function deleteMemo(){
+		
+		var dataset = $("form[name=delCalForm]").serialize();
+		
+		// calendar 테이블에서 삭제
+		$.ajax({
+			type: "delete",
+			url: "${pageContext.request.contextPath}/plan/cal-del",
+			data: dataset,
+			dataType: "json",
+			async : false ,
+			success: function (result) {
+				console.log("ajax delete result:", result);	// chrome console에 출력
+				if(result!=0){	// 성공 시
+					$("#delModal").modal("hide");
+					alert("삭제되었습니다.");
+					// TODO: 부분 새로고침 혹은 페이지 전체 새로고침하기
+					location.reload();
+				}else{
+					alert("삭제에 실패하였습니다.");
+				}
+			},
+			error: function (xhr, status, error) {
+				alert("Error! " + error);
+			}
+		}); // ajax end
+		
+	} // deleteMemo() end
 	
 	
 	
@@ -405,12 +665,32 @@ $(function(){
 		alert("비정상적인 접근입니다.");
 		location.href="${pageContext.request.contextPath}/plan.do";
 	}
-});
+}); // func end
+
 
 /* 화면 스크롤 제거 */
 $(function(){
 	$("body").css("overflow", 'hidden');
-});
+}); // func end
+
+
+/* 날짜 하이픈(-) 자동 입력 */
+function auto_date_format( e, oThis ){
+    
+    var num_arr = [ 
+        97, 98, 99, 100, 101, 102, 103, 104, 105, 96,
+        48, 49, 50, 51, 52, 53, 54, 55, 56, 57
+    ]
+    
+    var key_code = ( e.which ) ? e.which : e.keyCode;
+    if( num_arr.indexOf( Number( key_code ) ) != -1 ){
+        var len = oThis.value.length;
+        if( len == 4 ) oThis.value += "-";
+        if( len == 7 ) oThis.value += "-";
+    }
+    
+} // auto_date_format() end
+
 
 </script>
 
