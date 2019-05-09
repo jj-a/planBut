@@ -2,28 +2,33 @@
 <%@ include file="../header.jsp"%>
 <!-- 본문시작 mateBbsList.jsp -->
 <script type="text/javascript">
+
 function submitFunction() {
 	var chatName = $("#chatName").val();
 	var chatContent = $("#chatContent").val();
     $.ajax({
     	type: "POST",
     	url: "./submit.do",
+    	async: false,
     	data: {
     		chatName:chatName,
     		chatContent:chatContent
     	},
-    	success: autoAlert("#successMessage", 2000)
+    	success:function(data){
+    		if(data!=null){
+    			autoAlert("#successMessage", 300);
+    		}
+    	}
     });
-    $('#chatContent').val('');
 }
 
 function autoAlert(selector, delay) {
 	var alert = $(selector).alert();
 	alert.show();
-	window.setTimeout(function() {alert.hide()}, delay);
+	window.setTimeout(function() {location.reload();}, delay);
 }
 
-function chatList(type) {
+/* function chatList(type) {
 	$.ajax({
         type: "POST",
         url: "./mateChat.do",
@@ -39,8 +44,8 @@ function chatList(type) {
         	}
         }
     });
-}
-
+} */
+/* 
 function addChat(chatName, chatContent, chatTime) {
 	$('#mateChat').append('<div class="row">' + 
 			'<div class="col-lg-12">' +
@@ -66,9 +71,12 @@ function addChat(chatName, chatContent, chatTime) {
 }
 
 function mach() {
-    $('#mateChat').css("display","block");
+	    $('#mateChat').css("display","block");
 }
-
+ */
+$(window).load(function(){
+	location.href="./mateChat.do"
+});
 </script>
 <div class="container">
     <div class="container bootstrap snippet">
@@ -82,7 +90,7 @@ function mach() {
                         <div class="clearfix"></div>
                     </div>
                     <div id="chat" class="panel-collapse collapse in">
-                        <div id="mateChat" class="portlet-body chat-widget" style="overflow-y:auto; width:auto; height:500px; display: none;">
+                        <div id="mateChat" class="portlet-body chat-widget" style="overflow-y:auto; width:auto; height:500px;">
                             <c:forEach var="dto" items="${mateChat }">
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -118,10 +126,10 @@ function mach() {
 						          <textarea style="height: 80px;" id="chatContent" class="form-control" placeholder="메시지를 입력하세요" maxlength="100"></textarea>
 						      </div>
 						      <div class="form-group col-xs-2">
-						          <button type="button" class="btn btn-default pull-right" onclick="submitFunction()">전송</button>
+						          <button type="button" class="btn btn-default pull-right" id="sub1" onclick="submitFunction()">전송</button>
 						          <div class="clearfix"></div>
 						      </div>
-						      <button type="button" class="btn btn-default pull-right" onclick="mach()">채팅기록</button>
+						      <!-- <button type="button" class="btn btn-default pull-right" onclick="mach()">채팅기록</button> -->
 						    </div>
 						</div>
                     </div>
