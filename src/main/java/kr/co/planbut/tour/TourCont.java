@@ -43,20 +43,22 @@ public class TourCont {
 		return mav;
 	}//list end
 	
-	@ResponseBody
-	 @RequestMapping(value="/tour/tour", produces = "application/json", method=RequestMethod.GET)
-	   public ArrayList<TourDTO> tourlistload(TourDTO dto) {
+	   @ResponseBody
+	    @RequestMapping(value="/tour/tour", produces = "application/json", method=RequestMethod.GET)
+	      public ArrayList<TourDTO> tourlistload(TourDTO dto) {
 
-	      System.out.println("tour_code:"+dto.getTour_code());
-	      System.out.println("tour_name:"+dto.getTour_name());
-	      System.out.println("price:"+dto.getPrice());
-	      
-	      ArrayList<TourDTO> list=dao.tourlist(dto);   // 캘린더(calendar) 리스트 -> 수정 시
-	      
-	      System.out.println("투어 리스트: "+list.size());
-	      
-	      return list;
-	   }// calendarLoad() end
+	         System.out.println("city_code:"+dto.getCt_code());
+	         
+	         ArrayList<TourDTO> list=dao.tourlist(dto);   // 캘린더(calendar) 리스트 -> 수정 시
+
+	         System.out.println("투어 리스트: "+list.size());
+	         System.out.println("tour_code:"+list.get(0).getTour_code());
+	         System.out.println("tour_name:"+list.get(0).getTour_name());
+	         System.out.println("price:"+list.get(0).getPrice());
+	         
+	         return list;
+	      }// tourlistload() end
+
 	
 	@RequestMapping(value="/tour/city.do", method=RequestMethod.GET)
 	public ModelAndView city() {
@@ -88,12 +90,19 @@ public class TourCont {
 		ArrayList<TourDTO> cartlist = dao.cartlist(m_id);
 		
 //		System.out.println(cartlist.size());
-		
 		mav.addObject("cartlist", cartlist);
 		return mav;
 	}//cartlist end
 	
-	
+	/*
+	@RequestMapping(value="/tour/cart.do", method=RequestMethod.POST)
+	public ModelAndView cartdelete(CartDTO dto) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/tour/cart.do");
+		int count = dao.delete(dto);
+		return mav;
+	}
+	*/
 	@RequestMapping(value="/tour/tourinfo.do", method=RequestMethod.POST)
 	public ModelAndView addcart(CartDTO dto, Model model, final HttpSession session) {
 		ModelAndView mav = new ModelAndView();
@@ -152,9 +161,6 @@ public class TourCont {
 		}
 		
 		
-		
-		
-		
 		return mav;
 	}//reserve end
 	
@@ -176,7 +182,7 @@ public class TourCont {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("tour/tourlist");
 		ArrayList<TourDTO> tourlist = dao.tourlist(dto);
-		System.out.println(tourlist.size());
+//		System.out.println(tourlist.size());
 		int tourtotal = dao.tourtotal(dto);
 		mav.addObject("tourlist", tourlist);
 		mav.addObject("tourtotal", tourtotal);
@@ -212,13 +218,17 @@ public class TourCont {
 	}//addview end
 	
 	@RequestMapping(value="/mypage/qna.do", method=RequestMethod.GET)
-	public ModelAndView myqna(TourDTO dto, Model model, final HttpSession session) {
+	public ModelAndView myqna(TourDTO dto, ReplyDTO reply, Model model, final HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("mypage/qna");
 		String m_id = (String) session.getAttribute("session_m_id");
 		ArrayList<ReplyDTO> replylist = dao.replylist(m_id);
 		ArrayList<TourDTO> qnalist = dao.qnalist(m_id);
 		
+		System.out.println("reply_code : " +reply.getReply_code());
+		System.out.println("tq_code : " +reply.getTq_code());
+		System.out.println("content : " +reply.getContent());
+		System.out.println("date : " +reply.getRegdt());
 		
 		mav.addObject("qnalist", qnalist);
 		mav.addObject("replylist", replylist);
@@ -227,5 +237,6 @@ public class TourCont {
 		return mav;
 	}//reserve end
 	
+
 	
 }//class end

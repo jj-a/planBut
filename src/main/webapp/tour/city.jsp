@@ -3,16 +3,6 @@
 
 <!-- 투어예약 -> 도시 -->
 <H1>도시</H1>
-<!-- 임시 버튼  -->
-<table>
-	<tr>
-		<td><input type="button" value="투어홈" onclick="location.href='./tour.do'"></td>
-		<td><input type="button" value="투어정보" onclick="location.href='./tourinfo.do'"></td>
-		<td><input type="button" value="투어리스트" onclick="location.href='./tourlist.do'"></td>
-		<td><input type="button" value="예약페이지" onclick="location.href='./reserve.do'"></td>
-		<td><input type="button" value="장바구니" onclick="location.href='./cart.do'"></td>
-	</tr>
-</table>
 
 <style>
 	.citylist{

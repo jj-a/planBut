@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
+
 @Component
 public class TourDAO {
 
@@ -149,6 +150,12 @@ public class TourDAO {
 		ArrayList<ReplyDTO> replylist = mapper.replylist(m_id);
 		return replylist;
 	}
+/*
+	public int delete(CartDTO dto) {
+		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
+		int count = mapper.delete(dto);
+		return count;
+	}//delete end	
 	
-	
+	*/
 }

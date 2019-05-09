@@ -132,37 +132,33 @@
 						</c:when>
 						<c:otherwise>
 							<!-- 문의 내역이 있을 때 -->
-							<c:forEach var="dto" items="${qnalist }">
-								<a>${dto.tour_name }</a>
+							<c:forEach var="dto" items="${qnalist }"> 
+								<a>${dto.tour_name }</a>  
 								<p>${dto.qnaDTO.content }</p>
 								<p>${dto.qnaDTO.regdt }</p>
 								<button class="replybutton">답변보기</button>
-								
-								<div id="reply" class="reply">
+							</c:forEach>
+
+							<c:forEach var="dto" items="${replylist }">
+								<div id="reply" class="reply" style="height: 150px;">
 									<h4 style="margin-bottom: 20px">문의 답변</h4>
 									<!-- 문의 내역이 있을 때 -->
 									<!-- 답변보기 버튼 클릭하면 show 평소에는 hide -->
-									<c:forEach var="re" items="${replylist }">
-										<div>
-											<p>작성자 : 관리자</p>
-											<p>${re.qnaDTO.content }</p>
-											<p>${re.regdt }</p>
-										</div>
-									</c:forEach>
+									<div>
+										<p>작성자 : 관리자</p>
+										<p>${dto.content }</p>
+										<p>${dto.regdt }</p>
+									</div>
 								</div>
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
 					<!-- 문의 답변 -->
-
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
-
 
 <!-- Script 스크립트 -->
 

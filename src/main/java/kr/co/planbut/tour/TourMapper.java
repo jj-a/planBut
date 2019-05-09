@@ -47,5 +47,8 @@ public interface TourMapper {
 	public int payed(TreserveDTO dto);
 
 	public ArrayList<TourDTO> readcart(ArrayList<CartDTO> cart_list);
+
+//	public int delete(CartDTO dto);
+
  
 }

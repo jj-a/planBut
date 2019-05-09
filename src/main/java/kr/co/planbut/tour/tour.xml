@@ -101,7 +101,14 @@
 			<result property="content" column="content" />
 			<result property="regdt" column="regdt" />
 		</collection>
-		
+		<!-- 
+		<collection property="replyDTO" column="reply_code" javaType="kr.co.planbut.tour.ReplyDTO">
+			<id property="reply_code" column="reply_code" />
+			<result property="tq_code" column="tq_code" />
+			<result property="content" column="content" />
+			<result property="regdt" column="regdt" />
+		</collection>
+		 -->
 		</resultMap>
 	
 		<resultMap id="qnaDTO" type="kr.co.planbut.tour.QnaDTO">
@@ -171,21 +178,6 @@
 	 
 	 	<!-- tour/tourlist.jsp 투어 리스트 -->
 	    <select id="tourlist" resultMap="tourDTO" parameterType="TourDTO">
-	    	<![CDATA[
-				select T.tour_code, tour_name, price, photo, T.content, RE.re_code, (SELECT COUNT(tour_code) 
-				FROM treserve
-				WHERE tour_code = T.tour_code) CNT, (select round(avg(star))
-				from treview) STAR
-				FROM tour T
-				left outer JOIN treserve RE ON T.tour_code = RE.tour_code
-				left outer JOIN treview  RV ON RE.re_code = RV.re_code
-				where ct_code = #{ct_code}
-				group by tour_code
-	    	]]>
-		</select>
-		
-		<!-- 투어리스트 ajax -->
-		  <select id="tourlistload" resultMap="tourDTO" parameterType="TourDTO">
 	    	<![CDATA[
 				select T.tour_code, tour_name, price, photo, T.content, RE.re_code, (SELECT COUNT(tour_code) 
 				FROM treserve
@@ -298,7 +290,15 @@
 			values(#{re_code}, #{tour_code}, #{m_id}, #{pay_type}, #{date}, #{payed}, #{people})
 		]]>
 	</insert>	
-		
+		<!-- 
+ 	장바구니 삭제 
+		<delete id="delete" parameterType="CartDTO">
+		<![CDATA[
+			DELETE FROM cart
+			WHERE cart_code = #{cart_code}
+		]]>
+	</delete>
+		 -->
     <!-- mypage/reservation.jsp(예약 목록) -->
     <select id="reservelist" resultMap="tourDTO" parameterType="String">
 	    	<![CDATA[
@@ -374,8 +374,8 @@
 	 <select id="qnalist" resultMap="tourDTO" parameterType="String">
 	    	<![CDATA[
 	    		select TQ.tour_code, m_id, TQ.content, regdt, tour_name, tq_code
-				from tqna TQ
-				left join tour T on TQ.tour_code = T.tour_code
+				from tour T
+				join tqna TQ on T.tour_code = TQ.tour_code
 				where m_id = #{m_id}
 	    	]]>
 		</select>
@@ -401,7 +401,7 @@
 	</insert>
 	
     <!-- 문의 답변보기 -->
-    <select id="replylist" resultMap="replyDTO" parameterType="String">
+    <select id="replylist" resultType="kr.co.planbut.tour.ReplyDTO" parameterType="String">
 	    	<![CDATA[
 	    		select TQ.tq_code, TRE.content, TRE.regdt
 				from treply TRE

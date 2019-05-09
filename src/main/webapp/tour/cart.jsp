@@ -95,16 +95,6 @@
 	    margin: 5px;
 	}
 </style>
-<!-- 임시 버튼  -->
-<table>
-<tr>
-	<td><input type="button" value="투어홈" onclick="location.href='./tour.do'"></td>
-	<td><input type="button" value="도시리스트" onclick="location.href='./city.do'"></td>
-	<td><input type="button" value="투어정보" onclick="location.href='./tourinfo.do'"></td>
-	<td><input type="button" value="투어리스트" onclick="location.href='./tourlist.do'"></td>
-	<td><input type="button" value="예약페이지" onclick="location.href='./reserve.do'"></td>
-</tr>
-</table>
 
 
 <div class="container-fluid">
@@ -112,7 +102,8 @@
 
 	<div class="cart">
 	
-		<form name="" method="get" action="../tour/reserve.do?cart_code=${dto.cart_code }" onsubmit="return checkSelect(this)">
+		<form name="" method="get" onsubmit="return checkSelect(this)">
+		<input type="hidden" name="cart_code" value="${dto.cart_code }">
 			<!-- 항목 선택 -->
 			<div class="cart-select col-xs-12 col-md-12">
 				<span>
@@ -120,7 +111,7 @@
 					<label for="chkall">전체 선택</label>
 				</span>
 				<span class="test1">
-					<button>선택 삭제</button>
+					<input type="submit" value="선택삭제" formaction="/tour/cart.do"> 
 				</span>
 			</div>
 			
@@ -157,7 +148,7 @@
 					<span>0</span>
 				</div>
 				<div>
-					<input type="submit" value="주문하기">
+					<input type="submit" value="주문하기" formaction="../tour/reserve.do?cart_code=${dto.cart_code }">
 				</div>
 			</div>
 		</form>
@@ -165,5 +156,25 @@
 	</div>
 </div>
 
+<script>
+//체크박스 (전체선택/해제)
+$(document).ready(function(){
+    //최상단 체크박스 클릭
+    $("#chkall").click(function(){
+        //클릭되었으면
+        if($("#chkall").prop("checked")){
+            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의
+            $("input[name=cart_list]").prop("checked",true);
+            //클릭이 안되있으면
+        }else{
+            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
+            $("input[name=cart_list]").prop("checked",false);
+        }
+    })
+}) //check end
+	
+
+
+</script>
 
 <%@ include file='../footer.jsp'%>
