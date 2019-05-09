@@ -41,5 +41,14 @@ public class MemberDAO {
 		MemberDTO member = mapper.profile(m_id);
 		return member;
 	} // profile() end
+	
+	
+	//회원 정보 수정
+	public int modify(MemberDTO dto) {
+		MemberMapper mapper=sqlSession.getMapper(MemberMapper.class);
+		int count=mapper.modify(dto);
+		return count;
+	}//modify() end
+	
 
 }

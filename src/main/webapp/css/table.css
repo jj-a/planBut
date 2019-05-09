@@ -21,10 +21,9 @@ table a:hover {
 	text-decoration:underline;
 }
 table {
-	width:600px;
 	font-family:Arial, Helvetica, sans-serif;
 	color:#666;
-	font-size:12px;
+	font-size:25px;
 	text-shadow: 1px 1px 0px #fff;
 	background:#eaebec;
 	margin:auto;
@@ -39,6 +38,8 @@ table {
 	box-shadow: 1px 1px 1px 1px #d1d1d1;
 }
 table th {
+	height: 20px;
+	width: 15%;
 	border-top:1px solid #fafafa;
 	border-bottom:1px solid #e0e0e0;
 	text-align: center;
@@ -48,13 +49,11 @@ table th {
 }
 table th:first-child {
 	text-align: center;
-	
 }
 table tr:first-child th:first-child {
 	-moz-border-radius-topleft:3px;
 	-webkit-border-top-left-radius:3px;
 	border-top-left-radius:3px;
-	
 }
 table tr:first-child th:last-child {
 	-moz-border-radius-topright:3px;
@@ -63,15 +62,14 @@ table tr:first-child th:last-child {
 }
 table tr {
 	text-align: center;
-	
 }
 table td:first-child {
 	text-align: center;
-	
 	border-left: 0;
 }
 table td {
-	
+	height: 20px;
+	width: 15%;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
 	border-left: 1px solid #e0e0e0;

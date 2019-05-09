@@ -59,7 +59,6 @@ public class PlannerController {
 		return mav;
 	} // planner() end
 	
-	
 	// 플래너 홈 (플래너 홈 연결)
 	@RequestMapping(value="/planner/", method=RequestMethod.GET)
 	public ModelAndView planner(PlannerDTO dto) {

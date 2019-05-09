@@ -1,7 +1,6 @@
 package kr.co.planbut.mate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public interface MateMapper {
 	/*
@@ -9,12 +8,46 @@ public interface MateMapper {
 		MyBatis3 에서 호출하기 편리하도록 지원
 	*/
 	
-	// <insert id="create">
-	/*public int create(NoticeDTO dto);
+	// <select id="myMateBbs">
+	public ArrayList<ApplyBbs_DTO> myMateBbs(String id);
 	
-	// <select id="list">
-	public ArrayList<NoticeDTO> list();
+	// <select id="myMateRecm">
+	public ArrayList<ApplyRecm_DTO> myMateRecm(String id);
 	
+	// <select id="myMateBbs">
+	public ArrayList<ApplyBbs_DTO> myMateApplyBbs(String id);
+	
+	// <select id="myMateRecm">
+	public ArrayList<ApplyRecm_DTO> myMateApplyRecm(String id);
+
+	// <select id="mateOk">
+	public ArrayList<MateDTO> mateOk(String id);
+	
+	// <update id="update">
+	public int recBbsChange(ApplyBbs_DTO dto);
+
+	// <update id="recRecmChange">
+	public int recRecmChange(ApplyRecm_DTO dto);
+
+	// <insert id="applyBbsMate">
+	public int applyBbsMate(MateDTO dto);
+
+	// <update id="applyBbs">
+	public int applyBbs(ApplyBbs_DTO dto);
+
+	// <update id="applyRecm">
+	public int applyRecm(ApplyRecm_DTO dto);
+
+	// <delete id="delete">
+	public int delete(MateDTO dto);
+	
+	// <select id="mateOk">
+	public ArrayList<ChatDTO> mateChat(String nowTime);
+	
+	// <update id="update">
+	public int submit(ChatDTO dto);
+
+	/*
 	// <delete id="delete">
 	public int delete(NoticeDTO dto);
 	

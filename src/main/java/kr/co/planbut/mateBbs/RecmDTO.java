@@ -5,6 +5,7 @@ public class RecmDTO {
 	private String ct_code;
 	private String s_date;
 	private String m_id;
+	private String photo;
 	private String hey;
 	
 	public RecmDTO() {}
@@ -41,9 +42,18 @@ public class RecmDTO {
 		this.hey = hey;
 	}
 
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
 	@Override
 	public String toString() {
-		return "RecmDTO [ct_code=" + ct_code + ", s_date=" + s_date + ", m_id=" + m_id + ", hey=" + hey + "]";
+		return "RecmDTO [ct_code=" + ct_code + ", s_date=" + s_date + ", m_id=" + m_id + ", photo=" + photo + ", hey="
+				+ hey + "]";
 	}
 	
 }
