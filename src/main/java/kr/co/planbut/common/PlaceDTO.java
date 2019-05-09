@@ -4,9 +4,9 @@ package kr.co.planbut.common;
 // Place(관광지) Table
 public class PlaceDTO {
 
-	// Variable
-	private String p_code, pt_code, ct_code, p_name, address, xy, content;
+	private String p_code, pt_code, ct_code, p_name, address, content;
 	private double lat, lng;
+	
 	private PlacetypeDTO placetype;	// placetype 테이블 조인
 
 
@@ -56,14 +56,6 @@ public class PlaceDTO {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getXy() {
-		return xy;
-	}
-
-	public void setXy(String xy) {
-		this.xy = xy;
 	}
 
 	public String getContent() {

@@ -8,7 +8,7 @@
 <link href="${pageContext.request.contextPath}/css/fullcalendar/list/main.css" rel="stylesheet" />
 
 <script src="./jquery-ui.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/moment.js"></script>
+<script src="${pageContext.request.contextPath}/js/moment.js"></script>	<!-- 날짜/시간 라이브러리 -->
 <script src="${pageContext.request.contextPath}/js/fullcalendar/core/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/interaction/main.js"></script>
 <script src="${pageContext.request.contextPath}/js/fullcalendar/daygrid/main.js"></script>
@@ -295,7 +295,7 @@ var dataset = [
 
 		$("#notes .note-date").html(date);	// 선택한 날짜
 
-		$("#notes").empty();	// 기존 메모 리스트 지움
+		$("#notes").empty();	// 기존 메모 리스트 비움
 		
 		// 도시계획별 메모리스트
 		
@@ -307,8 +307,8 @@ var dataset = [
 			    html: [ 
 					$("<h3/>", { "class": "root-city", html: cp.ct_name }), 
 					$("<p/>", { "class": "bt-add", html: [
-						$("<button/>", { "type": "button", "class": "btn btn-default", "onclick": "location.href='#'", html: [
-							$("<span/>", { "class": "glyphicon glyphicon-pencil"}), 
+						$("<button/>", { "type": "button", "class": "btn btn-default", "onclick": "addMemo()", html: [
+							$("<span/>", { "class": "glyphicon glyphicon-plus"}), 
 							" 새 메모"
 						] })
 					] }),
@@ -323,11 +323,13 @@ var dataset = [
 				contentType: "application/json; charset=UTF-8", 
 				url: "${pageContext.request.contextPath}/plan/calendar",
 				data: {
+					//cityplan: {plan_code: "${article.plan_code}"}, 
 					plan_code: "${article.plan_code}", 
 					cp_code: cp.cp_code,
 					date: date
 				},
 				dataType: "json",
+				async : false ,
 				success: function (data) {
 					console.log(data);	// chrome console에 출력
 					memoList(data, i);	// 일별 메모
@@ -346,7 +348,7 @@ var dataset = [
 	// 일별 메모 출력
 	function memoList(data, idx){
 		
-		$("#notes ul.list").empty();	// 기존 메모 리스트 지움
+		$("#notes ul.list").empty();	// 기존 메모 리스트 비움
 		
 		$.each(data, function(i, cal){
 	
@@ -366,8 +368,12 @@ var dataset = [
 					//$("<p/>", { "class': "root-date", html: date }), 
 					$("<p/>", { "class": "root-day", html: "도시순서: "+order_code }),
 					$("<p/>", { "class": "root-day", html: "숙박일: "+day }), 
-					$("<p/>", { "class": "bt-delete", html: [
-						$("<button/>", { "type": "button", "class": "btn btn-default btn-sm", "onclick": "location.href='#'", html: [
+					$("<p/>", { "class": "bt-edit", html: [
+						$("<button/>", { "type": "button", "class": "btn btn-default btn-sm", "onclick": "editMemo()", html: [
+							$("<span/>", { "class": "glyphicon glyphicon-pencil"}), 
+							" 메모 수정"
+						] }),
+						$("<button/>", { "type": "button", "class": "btn btn-default btn-sm", "onclick": "deleteMemo()", html: [
 							$("<span/>", { "class": "glyphicon glyphicon-minus"}), 
 							" 메모 삭제"
 						] })

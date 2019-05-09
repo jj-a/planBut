@@ -8,6 +8,7 @@ public class PlannerDTO {
 	private String plan_code, m_id, subject;
 	private int people;
 	private String s_date;
+	
 	private CityplanDTO cityplan;	// cityplan 테이블 조인
 
 	
