@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.planbut.common.CalendarDTO;
 import kr.co.planbut.common.CityDTO;
 import kr.co.planbut.common.CityplanDTO;
+import kr.co.planbut.common.PlaceDTO;
 import kr.co.planbut.common.PlannerDTO;
 
 
@@ -136,7 +137,6 @@ public class PlanController {
 	public ModelAndView course(PlannerDTO dto) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("plan/course");
-
 		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
 		mav.addObject("article", dao.read(dto));	// 플래너(planner) 정보
 		mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트 -> 수정 시
@@ -203,15 +203,15 @@ public class PlanController {
                 dto.setRm_ok((String) jsonObj.get("rm_ok"));
                 //((Long)parse_response.get("age")).intValue();
                 
-                System.out.println(jsonObj.get("cp_code").equals("제거"));
+                //System.out.println(jsonObj.get("cp_code").equals("제거"));
                 
                 if (jsonObj.get("cp_code").equals("제거")) {//저장 안되어있던것만 insert
 	                result = dao.insertCP(dto); //insert 실행
-	                System.out.println("insertCP 결과 : "+result +"\n--------------------");
+	                //System.out.println("insertCP 결과 : "+result +"\n--------------------");
                 }else {                	
                 	dto.setCp_code((String) jsonObj.get("cp_code"));
 					result = dao.updateCP(dto);
-					System.out.println("updateCP 결과 : "+result +"\n--------------------");
+					//System.out.println("updateCP 결과 : "+result +"\n--------------------");
 				}// if end
             }//for end
             

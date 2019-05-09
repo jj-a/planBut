@@ -6,6 +6,7 @@ public class PlaceDTO {
 
 	// Variable
 	private String p_code, pt_code, ct_code, p_name, address, xy, content;
+	private double lat, lng;
 	private PlacetypeDTO placetype;	// placetype 테이블 조인
 
 
@@ -72,7 +73,29 @@ public class PlaceDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 	
+
+	public double getLat() {
+		return lat;
+	}
+
+
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+
+
+	public double getLng() {
+		return lng;
+	}
+
+
+	public void setLng(double lng) {
+		this.lng = lng;
+	}
+
+
 	public PlacetypeDTO getPlacetype() {
 		return placetype;
 	}

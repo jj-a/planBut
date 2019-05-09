@@ -97,7 +97,7 @@ padding-right: 0px !important;
 			    		</select>박&nbsp;
 						</span>
 				   <%-- <span class="root-date">${fn:substring(s_date, 5,10)} ~ </span>  --%>
-						<span class="root-date">${fn:substring(cp.s_date,0,10)} ~ </span>&nbsp;
+						<span class="root-date">${fn:substring(cp.s_date,0,10)} ~ </span><br />
 						<span class="root-transport">
 						<select id="trans">
 							<c:set var="array">기차,항공,버스,페리,기타</c:set>
@@ -114,7 +114,7 @@ padding-right: 0px !important;
 							</c:forEach> 
 					    </select>						
 						</span>
-						<span id="ct_code" style="display: none;">${cp.ct_code }</span><br />
+						<span id="ct_code" style="display: none;">${cp.ct_code }</span>
 						
 						<c:choose>
 							<c:when test="${cp.rm_ok eq 'Y'  }">
@@ -123,7 +123,7 @@ padding-right: 0px !important;
 							<c:otherwise>									
 								<span>동행추천허용<input type="checkbox" id="rm_ok"></span>												
 							</c:otherwise>
-						</c:choose>
+						</c:choose>&nbsp;
 						<span id="lat" style="display: none;">${cp.city.lat }</span>
 						<span id="lng" style="display: none;">${cp.city.lng }</span>
 						<span id="cp_code" style="display: none;" value="${cp.cp_code }">${cp.cp_code }</span>
@@ -356,7 +356,7 @@ padding-right: 0px !important;
 		});//map 옵션 끝 ----------------------------
 
 		
-		var icon = './icon.png';
+		var icon = './pic/icon.png';
 		cityDTOs.forEach(function(cityDTO) {
 			/* xy=  {
 					lat : cityDTO.lat,
@@ -473,11 +473,10 @@ padding-right: 0px !important;
 			        '<option value="9">9</option>\n'+
 			        '<option value="10">10</option>\n'+
 			    '</select>\n'+
-			    '박 &nbsp; \n'+	
+			    '박 &nbsp; \n '+	
 			    '</span>\n'+
-			    '<span class="root-date">'+s_date+' ~ '+e_date+'</span>&nbsp;\n'+
+			    '<span class="root-date">'+s_date+' ~ '+e_date+'</span><br />\n'+
 			    '<span class="root-transport">\n'+
-			    '이동수단\n'+
 			    '<select id="trans">\n'+
 			        '<option value="tr">기차</option>\n'+
 			        '<option value="ap">항공</option>\n'+
@@ -486,8 +485,8 @@ padding-right: 0px !important;
 			        '<option value="et">기타</option>\n'+
 			    '</select>\n'+
 			    '</span>\n'+
-			    '<span id="ct_code" style="display: none;">'+ct_code+'</span><br />\n'+
-			    '<span>동행추천허용<input type="checkbox" id="rm_ok"></span>\n'+	
+			    '<span id="ct_code" style="display: none;">'+ct_code+'</span>\n'+
+			    '<span>동행추천허용<input type="checkbox" id="rm_ok"></span>&nbsp;\n'+	
 			    '<span id="lat" style="display: none;">'+lat+'</span>\n'+	
 			    '<span id="lng" style="display: none;">'+lng+'</span>\n'+   
 			    '<button onclick="delCP(this)">제거</button>'+			    
@@ -541,7 +540,7 @@ padding-right: 0px !important;
 					       	if (result==1) {
 					            alert("제거 되었습니다.");	
 							}else{
-					            alert("저장에 실패 하였습니다.");						
+					            alert("제거에 실패 하였습니다.");						
 							}
 					       },
 					       error:function(jqXHR, textStatus, errorThrown){
@@ -627,7 +626,7 @@ padding-right: 0px !important;
 
 			var param =  new Object();
 			param.plan_code  = plan_code;
-			param.ct_code    = $(this).children().eq(4).text();//
+			param.ct_code    = $(this).children("#ct_code").text();//
 			param.order_code = idx; 
 			param.day        = $(this).find("#day option:selected").val(); 
 			param.trans      = $(this).find("#trans option:selected").text(); 
