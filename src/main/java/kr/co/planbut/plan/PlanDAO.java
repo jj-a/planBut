@@ -68,6 +68,7 @@ public class PlanDAO {
 	} // count() end
 
 	
+	
 	// 1단계 도시계획 조회 (리스트)
 	public ArrayList<CityplanDTO> cityplanList(PlannerDTO dto) {
 		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
@@ -75,6 +76,7 @@ public class PlanDAO {
 		return list;		
 	} // cityplanList() end
 
+	
 	
 	// 일정(캘린더) 조회 (리스트)
 	public ArrayList<CalendarDTO> calendar(CalendarDTO dto) {
@@ -84,6 +86,31 @@ public class PlanDAO {
 	} // calendar() end
 
 	
+	// 일정(캘린더) 추가
+	public int calAdd(CalendarDTO dto) {
+		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
+		int res=mapper.calAdd(dto);
+		return res;		
+	} // calAdd() end
+	
+
+	// 일정(캘린더) 수정
+	public int calUpdate(CalendarDTO dto) {
+		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
+		int res=mapper.calUpdate(dto);
+		return res;		
+	} // calUpdate() end
+
+	
+	// 일정(캘린더) 삭제
+	public int calDelete(CalendarDTO dto) {
+		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
+		int res=mapper.calDelete(dto);
+		return res;		
+	} // calDelete() end
+	
+	
+	
 	// 2단계 경로계획 조회 (리스트) - 단일데이터
 	public ArrayList<CourseplanDTO> courseplanList(CalendarDTO dto) {
 		PlanMapper mapper=sqlSession.getMapper(PlanMapper.class);
@@ -91,6 +118,7 @@ public class PlanDAO {
 		return list;		
 	} // courseplanList() end
 
+	
 	
 	// 관광지 조회 (리스트)
 	public ArrayList<PlaceDTO> placeList() {
@@ -106,6 +134,7 @@ public class PlanDAO {
 		PlaceDTO place=mapper.placeRead(dto);
 		return place;
 	} // placeRead() end
+	
 	
 
 	// getCitys

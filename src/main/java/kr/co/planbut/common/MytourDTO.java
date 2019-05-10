@@ -5,7 +5,7 @@ package kr.co.planbut.common;
 public class MytourDTO {
 
 	// Variable
-	private String tr_code, ct_code, re_code, tr_name, date;
+	private String tr_code, cp_code, re_code, tr_name, date;
 	private int price;
 	private String memo;
 
@@ -26,12 +26,12 @@ public class MytourDTO {
 		this.tr_code = tr_code;
 	}
 
-	public String getCt_code() {
-		return ct_code;
+	public String getCp_code() {
+		return cp_code;
 	}
 
-	public void setCt_code(String ct_code) {
-		this.ct_code = ct_code;
+	public void setCp_code(String cp_code) {
+		this.cp_code = cp_code;
 	}
 
 	public String getRe_code() {

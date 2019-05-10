@@ -128,7 +128,6 @@
 		insert into planner(plan_code, m_id, subject, people, s_date) 
 		values(#{plan_code}, #{m_id}, #{subject}, #{people}, #{s_date}) 
 		]]>
-
 	</insert>
 
 
@@ -227,6 +226,48 @@
 		order by order_code asc, date asc, cal_code asc
 		]]>
 	</select>
+	
+	
+	<!-- 캘린더 추가 -->
+	<insert id="calAdd" parameterType="kr.co.planbut.common.CalendarDTO">
+		<!-- 일련번호 생성 -->
+		<selectKey keyProperty="cal_code" resultType="String" order="BEFORE"> 
+		select 
+			if( 
+				isnull(cp_code), 
+				'CAL001', 
+				concat('CAL', lpad(substring(max(cal_code),4)+1,3,0))
+			) as cal_code 
+		from calendar as CAL
+		</selectKey>
+		
+		<![CDATA[ 
+		insert into calendar(cal_code, cp_code, ct_code, memo, date)
+		values(#{cal_code}, #{cp_code}, (
+			select ct_code from cityplan as CP
+			where cp_code=#{cp_code}
+		), #{memo}, #{date}) 
+		]]>
+	</insert>
+
+
+	<!-- 캘린더 수정 -->
+	<update id="calUpdate" parameterType="kr.co.planbut.common.CalendarDTO">
+		<![CDATA[
+		update calendar 
+		set memo=#{memo}, date=#{date} 
+		where cal_code = #{cal_code} 
+		]]>
+	</update>
+
+
+	<!-- 캘린더 삭제 -->
+	<delete id="calDelete" parameterType="kr.co.planbut.common.CalendarDTO">
+		<![CDATA[
+		delete from calendar 
+		where cal_code = #{cal_code} 
+		]]>
+	</delete>
 	
 
 	<!-- 2단계 경로계획 조회 (리스트) -->

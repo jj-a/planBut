@@ -129,6 +129,48 @@ public class PlanController {
 		return list;
 	}// calendarLoad() end
 	
+	
+	// 계획짜기 > 일정 (캘린더) - 캘린더 "추가" (ajax 통신)
+	@ResponseBody
+	@RequestMapping(value="/plan/calendar", method=RequestMethod.POST)
+	public int calendarAdd(CalendarDTO dto) {
+
+		System.out.println("cp_code:"+dto.getCp_code());
+		System.out.println("memo:"+dto.getMemo());
+		System.out.println("date:"+dto.getDate());
+		
+		int result=dao.calAdd(dto);	// 캘린더(calendar) 추가
+		
+		return result;
+	}// calendarAdd() end
+	
+	
+	// 계획짜기 > 일정 (캘린더) - 캘린더 "수정" (ajax 통신)
+	@ResponseBody
+	@RequestMapping(value="/plan/calendar", method=RequestMethod.PUT) // 톰캣 server.xml - Connector태그의 parseBodyMethods에 PUT 추가
+	public int calendarUpdate(CalendarDTO dto) {
+
+		System.out.println("cal_code:"+dto.getCal_code());
+		System.out.println("memo:"+dto.getMemo());
+		
+		int result=dao.calUpdate(dto);	// 캘린더(calendar) 수정
+		
+		return result;
+	}// calendarUpdate() end
+	
+	
+	// 계획짜기 > 일정 (캘린더) - 캘린더 "삭제" (ajax 통신)
+	@ResponseBody
+	@RequestMapping(value="/plan/calendar", method=RequestMethod.DELETE) // 톰캣 server.xml - Connector태그의 parseBodyMethods에 DELETE 추가
+	public int calendarDelete(CalendarDTO dto) {
+
+		System.out.println("cal_code:"+dto.getCal_code());
+		
+		int result=dao.calDelete(dto);	// 캘린더(calendar) 삭제
+		
+		return result;
+	}// calendarDelete() end
+	
 
 	// 계획짜기 > 2단계 플래너 (경로계획)
 	@RequestMapping(value="/plan/course.do", method=RequestMethod.GET)
