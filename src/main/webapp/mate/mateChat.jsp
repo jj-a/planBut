@@ -74,9 +74,17 @@ function mach() {
 	    $('#mateChat').css("display","block");
 }
  */
-$(window).load(function(){
-	location.href="./mateChat.do"
-});
+ 
+setTimeout(function(){
+	 location.reload();
+	 },5000);
+
+/* $(window).load(function(){
+    location.href="./mateChat.do"
+}); */
+
+
+
 </script>
 <div class="container">
     <div class="container bootstrap snippet">
@@ -118,7 +126,7 @@ $(window).load(function(){
                         <div class="portlet-footer">
 						    <div class="row">
 						        <div class="form-group col-xs-4">
-						            <input style="height: 40px;" type="text" id="chatName" class="form-control" placeholder="이름" maxlength="20">
+						            <input style="height: 40px;" type="text" id="chatName" class="form-control" value="${session_m_id}" maxlength="20">
 						        </div>
 						    </div>
 						    <div class="row" style="height: 90px;">

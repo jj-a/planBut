@@ -61,7 +61,7 @@ background: yellow;
 						<input type="button" value="채팅" onclick="location.href='./mateChat.do'">
                     	<span class="more" style="display: none;">
 							<strong><input type="text" name="s_date" id="s_date" value="${dto2.s_date.substring(0,10) }" size="10" readonly>
-                        	<input type="text" name="day" id="day" value="${dto2.hey.substring(0,10) }" size="10" readonly></strong><br/> 
+                        	<input type="text" name="day" id="day" value="${dto2.hey.substring(0,10) }" size="10" readonly></strong><br/>
 						</span>
                         <%-- <input type="button" name="chat" value="채팅"> --%>
                     </div>
@@ -163,9 +163,9 @@ background: yellow;
     } // mateCheck() end
     
     function mateCheck(f, row, i) {
-    	var no = document.getElementsByTagName('tr')[row].children[1].childNodes[0].nodeValue;
+    	var no = document.getElementsByTagName('tr')[row-3].children[0].childNodes[0].nodeValue;
         f.b_no.value = no;
-
+        alert(no)
         if(i==1){
 	        f.action="./delete.do?b_no="+no;
 	    	var message="게시물을 삭제하시겠습니까?";
