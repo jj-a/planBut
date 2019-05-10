@@ -258,7 +258,7 @@
 		</select>
 
     <!-- tour/reserve???.jsp(장바구니 상세 조회)  -->
-    <select id="readcart" resultMap="tourDTO" parameterType="ArrayList">
+    <select id="readcart" resultMap="tourDTO" parameterType="String">
 	    	<![CDATA[
 				select cart_code, photo, tour_name, people, price*people as pay, tourday, m_id
 				from tour T
