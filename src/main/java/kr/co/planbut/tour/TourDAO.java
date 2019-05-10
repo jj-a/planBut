@@ -53,11 +53,11 @@ public class TourDAO {
 		return cartlist;
 	}//cartlist end
 
-	//장바구니 
-	public ArrayList<TourDTO> readcart(ArrayList<CartDTO> cart_list) {
+	//장바구니 상세조회(예약용) 
+	public TourDTO readcart(String cart_code) {
 		TourMapper mapper = sqlSession.getMapper(TourMapper.class);
-		ArrayList<TourDTO> cartlist = mapper.readcart(cart_list);
-		return cartlist;
+		TourDTO dto = mapper.readcart(cart_code);
+		return dto;
 	}//cartlist end
 
 	//리뷰 목록
