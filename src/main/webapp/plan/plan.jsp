@@ -234,7 +234,8 @@ padding-right: 0px !important;
 					<a href="javascript:creatcp('${article.plan_code}');" class="btn btn-success" role="button">저장</a>
 
 					<%-- ${pageContext.request.contextPath}/plan/create.do?plan_code=${article.plan_code} --%>
-					<a href="${pageContext.request.contextPath}/plan/course.do?plan_code=${article.plan_code}" class="btn btn-info" role="button" onclick="creatcp('${article.plan_code}');">다음단계로</a>
+					<a href="${pageContext.request.contextPath}/plan/course.do?plan_code=${article.plan_code}" class="btn btn-info" role="button">다음단계로</a>
+<%-- 					<a href="${pageContext.request.contextPath}/plan/course.do?plan_code=${article.plan_code}" class="btn btn-info" role="button" onclick="creatcp('${article.plan_code}');">다음단계로</a> --%>
 					</c:when>
 					<c:when test="${empty session_m_id}">	<!-- 비회원일 시 -->
 					<a class="btn btn-default" role="button"></a>
@@ -245,26 +246,6 @@ padding-right: 0px !important;
 				</c:choose>
 			</div>
 
-			<!-- 버튼 형태 상단 메뉴 -->
-			<!-- 
-			<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group">
-				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default">
-						<font style="vertical-align: inherit;"><font style="vertical-align: inherit;">루트</font></font>
-					</button>
-				</div>
-				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default">
-						<font style="vertical-align: inherit;"><font style="vertical-align: inherit;">일정</font></font>
-					</button>
-				</div>
-				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-default">
-						<font style="vertical-align: inherit;"><font style="vertical-align: inherit;">저장</font></font>
-					</button>
-				</div>
-			</div>
-			-->
 
 			<!-- 컨텐츠 -->
 			<div class="contents">

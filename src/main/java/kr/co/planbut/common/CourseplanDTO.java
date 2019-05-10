@@ -6,6 +6,7 @@ public class CourseplanDTO {
 
 	// Variable
 	private String cos_code, cp_code, course, date;
+	private int dayidx;
 	private CityplanDTO cityplan;	// cityplan 테이블 조인
 
 	
@@ -52,6 +53,17 @@ public class CourseplanDTO {
 	public CityplanDTO getCityplan() {
 		return cityplan;
 	}
+	
+
+	public int getDayidx() {
+		return dayidx;
+	}
+
+
+	public void setDayidx(int dayidx) {
+		this.dayidx = dayidx;
+	}
+
 
 	public void setCityplan(CityplanDTO cityplan) {
 		this.cityplan = cityplan;
