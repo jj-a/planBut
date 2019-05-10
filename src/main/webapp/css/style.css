@@ -40,8 +40,22 @@ nav {
 }
 
 .main-menu .sub {
-	font-size: 18pt;
+	font-size: 24pt;
+	font-weight: bold;
+	color: white;
+	position: relative;
+	top: 50px;
 }
+
+.main-menu .text {
+	font-size: 14pt;
+	color: white;
+	position: relative;
+	top: 50px;
+}
+
+
+
 
 .main-left {
 	background-image: url("../images/main1.jpg");
@@ -99,7 +113,7 @@ textarea.vresize {
   
 textarea.hresize {
   resize: horizontal;  
-}  
+}
 
 
 

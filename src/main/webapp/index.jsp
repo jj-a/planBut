@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?ver=0.04">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css?ver=0.06">
 <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/script.js?ver=0.00"></script>
@@ -132,13 +132,13 @@
 			<div class="col-sm-6 main-menu main-left" onclick="window.location='${pageContext.request.contextPath}/plan/plan.do'"
 				onmouseover="style='cursor:pointer;'">
 				<p class="sub">계획짜기</p>
-				<p>한번의 클릭으로 계획 뚝딱</p>
+				<p class="text">한번의 클릭으로 계획 뚝딱</p>
 			</div>
 			<!-- 동행찾기 -->
 			<div class="col-sm-6 main-menu main-right" onclick="window.location='${pageContext.request.contextPath}/mate/list.do'"
 				onmouseover="style='cursor:pointer;'">
 				<p class="sub">동행찾기</p>
-				<p>내 계획에 맞는 동행 찾기</p>
+				<p class="text">내 계획에 맞는 동행 찾기</p>
 			</div>
 		</div>
 		<br>

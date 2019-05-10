@@ -80,7 +80,7 @@ public class PlannerController {
 		String m_id=(String)session.getAttribute("session_m_id");
 
 		mav.addObject("article", dao.plannerRead(dto));	// 플래너(planner) 정보
-		mav.addObject("calendar", dao.calendar(dto)); // 캘린더(calendar) 리스트
+		mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트
 		// TODO: 갤러리(gallery) 테이블 생성 + 리스트 추가하기 
 		
 		return mav;
@@ -96,8 +96,17 @@ public class PlannerController {
 		// Session에 저장되있는 id 가져오기
 		String m_id=(String)session.getAttribute("session_m_id");
 
-		mav.addObject("article", dao.plannerRead(dto));	// 플래너(planner) 정보
-		mav.addObject("calendar", dao.calendar(dto)); // 캘린더(calendar) 리스트
+
+		if(dto.getPlan_code()!=null && dto.getPlan_code()!="") {
+			mav.addObject("article", dao.plannerRead(dto));	// 플래너(planner) 정보
+			mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트
+			//mav.addObject("calendar", dao.calendar(dto)); // 캘린더(calendar) 리스트
+		
+		}else {
+			// parameter가 없을 때
+			
+		}
+		
 		
 		return mav;
 	} // calendar() end

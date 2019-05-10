@@ -268,24 +268,24 @@ html, body {
 <script>
 ////////////////////달력 Script ////////////////////
 
-
-// cityplan 테이블 - 도시별 일정 dataset
-
-var dataset = [
-	<c:forEach var="cp" items="${cplist}" varStatus="status">
-	<c:set var="s_date" value="${fn:substring(cp.s_date, 0,10)}" property="time" />
-		<c:set var="day" value="${cp.day+1}" />
-    <c:if test="${s_date != ''}">
-        {"id": "<c:out value='${cp.cp_code}' />"
-        ,"title": "<c:out value='${cp.city.ct_name}' />"
-        ,"start": "<c:out value='${s_date}' />" 
-        <c:if test="${cp.day > 1}">
-        ,"end": moment("${s_date}").add("${day}","d").format("YYYY-MM-DD").toString() // e_date = s_date+day
-        </c:if>
-        } <c:if test="${!status.last}">,</c:if>
-    </c:if>
-</c:forEach>
-];
+	
+	// cityplan 테이블 - 도시별 일정 dataset
+	
+	var dataset = [
+		<c:forEach var="cp" items="${cplist}" varStatus="status">
+		<c:set var="s_date" value="${fn:substring(cp.s_date, 0,10)}" property="time" />
+			<c:set var="day" value="${cp.day+1}" />
+	    <c:if test="${s_date != ''}">
+	        {"id": "<c:out value='${cp.cp_code}' />"
+	        ,"title": "<c:out value='${cp.city.ct_name}' />"
+	        ,"start": "<c:out value='${s_date}' />" 
+	        <c:if test="${cp.day > 1}">
+	        ,"end": moment("${s_date}").add("${day}","d").format("YYYY-MM-DD").toString() // e_date = s_date+day
+	        </c:if>
+	        } <c:if test="${!status.last}">,</c:if>
+	    </c:if>
+	</c:forEach>
+	];
 
 
 	// 달력 로딩 / Calendar load
@@ -328,9 +328,10 @@ var dataset = [
 				return evts.length == 0;
 			},
 			 */
-			eventLimit : true, // allow "more" link when too many events
+			eventLimit : false, // true = allow "more" link when too many events
 			events : dataset,	// cityplan 데이터 = 상단에  dto에서 입력받음
 			eventColor: "pink", 
+			contentHeight:"auto", 
 			dateClick: function(info){
 				//if(info.)
 				//alert('clicked ' + info.dateStr);
