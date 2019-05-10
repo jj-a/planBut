@@ -12,7 +12,6 @@ public interface PlanMapper {
 	
 	//<select id="list">
 	public ArrayList<PlannerDTO> list(String m_id);
-	
 	public PlannerDTO read(PlannerDTO dto);
 	
 	public int update(PlannerDTO dto);
@@ -20,11 +19,24 @@ public interface PlanMapper {
 	public int count(PlannerDTO dto);
 	
 	public ArrayList<CityplanDTO> cityplanList(PlannerDTO dto);
-	public ArrayList<CourseplanDTO> courseplanList(PlannerDTO dto);
-	public ArrayList<CalendarDTO> calendar(PlannerDTO dto);
+	
+	public ArrayList<CourseplanDTO> courseplanList(CalendarDTO dto);
+	
+	public ArrayList<CalendarDTO> calendar(CalendarDTO dto);
+	public int calAdd(CalendarDTO dto);
+	public int calUpdate(CalendarDTO dto);
+	public int calDelete(CalendarDTO dto);
+	
 	public ArrayList<PlaceDTO> placeList();	// 관광지리스트
+	public PlaceDTO placeRead(PlaceDTO dto);
 	
 	//<select id="getCitys">
 	public ArrayList<CityDTO> getCitys();
+
+	//<insert id="insertCP">
+	public int insertCP(CityplanDTO dto);
+	public int clearCP(String plan_code);
+	public int delCP(String cp_code);
+	public int updateCP(CityplanDTO dto);
 	
 } // PlanMapper end

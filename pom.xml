@@ -147,6 +147,7 @@
 			<version>2.2.6</version>
 		</dependency>
 
+		<!-- JSON format 라이브러리 -->
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
@@ -169,9 +170,10 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency>
-      
-      
-      
+		
+		
+		
+		
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>

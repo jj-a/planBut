@@ -10,7 +10,8 @@ public class CityplanDTO {
 	private String trans, s_date, rm_ok;
 	
 	private CityDTO city;	// city 테이블 조인
-	private int daysum;
+	private int daysum;		// planner별 총 일수
+	
 	private String m_id;
 
 	// Constructor

@@ -161,11 +161,11 @@ join cityplan CP
 on CAL.cp_code = CP.cp_code
 join city CITY
 on CAL.ct_code = CITY.ct_code
-where plan_code= #{plan_code}
+where plan_code= #{plan_code} and CAL.cp_code= #{cp_code} and date like concat(#{date},'%')
 order by order_code asc, date asc, cal_code asc
 ;
--- (ex)
-select cal_code, CAL.cp_code, CP.order_code, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
+-- (ex) 전체
+select cal_code, CAL.cp_code, CP.order_code, CP.s_date, CP.day, CAL.ct_code, CITY.ct_name, memo, date 
 from calendar as CAL 
 join cityplan CP 
 on CAL.cp_code = CP.cp_code
@@ -173,6 +173,66 @@ join city CITY
 on CAL.ct_code = CITY.ct_code
 where plan_code='P001'
 order by order_code asc, date asc
+;
+-- (ex) 일별
+select cal_code, CAL.cp_code, CP.order_code, CP.s_date, CP.day, CAL.ct_code, CITY.ct_code, CITY.ct_name, memo, date 
+from calendar as CAL 
+join cityplan CP 
+on CAL.cp_code = CP.cp_code
+join city CITY
+on CAL.ct_code = CITY.ct_code
+where plan_code='P001' and CAL.cp_code='CP002' and date like concat('2019-04-20','%')
+order by order_code asc, date asc
+;
+
+
+-- calendar 추가
+
+<selectKey keyProperty="cal_code" resultType="String" order="BEFORE"> 
+select 
+	if( 
+		isnull(cp_code), 
+		'CAL001', 
+		concat('CAL', lpad(substring(max(cal_code),4)+1,3,0))
+	) as cal_code 
+from calendar as CAL
+;
+</selectKey>
+
+<selectKey keyProperty="ct_code" resultType="String" order="BEFORE"> 
+select ct_code from cityplan 
+where cp_code=#{cp_code}
+;
+</selectKey>
+
+insert into calendar(cal_code, cp_code, ct_code, memo, date)
+values(#{cal_code}, #{cp_code}, #{ct_code}, #{memo}, #{date}) 
+;
+-- (ex)
+insert into calendar(cal_code, cp_code, ct_code, memo, date)
+values('CAL009', 'CP002', (select ct_code from cityplan where cp_code='CP002'), '여행 메모', '2019-04-20') 
+;
+
+
+-- calendar 수정
+update calendar 
+set memo=#{memo}, date=#{date} 
+where cal_code = #{cal_code} 
+;
+-- (ex)
+update calendar 
+set memo='메모 수정', date='2019-05-10' 
+where cal_code = 'CAL001'
+;
+
+
+-- calendar 삭제
+delete from calendar 
+where cal_code = #{cal_code} 
+;
+-- (ex)
+delete from calendar 
+where cal_code = 'CAL001'
 ;
 
 
@@ -187,10 +247,10 @@ join cityplan as CP
 on CSP.cp_code = CP.cp_code 
 join city as CITY
 on CP.ct_code = CITY.ct_code
-where plan_code= #{plan_code}
+where plan_code= #{plan_code} and CP.cp_code= #{cp_code} and date like concat(#{date},'%')
 order by order_code asc, date asc
 ;
--- (ex)
+-- (ex) 전체
 -- select cos_code, CP.cp_code, plan_code, CP.ct_code, CITY.ct_name, order_code, day, course, trans, s_date, rm_ok
 select  cos_code, CP.cp_code, CP.plan_code, CP.ct_code, CITY.ct_name, CP.order_code, CP.day, course, date -- , P.p_name
 from courseplan as CSP
@@ -203,7 +263,19 @@ on CP.ct_code = CITY.ct_code
 where plan_code='P001'
 order by order_code asc, date asc
 ;
-
+-- (ex) 일별
+-- select cos_code, CP.cp_code, plan_code, CP.ct_code, CITY.ct_name, order_code, day, course, trans, s_date, rm_ok
+select  cos_code, CP.cp_code, CP.plan_code, CP.ct_code, CITY.ct_name, CP.order_code, CP.day, course, date -- , P.p_name
+from courseplan as CSP
+join cityplan as CP
+on CSP.cp_code = CP.cp_code 
+join city as CITY
+on CP.ct_code = CITY.ct_code
+-- join place as P
+-- on CITY.ct_code = P.ct_code
+where plan_code='P001' and CP.cp_code='CP002' and date like concat('2019-04-20','%')
+order by order_code asc, date asc
+;
 
 -- courseplan 추가
 
@@ -233,16 +305,31 @@ values('CP002', 'P001', 'LD', 2, '3', '항공', '2019-04-19 00:00')
 
 -- place 조회 (리스트)
 -- placetype 테이블 join, 전체 조회 (유형O)
-select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, xy, content 
+select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, content, lat, lng 
 from place as PL
 join placetype as PLT
 on PL.pt_code = PLT.pt_code 
 order by p_code asc
 ;
 -- 관광지만 조회 (유형X)
-select p_code, pt_code, ct_code, p_name, address, xy, content 
+select p_code, pt_code, ct_code, p_name, address, content, lat, lng 
 from place as PL
 order by p_code asc
+;
+
+
+-- place 조회 (상세)
+-- placetype 테이블 join (유형O)
+select p_code, PL.pt_code, PLT.pt_name, ct_code, p_name, address, content, lat, lng 
+from place as PL
+join placetype as PLT
+on PL.pt_code = PLT.pt_code 
+where p_code = #{p_code}
+;
+-- 관광지만 조회 (유형X)
+select p_code, pt_code, ct_code, p_name, address, content, lat, lng 
+from place as PL
+where p_code = 'T001'
 ;
 
 
@@ -259,11 +346,86 @@ order by p_code asc
 
 
 
--- 일정
--- planner 테이블 조회
-select plan_code, m_id, subject, people 
-from planner
-where plan_code='P001'
+-- myaccomm (숙소)
+
+-- myaccomm 조회
+-- cityplan 테이블 join, 해당 도시계획 데이터만 가져오기
+select CP.plan_code, ac_code, CP.cp_code, ac_name, price, memo 
+from myaccomm as AC
+join cityplan as CP 
+on AC.cp_code = CP.cp_code
+where CP.plan_code=#{plan_code} and CP.cp_code=${cp_code}
+;
+-- (ex)
+select CP.plan_code, ac_code, CP.cp_code, ac_name, price, memo 
+from myaccomm as AC
+join cityplan as CP 
+on AC.cp_code = CP.cp_code
+where CP.plan_code='P001'and CP.cp_code='CP001'
+;
+
+
+
+-- mytransport (교통)
+
+-- mytransport 조회
+-- cityplan 테이블 join, 해당 도시계획 데이터만 가져오기
+select CP.plan_code, trans_code, CP.cp_code, s_point, e_point, TR.trans, price, s_time, e_time, memo 
+from mytransport as TR
+join cityplan as CP 
+on TR.cp_code = CP.cp_code
+where CP.plan_code=#{plan_code} and CP.cp_code=${cp_code}
+;
+-- (ex)
+select CP.plan_code, trans_code, CP.cp_code, s_point, e_point, TR.trans, price, s_time, e_time, memo 
+from mytransport as TR
+join cityplan as CP 
+on TR.cp_code = CP.cp_code
+where CP.plan_code='P001'and CP.cp_code='CP001'
+;
+
+
+
+-- myticket (티켓)
+
+-- myticket 조회
+-- cityplan 테이블 join, 해당 도시계획 데이터만 가져오기
+select CP.plan_code, tic_code, CP.cp_code, tic_name, date, price, memo 
+from myticket as TK
+join cityplan as CP 
+on TK.cp_code = CP.cp_code
+where CP.plan_code=#{plan_code} and CP.cp_code=${cp_code}
+;
+-- (ex)
+select CP.plan_code, tic_code, CP.cp_code, tic_name, date, price, memo 
+from myticket as TK
+join cityplan as CP 
+on TK.cp_code = CP.cp_code
+where CP.plan_code='P001'and CP.cp_code='CP001'
+;
+
+
+
+-- mytour (투어)
+
+-- mytour 조회
+-- cityplan 테이블 join, 해당 도시계획 데이터만 가져오기
+select CP.plan_code, tr_code, CP.cp_code, TRE.re_code, tr_name, T.date, price, memo 
+from mytour as T
+join cityplan as CP 
+on T.cp_code = CP.cp_code
+join treserve as TRE
+on T.re_code = TRE.re_code
+where CP.plan_code=#{plan_code} and CP.cp_code=${cp_code}
+;
+-- (ex)
+select CP.plan_code, tr_code, CP.cp_code, TRE.re_code, tr_name, T.date, price, memo 
+from mytour as T
+join cityplan as CP 
+on T.cp_code = CP.cp_code
+join treserve as TRE
+on T.re_code = TRE.re_code
+where CP.plan_code='P001'and CP.cp_code='CP001'
 ;
 
 
