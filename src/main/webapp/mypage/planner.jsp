@@ -78,6 +78,7 @@
 				<a href="${pageContext.request.contextPath}/mypage/planner.do" class="list-group-item active">내 플래너<span class="badge">${count }</span></a> 
 				<a href="${pageContext.request.contextPath}/mypage/mymate.do" class="list-group-item">내 동행</a> 
 				<a href="${pageContext.request.contextPath}/mypage/reservation.do" class="list-group-item">내 투어예약</a> 
+				<a href="${pageContext.request.contextPath}/mypage/qna.do" class="list-group-item">문의 내역</a> 
 				<a href="${pageContext.request.contextPath}/member/modify.do" class="list-group-item">내 정보 수정</a>
 			</div>
 		</div>
