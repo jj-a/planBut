@@ -163,9 +163,9 @@ background: yellow;
     } // mateCheck() end
     
     function mateCheck(f, row, i) {
-    	var no = document.getElementsByTagName('tr')[row].children[1].childNodes[0].nodeValue;
+    	var no = document.getElementsByTagName('tr')[row-3].children[0].childNodes[0].nodeValue;
         f.b_no.value = no;
-
+        alert(no)
         if(i==1){
 	        f.action="./delete.do?b_no="+no;
 	    	var message="게시물을 삭제하시겠습니까?";
