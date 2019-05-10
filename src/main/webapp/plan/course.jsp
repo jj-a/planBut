@@ -75,61 +75,6 @@ li.day:hover {
 				</div>
 			</div>
 	
-	
-				<!-- 경로 부분 sample -->
-				<div id="cityblock1" class="cityblock" style="position: relative; top: 0px; left: 0px;">
-					<p class="trsinfo">
-						<div style="padding-top: 0px; padding-bottom: 0px">
-							<div style="float: left; width: 29px; height: 40px; border-right: 3px solid #3ad195;">&nbsp;</div>
-							<div style="float: left; width: 150px; height: 40px; padding-top: 10px; margin-left: -25px;">
-								<div
-									style="border-radius: 3px; display: inline-block; text-align: center; padding-top: 2px; padding-bottom: 2px; margin-right: 3px; width: 50px; background: #3ad195; cursor: pointer;"
-									class="div_btnTrsTool" onclick="showTrsTool('181071004','181071001','2019-05-22',1)">
-									<font style="font-size: 9pt; color: #fff" id="trstype_txt_1">버스 <i class="fa fa-chevron-circle-down"></i></font>
-								</div>
-								&nbsp;<font style="font-size: 8pt; color: #c0c0c0"></font>
-							</div>
-							<div style="clear: both"></div>
-						</div>
-					</p>
-					<div class="cityinfo">
-						<div style="width: 29px; border-right: 3px solid #3ad195; height: 7px;"></div>
-						<input type="hidden" class="cityserial" value="181071001">
-						<div width="100%;overflow-x:hidden">
-							<div
-								style="float: left; width: 53px; height: 53px; padding-left: 7px; background: #fff; padding-top: 13px; border-radius: 100px; border: 3px solid #3ad195; cursor: pointer"
-								class="div_mngSlp" onclick="mngSlp('아부다비','181071001',0,1)">
-								<a class="a_mngSlp" href="javascript:mngSlp('아부다비','181071001',0,1)"><font style="color: #696969; font-size: 10pt; font-weight: bold"
-									class="nights">1박 <i class="fa fa-angle-down"></i></font></a>
-							</div>
-							<div style="float: left; width: 215px; padding-left: 10px; padding-top: 7px;">
-								<div style="float: left; width: 148px">
-									<div>
-										<font class="stubby_s_black"> 아부다비</font>&nbsp;<a class="btnDel" href="javascript:delCity(1)"><font
-											style="font-size: 9pt; color: #c0c0c0"><i class="fa fa-times-circle"></i></font></a>
-									</div>
-									<div class="date_in_out">5월23일(목)~24일(금)</div>
-								</div>
-								<div style="float: left; padding-right: 5px; width: 57px;">
-									<div id="cp_0"
-										style="height: 52px; margin-top: -8px; text-align: center; padding-top: 3px; padding-bottom: 3px; border: 1px solid #efefef; background: #fff; border-radius: 8px;"
-										onclick="showBucketList('0','아부다비','181071001',0)">
-										<div>
-											<font style="font-size: 19pt; color: #3ad195" id="cp_heart_0"><i class="fa fa-info-circle" aria-hidden="true"></i></font>
-										</div>
-										<div style="margin-top: -8px;">
-											<span id="span_schd_cnt_0" style="font-size: 8pt; display: none;">0</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div style="clear: both"></div>
-						</div>
-						<div style="width: 29px; border-right: 3px solid #3ad195; height: 7px;"></div>
-					</div>
-				</div>
-	
-	
 			</div>	<!-- 좌측메뉴 1 end -->
 			
 	
@@ -183,6 +128,7 @@ li.day:hover {
 	
 	//http://localhost:9090/planbut/plan/planTest.do
 	var map;
+	var firstPosition;
 	var linePath = new Array();//polyline 그릴 좌표 배열
 	var flightPath; //polyline
 	var placelist = new Array(); //JSON 형식받을 Array (도시들 의 정보)
@@ -212,7 +158,7 @@ li.day:hover {
 
 	function initMap() {
 		map = new google.maps.Map(document.getElementById('map'), {//지도에 띄우기
-			zoom : 12,
+			zoom : 14,
 			/* 줌옵션 
 			1 : 세계
 			5 : 대륙 / 대륙
@@ -270,6 +216,7 @@ li.day:hover {
 			// linePath.push(new google.maps.LatLng(cityDTO.lat,cityDTO.lng));
 		});// CITY들 마커 띄우기 끝
 		
+		loadCityplan();
 		//플래너 에 입력되어있는 도시경로 가져와서 지도에 띄우기
 		/* <c:forEach var="cp" items="${csplist }"> 
 		linePath.push(new google.maps.LatLng(${cp.city.lat}, ${cp.city.lng}));
@@ -320,8 +267,22 @@ li.day:hover {
 				s_date=moment("${article.s_date}").add('days', daytoadd).format("YYYY-MM-DD").toString();
 				e_date=moment(s_date).add('days', 1).format("YYYY-MM-DD").toString();
 		});	//lis.each end
+
  */
- 		var $li= $(
+			 $("<li/>", {
+			    "class": "root list-group-item",
+			    html: [ 
+					$("<span/>", { "class": "root-place", "id": "p_code", html: p_code, "style": "display: none;" }),
+					$("<h3/>", { "class": "root-place", html: [
+						$("<span/>", { "class": "num", html: 1, "style": "margin-right: 20px;" }),
+						$("<span/>", { "class": "root-place", "id": "p_name", html: p_name })
+					] }),
+					$("<span/>", { "class": "root-addr", "id": "address", html: address }),
+					$("<span/>", { "class": "lat", "id": "lat", html: lat, "style": "display: none;" }),
+					$("<span/>", { "class": "lng", "id": "lng", html: lng, "style": "display: none;" })
+			    ]
+			}).appendTo(".sub-menu .csp-list");
+/*  		var $li= $(
  			'<li class="list-group-item">\n'+
 			    '<h3 class="root-city"><span class="num" style="margin-right: 20px;">1</span>'+p_name+'</h3> '+
 			    '<span>'+content+'</span>\n'+		    
@@ -330,11 +291,19 @@ li.day:hover {
 		
 		$("#coureUL").append($li);
 		
-		linePath.push(new google.maps.LatLng(lat, lng));
+ */		
+ 		linePath.push(new google.maps.LatLng(lat, lng));
 		//alert(linePath);
 		addLine();
 		
-	}//addCity() end
+	}//addPlace() end
+	
+	
+	function removeLine() {
+		flightPath.setMap(null);
+		//flightPath = null;
+	}//removeLine end
+	
 
 </script>
 
@@ -344,29 +313,37 @@ li.day:hover {
  
 <script>
 	//////////////////// 비동기통신(Ajax) Script ////////////////////
-	
-	
+
 	$(function(){
 		
 		loadCityplan();	// 페이지 로드 시 도시계획 정보 가져오기
 		$("#day-bt").get(0).click();
+		//alert("@@");
+		
 		
 	});
 	
 
 	// 도시계획 정보&버튼 로드
 	function loadCityplan(){
-	
+		//alert("${cplist.get(0).city.lat }");
+		//alert("${cplist.get(0).city.lng }");
+		
+		//new google.maps.LatLng("${cplist.get(0).city.lat }", "${cplist.get(0).city.lat }");
+		
+
+		//firstPosition = new google.maps.LatLng("${cplist.get(0).city.lat }", "${cplist.get(0).city.lat }");//페이지 로드됬을때 센터 지정	
 		$(".sub-menu .day-list").empty();	// 기존 도시계획 부분 비움
+		
 
 		// 저장된 도시계획 리스트
 //		$.each(cplist, function(i, cp){	// java 객체 변환못해서 동작안됨
 		<c:forEach var="cp" items="${cplist }" varStatus="status">
-			<c:set var="ct_name" value="${cp.city.ct_name }" />
-			<c:set var="s_date" value="${fn: substring(cp.s_date,0,10) }" />
 			
 			var cp_code =  "${cp.cp_code }";
 			var ct_name = "${cp.city.ct_name }";
+			var lat = "${cp.city.lat }";
+			var lng = "${cp.city.lng }";
 			var day = parseInt("${cp.day }");
 			var s_date = "${fn: substring(cp.s_date,0,10) }";
 			var e_date = moment(s_date).add(day, "d").format("YYYY-MM-DD").toString();
@@ -376,6 +353,8 @@ li.day:hover {
 			    "class": "cp list-group-item city-${status.index}",	// TODO: class에 index이름 붙이기
 			    html: [ 
 					$("<span/>", { "class": "root-city", "id": "cp_code", html: cp_code, "style": "display: none;" }),
+					$("<span/>", { "class": "lat", "id": "lat", html: lat, "style": "display: none;" }),
+					$("<span/>", { "class": "lng", "id": "lng", html: lng, "style": "display: none;" }),
 					$("<h4/>", { "class": "root-city", "id": "ct_name", html: ct_name }),
 					$("<h6/>", { "class": "root-date", html: [
 						s_date, 
@@ -409,9 +388,23 @@ li.day:hover {
 		
 		
 	} // loadCityplan() end
-
 	
-	// DAY 클릭 시
+	// cp 클릭 시 맵 center change
+	/* $(document).on("click", ".cp", function() {
+		console.log(this);
+	
+		var lat = $(this).children("#lat").get(0).innerText;
+		var lng = $(this).children("#lng").get(0).innerText;
+		console.log(lat);
+		console.log(lng);
+		
+		map.setCenter(new google.maps.LatLng(lat, lng));
+		
+	});
+	 */
+	
+	// DAY 클릭 시 
+	
 	$(document).on("click", ".cp a.day", function() {
 		console.log(this);
 			$(".cp a.day").removeClass("active");
@@ -424,7 +417,22 @@ li.day:hover {
 			
 			saveCourse(cp_code, date);	//
 			viewCourse(cp_code, date);	//
-		
+			
+			var lat = $(this).parent().children("#lat").get(0).innerText;
+			var lng = $(this).parent().children("#lng").get(0).innerText;
+			console.log(lat);
+			console.log(lng);
+			
+			map.setCenter(new google.maps.LatLng(lat, lng));
+			
+			
+			linePath = new Array;
+			linePath.push(new google.maps.LatLng(data.lat, data.lng));	
+
+			removeLine()
+			addLine();
+			
+			
 	});
 
 	function viewCourse(cp_code, date){
@@ -554,14 +562,37 @@ li.day:hover {
 				$("<span/>", { "class": "root-place", "id": "p_code", html: data.p_code, "style": "display: none;" }),
 				$("<h3/>", { "class": "root-place", html: [
 					$("<span/>", { "class": "num", html: idx+1, "style": "margin-right: 20px;" }),
-					$("<span/>", { "class": "root-place", "id": "p_name", html: data.p_name })
+					$("<span/>", { "class": "root-place", "id": "p_name", html: data.p_name }),
 				] }),
-				$("<span/>", { "class": "root-addr", "id": "address", html: data.address })
+				$("<span/>", { "class": "root-addr", "id": "address", html: data.address }),
+				$("<span/>", { "class": "lat", "id": "lat", html: data.lat, "style": "display: none;" }),
+				$("<span/>", { "class": "lng", "id": "lng", html: data.lng, "style": "display: none;" })
 		    ]
 		}).appendTo(".sub-menu .csp-list");
+		/* 
+		linePath.push(new google.maps.LatLng(${data.lat}, ${data.lng}));
+		addLine();
 		
+		 */
+		linePath.push(new google.maps.LatLng(data.lat, data.lng));	
+		addLine();
 	
+		
 	}	// placeInfo() end
+	
+	
+	// 경로 list 클릭 했을때 센터 바꾸기
+	$(document).on("click", ".csp-list list-group-item", function() {
+		console.log(this);
+			
+		var lat = $(this).parent().children("#lat").get(0).innerText;
+		var lng = $(this).parent().children("#lng").get(0).innerText;
+		console.log(lat);
+		console.log(lng);
+		
+		map.setCenter(new google.maps.LatLng(lat, lng));		
+	});
+	
 	
 	
 </script>
@@ -579,12 +610,32 @@ li.day:hover {
 	});
 
 	/* 화면 스크롤 제거 */
-	$(function(){
+	
+/* 	$(function(){
 		$("body").css("overflow", 'hidden');
 	});
-
+ */
+ 
+ 
 </script>
 
+<script src="../js/jquery-ui.min.js"></script>
+<script>
+$( function() {
+  $( ".sub-menu .csp-list" ).sortable({
+	  update: function(event, ui) {
+		  changeCP();
+      }
+  });
+  $( ".sub-menu .csp-list" ).disableSelection();
+})
+/* 
+$( ".daySelector" ).change(function() {
+  changeCP();
+  alert( "Handler for .change() called." );
+});
+ */
+</script>
 
 <!-- end Contents -->
 

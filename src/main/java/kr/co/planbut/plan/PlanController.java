@@ -2,7 +2,10 @@ package kr.co.planbut.plan;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -235,6 +238,33 @@ public class PlanController {
 	                //System.out.println("insertCP 결과 : "+result +"\n--------------------");
                 }else {                	
                 	dto.setCp_code((String) jsonObj.get("cp_code"));
+                	String s_date =dto.getS_date();
+  //              	System.out.println("dto.getCP_coed() ->"+dto.getCp_code());///////dto.getCP_coed() ->////////////
+  //              	System.out.println("dto.getS_date() ->"+s_date); ///////////dto.getS_date() ->//////////////////
+
+                	ArrayList<CourseplanDTO> cosList = dao.getCourseToUpdate(dto.getCp_code());
+                	for (int j = 0; j < cosList.size(); j++) {
+                		int dayidx = cosList.get(j).getDayidx();
+                		String cos_code = cosList.get(j).getCos_code();
+                		System.out.println(dayidx);///////////////////////////////
+                		
+                		SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd"); 
+                		Date dateins = df.parse(s_date); //string to date 형변환                 	
+                		Calendar cal = Calendar.getInstance();
+                		cal.setTime(dateins);
+                		cal.add(Calendar.DATE, dayidx-1);      //day 더하기
+                		
+                		System.out.println("포멧팅한 계산된 날짜"+df.format(cal.getTime()));////////
+                		String date = df.format(cal.getTime()); //date to Sting (정해친 형식으로 yyyy-mm-dd)
+                		
+                		CourseplanDTO valToUp = new CourseplanDTO();
+                		valToUp.setCos_code(cos_code);
+                		valToUp.setDate(date);;
+						int up = dao.updateCosDT(valToUp);
+						System.out.println("cos 업데이트 결과->"+up);/////////////////
+					}// 
+                	System.out.println(cosList.toString());
+                	
 					result = dao.updateCP(dto);
 					//System.out.println("updateCP 결과 : "+result +"\n--------------------");
 				}// if end

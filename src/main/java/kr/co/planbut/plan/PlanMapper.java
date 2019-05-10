@@ -37,5 +37,9 @@ public interface PlanMapper {
 	public int delCP(String cp_code);
 
 	public int updateCP(CityplanDTO dto);
+
+	public ArrayList<CourseplanDTO> getCourseToUpdate(String cp_code);
+
+	public int updateCosDT(CourseplanDTO valToUp);
 	
 } // PlanMapper end
