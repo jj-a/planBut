@@ -1,5 +1,19 @@
 /* main css */
 /* main color: #99befc */
+/*@import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');*/
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:700|Noto+Serif+KR:500|Jua');
+
+body {
+    /*font-family: "Nanum Gothic", sans-serif !important;*/    
+    
+    font-family: 'Nanum Gothic', sans-serif !important;
+	font-family: 'Jua', sans-serif;
+    font-family: 'Noto Serif KR', serif;
+    
+    font-weight: bold;
+}
+
+
 ul, li {
 	list-style: none;
 }
@@ -26,8 +40,22 @@ nav {
 }
 
 .main-menu .sub {
-	font-size: 18pt;
+	font-size: 24pt;
+	font-weight: bold;
+	color: white;
+	position: relative;
+	top: 50px;
 }
+
+.main-menu .text {
+	font-size: 14pt;
+	color: white;
+	position: relative;
+	top: 50px;
+}
+
+
+
 
 .main-left {
 	background-image: url("../images/main1.jpg");
@@ -85,12 +113,14 @@ textarea.vresize {
   
 textarea.hresize {
   resize: horizontal;  
-}  
+}
+
 
 
 /* bootstrap sample css */
+
 body {
-	font: 400 15px Lato, sans-serif;
+	/*font: 400 15px Lato, sans-serif*/;
 	line-height: 1.8;
 	color: #818181;
 }

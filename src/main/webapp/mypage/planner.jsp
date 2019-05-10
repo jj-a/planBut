@@ -136,7 +136,8 @@
 						<div class="thumbnail" style="background: #efefef">
 							<div class="bt-add">
 								<a href="../plan/plan.do" class="btn btn-warning">
-									<span class="glyphicon glyphicon-plus"></span>플래너 추가
+									<span class="glyphicon glyphicon-plus"></span>
+									플래너 추가
 								</a>
 							</div>
 						</div>
@@ -148,7 +149,7 @@
 				</div>
 				<!-- panel-body end -->
 				
-
+		<!-- 
 				<table class="data-view">
 				<c:forEach var="plan" items="${list }">
 					<tr>
@@ -161,7 +162,7 @@
 					</tr>
 				</c:forEach>
 				</table>
-
+		-->
 
 			</div>
 		</div>
