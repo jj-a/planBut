@@ -110,54 +110,102 @@
 				</table> 
 				
 				<h3>동행 신청한 내역</h3>
-    
+				<form action="">
+				<input type="hidden" name="mate_code" value="${dto.mate_code }">
+				<input type="hidden" name="ma_code" value="">
+				<input type="hidden" name="mate_list" value="">
+				<input type="hidden" name="mp_id" value="">
+				<input type="hidden" name="ct_code" value="">
+				<input type="hidden" name="m_date" value="">
+				<input type="hidden" name="mate_type" value="">
 			    <table border="1" style="margin: auto;">
 			    <tr>
-                <th colspan="11" class="gr">동행 게시판 경로</th>
+                <td colspan="8" class="gr">동행 게시판 경로</td>
                 </tr>
-			    <c:forEach var="dto" items="${myMateApplyBbs }">
+                <tr>
+                <th>신청번호</th>
+                <th>글번호</th>
+                <th>도시</th>
+                <th>동행일</th>
+                <th>모집자 아이디</th>
+                <th>신청한 인원</th>
+                <th>처리상황</th>
+                <th>동행승인</th>
+                </tr>
+                <c:forEach var="dto" items="${myMateApplyBbs }">
 			    <tr>
-			    <th>글번호</th>
+			    <td>${dto.ma_code }</td>
 			    <td>${dto.b_no }</td>
-			    <th>모집자 아이디</th>
+			    <td>${dto.ct_code }</td>
+			    <td>${dto.m_date.substring(0,10) }</td>
 			    <td>${dto.mp_id }</td>
-			    <th>신청한 인원</th>
 			    <td>${dto.people }</td>
-			    <th>처리상황</th>
-			    <td colspan="3"><select name="mate_code" id="mate_code">
-                <option value="0" <c:if test="${dto.mate_code == '0' }">selected</c:if>>대기</option>
-                <option value="1" <c:if test="${dto.mate_code == '1' }">selected</c:if>>거절</option>
-                <option value="2" <c:if test="${dto.mate_code == '2' }">selected</c:if>>취소</option>
-                </select>
-                </td>
-			    <td>
-			    <input type="button" value="확인">
-			    </td>
-			    </tr>
+			    <c:choose>
+	                <c:when test="${dto.mate_code eq '0' }">
+		            	<td>대기</td>
+	                	<td><input type="button" value="취소"onclick="recCheck(this.form, this, 1)">
+	                		<input type="hidden" value="${dto.mp_id }">
+	                		<input type="hidden" value="${dto.sp_id }">
+	                		<input type="hidden" value="${dto.ct_code }">
+	                		<input type="hidden" value="${dto.m_date.substring(0,10) }">
+		            </c:when>
+	                <c:when test="${dto.mate_code eq '1' }">
+		            	<td colspan="2">거절</td>
+		            </c:when>
+				    <c:when test="${dto.mate_code eq '2' }">
+	                	<td colspan="2">취소</td>
+	                </c:when>
+		            <c:otherwise>
+		            	<td>승인</td>
+	                	<td><input type="button" value="취소"onclick="recCheck(this.form, this, 1)"></td>
+		            </c:otherwise>
+                </c:choose>
+                </tr>
 			    </c:forEach>
 			    <tr>
-			    <th colspan="11" class="gr">동행 추천 경로</th>
+			    <td colspan="8" class="gr">동행 추천 경로</td>
+			    </tr>
+			    <tr>
+			    <th>신청번호</th>
+                <th colspan="2">도시</th>
+			    <th>모집자 아이디</th>
+			    <th colspan="2">동행일</th>
+			    <th>처리상황</th>
+			    <th>동행승인</th>
 			    </tr>
 			    <c:forEach var="dto1" items="${myMateApplyRecm }">
 			    <tr>
-			    <th>신청자 아이디</th>
+			    <td>${dto1.ma_code }</td>
+			    <td colspan="2">${dto1.ct_code }</td>
 			    <td>${dto1.mp_id }</td>
-			    <th>동행 날짜</th>
-			    <td>${dto1.m_date.substring(0,10) }</td>
-			    <th>처리상황</th>
-                <td colspan="3"><select name="mate_code" id="mate_code">
-                <option value="0" <c:if test="${dto1.mate_code == '0' }">selected</c:if>>대기</option>
-                <option value="1" <c:if test="${dto1.mate_code == '1' }">selected</c:if>>거절</option>
-                <option value="2" <c:if test="${dto1.mate_code == '2' }">selected</c:if>>취소</option>
-                </select>
-                </td>
-			    <td>
-                <input type="button" value="확인">
-			    </td>
+			    <td colspan="2">${dto1.m_date.substring(0,10) }</td>
+			    <c:choose>
+				    <c:when test="${dto1.mate_code == '2' }">
+	                	<td colspan="2">취소</td>
+	                </c:when>
+	                <c:when test="${dto1.mate_code == '1' }">
+		            	<td colspan="2">거절</td>
+		            </c:when>
+	                <c:when test="${dto1.mate_code == '0' }">
+		            	<td>대기</td>
+                		<td><input type="button" value="취소" onclick="recCheck(this.form, this, 2)">
+	                		<input type="hidden" value="${dto1.mp_id }">
+	                		<input type="hidden" value="${dto1.sp_id }">
+	                		<input type="hidden" value="${dto1.ct_code }">
+	                		<input type="hidden" value="${dto1.m_date.substring(0,10) }">
+		            </c:when>
+		            <c:otherwise>
+		            	<td>승인</td>
+		            	<td><input type="button" value="취소" onclick="recCheck(this.form, this, 2)"></td>
+		            </c:otherwise>
+                </c:choose>
 			    </tr>
 			    </c:forEach>
 			    
-			    </table>	
+			    </table>
+			    </form>	
+				
+				
 					<div style="clear: both"></div>
 
 				</div>

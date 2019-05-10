@@ -108,25 +108,24 @@
                 <h3>동행 확정 목록</h3>
     
                 <table border="1" style="margin: auto;">
+	                <tr>
+	                <th>여행 도시</th>
+	                <th>동행 날짜</th>
+	                <th>동행 하는 사람들</th>
+	                <th>모집자 아이디</th>
+	                <th>신청경로</th>
+	                </tr>
                 <c:forEach var="dto" items="${mateOk }">
-                <tr>
-                	<th></th>
-                </tr>
-                <tr>
-                <th>동행 하는 사람들</th>
-                <td>${dto.mate_list }</td>
-                <th>모집자 아이디</th>
-                <td>${dto.mp_id }</td>
-                <th>여행 도시</th>
-                <td>${dto.ct_code }</td>
-                <th>동행 날짜</th>
-                <td>${dto.m_date.substring(0,10) }</td>
-                <th>신청경로</th>
-                <td>
-                <c:if test="${dto.mate_type == 'R' }">추천</c:if>
-                <c:if test="${dto.mate_type == 'B' }">게시판</c:if>
-                </td>
-                </tr>
+	                <tr>
+	                <td>${dto.ct_code }</td>
+	                <td>${dto.m_date.substring(0,10) }</td>
+	                <td>${dto.mate_list }</td>
+	                <td>${dto.mp_id }</td>
+	                <td>
+	                <c:if test="${dto.mate_type == 'R' }">추천</c:if>
+	                <c:if test="${dto.mate_type == 'B' }">게시판</c:if>
+	                </td>
+	                </tr>
                 </c:forEach>
                 </table>    
 					<div style="clear: both"></div>
