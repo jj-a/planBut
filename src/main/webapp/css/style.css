@@ -1,5 +1,19 @@
 /* main css */
 /* main color: #99befc */
+/*@import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');*/
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:700|Noto+Serif+KR:500|Jua');
+
+body {
+    /*font-family: "Nanum Gothic", sans-serif !important;*/    
+    
+    font-family: 'Nanum Gothic', sans-serif !important;
+	font-family: 'Jua', sans-serif;
+    font-family: 'Noto Serif KR', serif;
+    
+    font-weight: bold;
+}
+
+
 ul, li {
 	list-style: none;
 }
@@ -88,9 +102,11 @@ textarea.hresize {
 }  
 
 
+
 /* bootstrap sample css */
+
 body {
-	font: 400 15px Lato, sans-serif;
+	/*font: 400 15px Lato, sans-serif*/;
 	line-height: 1.8;
 	color: #818181;
 }

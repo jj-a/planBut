@@ -25,6 +25,32 @@
 .memo {
 	background-color: #a8fff1;
 }
+
+/* calendar CSS */
+
+#calendar-container {
+	/*  position: fixed; */
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: 0 20px;
+}
+
+.fc-header-toolbar {
+	/*
+    the calendar will be butting up against the edges,
+    but let's scoot in the header's buttons
+    */
+	padding-top: 1em;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+#notes {
+	margin: 20px;
+}
+
 </style>
 
 <!-- Contents -->
@@ -111,19 +137,20 @@
 			<!-- 컨텐츠 -->
 			<div class="contents">
 
-				<!-- 캘린더  -->
-				<div class="calendar col-xs-12 col-md-5">
-				
-					<p>캘린더</p>
-				
+				<!-- 캘린더 -->
+				<div class="calendar-wrap col-xs-12 col-md-7">
+					<!-- 캘린더 호출 -->
+					<div id="calendar-container">
+						<div id="calendar"></div>
+					</div>
 				</div>
 
 				<!-- 메모 -->
-				<div class="memo col-xs-12 col-md-7">
-				
-					<p>메모</p>
+				<div class="note-wrap col-xs-12 col-md-5 scrollable-menu">
+					<div id="notes">
 					
 					<!-- 저장된 캘린더 메모 리스트 -->
+					<%-- 
 					<ul style="height: 62vh">
 						<c:forEach var="cal" items="${calendar }">
 							<c:set var="ct_name" value="${cal.city.ct_name }" /> <!-- calendar테이블의 ct_code로 조회한 ct_name -->
@@ -139,7 +166,9 @@
 							</li>
 						</c:forEach>
 					</ul>
-					
+					 --%>
+					 
+					</div>
 				</div>
 
 			</div>
