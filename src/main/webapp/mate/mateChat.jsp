@@ -3,6 +3,14 @@
 <!-- 본문시작 mateBbsList.jsp -->
 <script type="text/javascript">
 
+$(function(){
+    var m_id='${session_m_id}';
+    if(m_id==""){
+        alert("로그인 시 접근 가능한 메뉴입니다.");
+        location.href="${pageContext.request.contextPath}#loginmodal";
+    }
+});
+
 function submitFunction() {
 	var chatName = $("#chatName").val();
 	var chatContent = $("#chatContent").val();

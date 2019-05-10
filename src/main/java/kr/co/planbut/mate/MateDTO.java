@@ -8,6 +8,7 @@ public class MateDTO {
 	private String mp_id;
 	private String mate_list;
 	private String mate_type;
+	private String s_id;
 	
 	public MateDTO() {}
 
@@ -66,11 +67,20 @@ public class MateDTO {
 	public void setMate_type(String mate_type) {
 		this.mate_type = mate_type;
 	}
+	
+	public String getS_id() {
+		return s_id;
+	}
+
+	public void setS_id(String s_id) {
+		this.s_id = s_id;
+	}
 
 	@Override
 	public String toString() {
 		return "MateDTO [mate_code=" + mate_code + ", ma_code=" + ma_code + ", m_date=" + m_date + ", ct_code="
-				+ ct_code + ", mp_id=" + mp_id + ", mate_list=" + mate_list + ", mate_type=" + mate_type + "]";
+				+ ct_code + ", mp_id=" + mp_id + ", mate_list=" + mate_list + ", mate_type=" + mate_type + ", s_id="
+				+ s_id + "]";
 	}
 
 }//class end

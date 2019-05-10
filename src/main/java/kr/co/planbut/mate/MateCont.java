@@ -32,6 +32,7 @@ public class MateCont {
 		mav.setViewName("mypage/mymate");
 		String id = (String)session.getAttribute("session_m_id");
 		ArrayList<MateDTO> mateOk = dao.mateOk(id);
+		
 		mav.addObject("mateOk", mateOk);
 		return mav;
 	} // myMate() end
@@ -61,6 +62,7 @@ public class MateCont {
 		
 		mav.addObject("myMateApplyBbs", myMateApplyBbs);
 		mav.addObject("myMateApplyRecm", myMateApplyRecm);
+		
 		return mav;
 	} // mateReceive() end
     

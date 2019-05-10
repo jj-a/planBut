@@ -156,8 +156,7 @@
 	                	<td colspan="2">취소</td>
 	                </c:when>
 		            <c:otherwise>
-		            	<td>승인</td>
-	                	<td><input type="button" value="취소"onclick="recCheck(this.form, this, 1)"></td>
+		            	<td colspan="2">승인</td>
 		            </c:otherwise>
                 </c:choose>
                 </tr>
@@ -180,13 +179,13 @@
 			    <td>${dto1.mp_id }</td>
 			    <td colspan="2">${dto1.m_date.substring(0,10) }</td>
 			    <c:choose>
-				    <c:when test="${dto1.mate_code == '2' }">
+				    <c:when test="${dto1.mate_code eq '2' }">
 	                	<td colspan="2">취소</td>
 	                </c:when>
-	                <c:when test="${dto1.mate_code == '1' }">
+	                <c:when test="${dto1.mate_code eq '1' }">
 		            	<td colspan="2">거절</td>
 		            </c:when>
-	                <c:when test="${dto1.mate_code == '0' }">
+	                <c:when test="${dto1.mate_code eq '0' }">
 		            	<td>대기</td>
                 		<td><input type="button" value="취소" onclick="recCheck(this.form, this, 2)">
 	                		<input type="hidden" value="${dto1.mp_id }">
@@ -195,8 +194,7 @@
 	                		<input type="hidden" value="${dto1.m_date.substring(0,10) }">
 		            </c:when>
 		            <c:otherwise>
-		            	<td>승인</td>
-		            	<td><input type="button" value="취소" onclick="recCheck(this.form, this, 2)"></td>
+		            	<td colspan="2">승인</td>
 		            </c:otherwise>
                 </c:choose>
 			    </tr>
@@ -235,6 +233,34 @@ $(function(){
 	}
 });
 
+function recCheck(f, i, a) {
+    var rq = i.parentElement.parentElement.rowIndex;
+    var hd=$(i).attr("value");
+    var cd = document.getElementsByTagName('tr')[rq+1].children[0].childNodes[0].nodeValue;
+    var mp=$(i).parent().children().eq(1).attr("value");
+    var list=mp+","+$(i).parent().children().eq(2).attr("value");
+    var ct=$(i).parent().children().eq(3).attr("value");
+    var md=$(i).parent().children().eq(4).attr("value");
+    f.ma_code.value = cd;
+    
+    if(a==1){
+        if(hd=="취소"){
+            f.ma_code.value = cd;
+            f.mate_code.value=2;
+            f.action="./recBbsChange.do";
+        }
+    } // if end 
+       
+    if(a==2){
+        if(hd=="취소"){
+            f.mate_code.value=2;
+            f.action="./recRecmChange.do";
+        }
+    } // if end
+
+    var message="변경하시겠습니까?";
+    if(confirm(message)) f.submit();
+} // recCheck() end
 </script>
 
 

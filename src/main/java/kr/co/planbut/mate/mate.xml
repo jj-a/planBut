@@ -48,7 +48,7 @@
     
     <select id="myMateApplyRecm" resultType="ApplyRecm_DTO">
         <![CDATA[
-           select aa.ma_code, aa.mp_id, aa.m_date, bb.ct_code
+           select aa.ma_code, aa.mp_id, aa.m_date, bb.ct_code, mate_code
 			from(select *
             from mateapply_r
             where sp_id = #{sp_id}
@@ -61,7 +61,8 @@
         <![CDATA[
             select ct_code, m_date, mp_id, mate_list, mate_type
             from mate
-            where mp_id = #{mp_id}    
+            where mate_list LIKE CONCAT('%', #{s_id}, '%')
+
        ]]>
     </select>
     
