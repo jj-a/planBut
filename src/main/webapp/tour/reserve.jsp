@@ -1,99 +1,100 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ include file='../header.jsp'%>
 
 <style>
-	body {
-		color : black;
-	}
-	
-	.test1 ::before {
-		content:"/"
-	}
-	
-	.content{
-		margin : 60px 40px;
-		background-color: gainsboro;
-	}
-	
-	.reserve-select {
-		background-color: antiquewhite;
-	}
-	
-	.reserve-select span {
-		margin: 5px 5px;
-	}
-	
-	.reserve-item div {
-		float: left;
-		height: 50px;
-		padding: 10px 10px;
-	}
-	
-	.reserve-item .chkbox {
-		width: 5%;
-		margin: 0 auto;
-		text-align: center;
-	}
-	
-	.reserve-item .img {
-		width: 15%;
-		margin: 0 auto;
-		text-align: center;
-	}
-	
-	.reserve-item .subject {
-		width: 40%;
-		margin: 0 auto;
-	}
-	
-	.reserve-item .people {
-		width: 20%;
-		margin: 0 auto;
-		text-align: center;
-	}
-	
-	.reserve-item .pay {
-		width: 20%;
-		margin: 0 auto;
-	}
-	
-	.reserve2{
-	    background-color: cornflowerblue;
-	}
-	.reserve3{
-		background-color: darkgray;
-	}
-	
-	.reserve4{
-		background-color: darkturquoise;
-	}
-	
-	.reserve5{
-	    background-color: violet;
-	}
-	
-	.reserve6{
-	    background-color: azure;
-	}
-	
-	.reserve7{
-	    background-color: cadetblue;
-	}
-	
-	.reserve8{
-	    background-color: blanchedalmond;
-	}
-	
-	#button{
-		width : 30px;
-		height : 30px;
-	}
-	
-	#people{
-	    width: 40px;
-	    height: 30px;
-	    margin: 5px;
-	}
+body {
+	color: black;
+}
+
+.test1 ::before {
+	content: "/"
+}
+
+.content {
+	margin: 60px 40px;
+	background-color: gainsboro;
+}
+
+.reserve-select {
+	background-color: antiquewhite;
+}
+
+.reserve-select span {
+	margin: 5px 5px;
+}
+
+.reserve-item div {
+	float: left;
+	height: 50px;
+	padding: 10px 10px;
+}
+
+.reserve-item .chkbox {
+	width: 5%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.reserve-item .img {
+	width: 15%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.reserve-item .subject {
+	width: 40%;
+	margin: 0 auto;
+}
+
+.reserve-item .people {
+	width: 20%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.reserve-item .pay {
+	width: 20%;
+	margin: 0 auto;
+}
+
+.reserve2 {
+	background-color: cornflowerblue;
+}
+
+.reserve3 {
+	background-color: darkgray;
+}
+
+.reserve4 {
+	background-color: darkturquoise;
+}
+
+.reserve5 {
+	background-color: violet;
+}
+
+.reserve6 {
+	background-color: azure;
+}
+
+.reserve7 {
+	background-color: cadetblue;
+}
+
+.reserve8 {
+	background-color: blanchedalmond;
+}
+
+#button {
+	width: 30px;
+	height: 30px;
+}
+
+#people {
+	width: 40px;
+	height: 30px;
+	margin: 5px;
+}
 </style>
 
 
@@ -101,36 +102,34 @@
 	<h1>주문결제</h1>
 
 	<div class="reserve">
-	
-		<form name="" method="post" action="/">
-			<!-- 항목 선택 -->
-			<div class="reserve-select col-xs-12 col-md-12">
-				<span>
-					<input type="checkbox" name="chkall" id="chkall">&nbsp;
-					<label for="chkall">전체 선택</label>
-				</span>
-				<span class="test1">
-					<button>선택 삭제</button>
-				</span>
-			</div>
-			
+
+		<form name="reserveForm" method="post" action="/reserve.do">
+
 			<div class="reserve-list col-xs-12 col-md-9 reserve2">
-				<!-- 장바구니 목록 반복 -->
-				<%-- <c:forEach var="dto" items="${reservelist }"> --%>
-				<div class="reserve-item">
-					<div class="chkbox reserve3">
-						<input type="checkbox" name="" id="" value="">
-					</div>
-					<div class="img reserve4">이미지</div>
-					<div class="subject reserve5">투어이름<%-- ${dto.tour_name } --%></div>
-					<div class="people reserve6">인원 : <%-- ${dto.reserveDTO.people } --%></div>
-					<div class="people reserve6">예약날짜 : <%-- ${dto.reserveDTO.people } --%></div>
-					<div class="pay reserve7">결제금액&nbsp;<span><%-- ${dto.pay } --%></span></div>
-				</div>
-				<%-- </c:forEach> --%>
-				<!-- 반복 끝 -->
+				<ul class="">
+					<li class="">
+						<div class="reserve-item">
+							<div class="col-xs-5 col-md-5"><strong>투어이름</strong></div>
+							<div class="col-xs-2 col-md-2"><strong>인원</strong></div>
+							<div class="col-xs-3 col-md-3"><strong>예약날짜</strong></div>
+							<div class="col-xs-2 col-md-2"><strong>결제금액</strong></div>
+						</div>
+					</li>
+					<!-- 장바구니 목록 반복 -->
+					<c:forEach var="dto" items="${cart_list }">
+						<li class="">
+							<div class="reserve-item">
+								<div class="col-xs-5 col-md-5">${dto.tour_name }</div>
+								<div class="col-xs-2 col-md-2">${dto.cartDTO.people }</div>
+								<div class="col-xs-3 col-md-3">${fn: substring(dto.cartDTO.tourday ,0, 10) }</div>
+								<div class="col-xs-2 col-md-2">${dto.pay }</div>
+							</div>
+						</li>
+					</c:forEach>
+					<!-- 반복 끝 -->
+				</ul>
 			</div>
-			
+
 			<!-- 장바구니 합계 -->
 			<div class="reserve-total col-xs-12 col-md-3 reserve8">
 				<div>
@@ -143,15 +142,19 @@
 					</ul>
 				</div>
 				<div>
-					<strong>전체 주문금액</strong>&nbsp;
-					<span>0</span>
+					<strong>전체 주문금액</strong>&nbsp; <span>0</span>
 				</div>
 				<div>
-					<input type="submit" value="주문하기">
+				<select name="pay_type">
+				  <option value="1">신용카드</option>
+				  <option value="2">핸드폰 결제</option>
+				  <option value="3" selected="selected">무통장입금</option>
+				</select>
+					<input type="submit" value="예약하기">
 				</div>
 			</div>
 		</form>
-		
+
 	</div>
 </div>
 

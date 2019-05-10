@@ -137,15 +137,8 @@ public class TourCont {
 		mav.setViewName("tour/reserve");
 		
 		// 데이터 받아오기 테스트 출력
+
 		if(dto.getCart_list()!=null) {
-			// 데이터 받아오기
-			// 장바구니에서 가져올 때
-			/*
-			ArrayList<TourDTO> list = new ArrayList<TourDTO>();
-			list.add(dao.readcart(cart_list));	//TODO:cart_code로 조회하는 sql만들기
-			mav.addObject("cart_list", cart_list);
-			*/
-			
 			System.out.println("dto size: "+dto.getCart_list().size());
 			int i=0;
 			for (String item : dto.getCart_list()) {
@@ -159,7 +152,33 @@ public class TourCont {
 			System.out.println("tour_code: "+dto.getTour_code());
 			System.out.println("cart_code: "+dto.getCart_code()); // null
 		}
+
 		
+		// 데이터 받아오기
+
+		ArrayList<TourDTO> list = new ArrayList<TourDTO>();
+		
+		if(dto.getCart_list()!=null) {
+			// 장바구니에서 가져올 때
+			
+			for (String item : dto.getCart_list()) {
+				list.add(dao.readcart(item));	// cart_code가 저장된 다중 dto 리스트 저장
+				//TODO: cart_code로 조회하는 sql만들기
+			}
+			
+		}else {
+			// 바로 투어예약할 때
+			
+			TourDTO tour= new TourDTO();
+			tour.setTour_code(dto.getTour_code());
+			tour=dao.read(tour);
+			
+			list.add(tour);	// tour_code가 저장된 단일 dto 데이터 저장
+			
+		}
+		
+		mav.addObject("cart_list", list);	// 예약할 투어 리스트
+			
 		
 		return mav;
 	}//reserve end
