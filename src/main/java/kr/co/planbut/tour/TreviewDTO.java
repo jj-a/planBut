@@ -7,6 +7,8 @@ public class TreviewDTO {
 	private String content;
 	private int star;
 	private String regdt;
+	private String tour_code;
+	private TreserveDTO treserveDTO;
 	
 	public TreviewDTO() {}
 
@@ -58,6 +60,24 @@ public class TreviewDTO {
 		this.regdt = regdt;
 	}
 
+	
+	public String getTour_code() {
+		return tour_code;
+	}
+
+	public void setTour_code(String tour_code) {
+		this.tour_code = tour_code;
+	}
+
+	public TreserveDTO getTreserveDTO() {
+		return treserveDTO;
+	}
+
+	public void setTreserveDTO(TreserveDTO treserveDTO) {
+		this.treserveDTO = treserveDTO;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "TreviewDTO [rv_code=" + rv_code + ", re_code=" + re_code + ", m_id=" + m_id + ", content=" + content + ", star=" + star + ", regdt="

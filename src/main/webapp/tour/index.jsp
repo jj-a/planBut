@@ -3,7 +3,6 @@
 <script src="${pageContext.request.contextPath }/js/tour_submenu.js"></script>
 <script src="${pageContext.request.contextPath }/css/tour.css"></script>
 
-
 <style>
 #tour1 {
 	margin-top: 70px;
@@ -62,20 +61,16 @@
 	height : 160px;
 }
 
+    .menu a{cursor:pointer;}
+    .menu .hide{display:none;}
+
+.list{
+	padding : 0;
+}
 
 </style>
 
 <!-- home -> 투어 예약 -->
-<!-- 임시 버튼  -->
-<table>
-	<tr>
-		<td><input type="button" value="도시리스트" onclick="location.href='./city.do'"></td>
-		<td><input type="button" value="투어정보" onclick="location.href='./tourinfo.do'"></td>
-		<td><input type="button" value="투어리스트" onclick="location.href='./tourlist.do'"></td>
-		<td><input type="button" value="예약페이지" onclick="location.href='./reserve.do'"></td>
-		<td><input type="button" value="장바구니" onclick="location.href='./cart.do'"></td>
-	</tr>
-</table>
 
 
 <div id="tour1"></div>
@@ -93,40 +88,35 @@
 <div class="credits__container"></div>
 
 <div id="tour3">
-	<div>
-		<div class="main-title">
-			<div>
-				<h2>국가</h2>
-			</div>
-			<div>
-				<h2>▼</h2>
-			</div>
-		</div>
-		<div>
-			<c:forEach var="dto" items="${countrylist }">
+
+ 	<div class="main-title">
+		<ul class="list">
+			<li><a>국가 ▼</a>
 				<ul>
-					<li><a>${dto.countryDTO.c_name }</a></li>
+					<c:forEach var="dto" items="${countrylist }">
+						<li><a>${dto.countryDTO.c_name }</a></li>
+					</c:forEach>
 				</ul>
-			</c:forEach>
-		</div>
+			</li>
+		</ul>
 	</div>
 
 	<div>
-		<div>
-			<div>
-				<h2>도시</h2>
-			</div>
-			<div>
-				<h2>▼</h2>
-			</div>
-		</div>
-		<div>
-			<c:forEach var="dto" items="${citylist }">
+		<ul class="list">
+			<li><a>도시▼</a> 
+			<!-- 국가 선택 안했을 때 -->
+			<!-- <p>국가를 선택 해주세요 -->
+			<!-- 국가 선택했을 때 도시리스트 출력 -->
 				<ul>
-					<li><a href="./tourlist.do?ct_code=${dto.ct_code }">${dto.cityDTO.ct_name}</a></li>
+				  <c:forEach var="dto" items="${citylist }">
+				  <%-- <li class="ct_list"><a href="./tourlist.do?ct_code=${dto.ct_code }">${dto.cityDTO.ct_name}</a></li> --%>
+                  <li><span id="ct_code" style="display: none;">${dto.cityDTO.ct_code}</span>
+                      <a id="ct_list">${dto.cityDTO.ct_name}</a>
+                  </li>
+               </c:forEach>
 				</ul>
-			</c:forEach>
-		</div>
+			</li>
+		</ul>
 	</div>
 </div>
 
@@ -148,12 +138,65 @@
 </div>
 
 <div id="tour5">
-	<p>인기있는 도시</p>
+	
 </div>
 
-
 <script>
+//ajax
+   $(document).ready(function(){
+      
+      $(document).on('click', '#ct_list', function(){
+         
+         $("#tour5").empty();   // 내용 비우기
+         
+         var ct_code = $(this).prev().get(0).innerText;   // 도시코드 저장
+         //console.log(ct_code);
+         
+         $.ajax({
+            
+            type: "get",
+            contentType: "application/json; charset=UTF-8", 
+            url: "${pageContext.request.contextPath}/tour/tour",
+            data: {
+               ct_code : ct_code
+            },
+            dataType : "json",
+            success : function (data) {
+                console.log(data);
+                tu_list(data);   // 출력
+            },
+            error : function(error){
+               alert("error" + error);
+            }
+            
+         });//ajax end
+      });
+   });
 
+function tu_list(data) {   // 출력
+   
+   // 투어 갯수 출력
+   $("<div/>",{ "class" : "", html : [
+      $("<p/>", { "class": "total", html: "상품 수 : "+data.length })
+   ]}).appendTo("#tour5");
+   
+   
+   $.each(data, function(idx, tour){
+      
+      var photoArr = tour.photo.split(",");   // 투어 이미지 리스트
+      var photo = photoArr[0];   // 미리보기 이미지
+      //console.log(photo);
+      
+      $("<div/>",{ "class" : "tour", html : [
+         $("<img/>", { "class": "tphoto", "src": "${pageContext.request.contextPath}/tour/photo/"+photo }), 
+         $("<p/>", { "class": "tname", html: "투어이름 : "+tour.tour_name }),
+         $("<p/>", { "class": "tcnt", html: "예약자 수 : "+tour.cnt }), 
+         $("<p/>", { "class": "tprice", html: "금액 : "+tour.price })
+      ]}).appendTo("#tour5");
+      
+   });//for end
+
+   }//tu_list end
 </script>
 
 <%@ include file='../footer.jsp'%>

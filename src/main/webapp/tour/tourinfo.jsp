@@ -114,6 +114,10 @@
 
 .tour_review{
 	background-color: bisque;
+    width: 50%;
+    text-align: center;
+    margin: auto;
+    height : 300px;
 }
 
 .tour_qna{
@@ -142,12 +146,6 @@
  	height : 60px;
 }
 
-
-
-.info_ipt{
-    
-}
-
 .info_img{
    height : 70px;
    width : 50px;
@@ -170,11 +168,24 @@
     vertical-align: middle;
     margin-top: 20px;
 }
-}
-.info_re_time{
 
+.tour_qna{
+	padding : 30px 25%;
+	text-align : left;
 }
 
+.review_area{
+	width : 500px;
+	height : 130px;
+	resize : none;
+	vertical-align : middle;
+}
+
+.review_button{
+	width : 100px;
+	height : 130px;
+	vertical-align : middle;
+}
 .glyphicon{
     position: relative;
     top: 1px;
@@ -207,16 +218,6 @@
 </style>
 
 <h1>투어 정보</h1>
-<!-- 임시 버튼  -->
-<table>
-	<tr>
-		<td><input type="button" value="투어홈" onclick="location.href='./tour.do'"></td>
-		<td><input type="button" value="도시리스트" onclick="location.href='./city.do'"></td>
-		<td><input type="button" value="투어리스트" onclick="location.href='./tourlist.do'"></td>
-		<td><input type="button" value="예약페이지" onclick="location.href='./reserve.do'"></td>
-		<td><input type="button" value="장바구니" onclick="location.href='./cart.do'"></td>
-	</tr>
-</table>
 
 
 <!---------------------------- 이 미 지 ---------------------------->
@@ -297,6 +298,15 @@
 			<div class="info_sp">
 				<div class="star">
 					<p>별점</p>
+					<c:choose>
+						<c:when test="${reviewavg == null }">
+							<p>0</p>
+						</c:when>
+						<c:otherwise>
+							<p>${reviewavg }</p> <!-- 별 이미지로 보이게  -->
+						</c:otherwise>
+					</c:choose>
+
 				</div>
 				<div class="price">
 					<p>&#92; ${ dto.price}&nbsp; 1인</p>
@@ -322,9 +332,9 @@
 						<p>${dto.t_time }시간</p>
 					</div>
 				</div>
-			</div>
+			</div>	
 		<button type="button" id="cartbutton" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#modal-fechacap">장바구니</button>
-		<button type="button" id="reservebutton" class="btn btn-lg btn-primary" onclick="">간편예약</button>
+		<button type="button" id="reservebutton" class="btn btn-lg btn-primary" onclick="location.href='./reserve.do?tour_code=${dto.tour_code}'">간편예약</button>
 		</div>
 	</div>
 </section>
@@ -343,60 +353,108 @@
 	</div>
 
 	<div class="tour_p tour_review">
-		<p>후기</p>
-	</div>
+		<div>
+			<div>
+				<h4 style="text-align : left; padding-left : 10px;">이용후기</h4>
+			</div>
+			<div style="background-color: #fff351">
+				<c:choose>
+					<c:when test="${reviewavg == null }">
+						<p> 0 / 5.0 </p>	
+					</c:when>
+					<c:otherwise>
+						<!-- 리뷰점수를 별 그림으로 바꿔줘야 됨 -->
+						<p>${reviewavg }/ 5.0</p>
+					</c:otherwise>
+				</c:choose>
 
-	<div class="tour_p tour_qna">
-		<p>문의</p>
+				<p>${reviewtotal }개의 이용후기가 있습니다.</p>
+			</div>
+			<div>
+				<ul style="padding: 0;">
+					<li>
+						<div>
+							<c:forEach var="dto" items="${reviewlist }">
+								<div class="col-md-3" style="text-align: left;">
+									<ul style="padding: 0; line-height: 2;">
+										<li>${dto.treviewDTO.star }</li>
+										<li>${dto.treviewDTO.m_id }</li>
+										<li>0월00일 여행</li> <!-- db에서 re_code 가져와서 날짜데이터로 변환 후 yy월dd일 형식으로 보여주기 -->
+									</ul>
+								</div>
+								<div class="col-md-9">
+									<p>${dto.treviewDTO.content }</p>
+								</div>
+							</c:forEach>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
+	<form name="addqna" method="POST" action="./writeqna.do">
+ 	<input type="hidden" name="tour_code" value="${dto.tour_code }">
+		<div class="tour_p tour_qna">
+			<div>
+				<h3>문의사항이 있으시면 1:1 문의를 남겨주세요</h3>
+			</div>
+			<c:choose>
+				<c:when test="${session_m_id == null }">
+					<textarea class="review_area" placeholder="로그인 후에 문의 작성이 가능합니다." disabled="disabled" ></textarea>
+				</c:when>
+				<c:otherwise>
+					<div>
+						<textarea class="review_area" name="content" placeholder="문의를 작성해주세요"></textarea>
+						<input type="submit" class="review_button" value="등록">
+					</div>
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</form>
 </div>
 
 
 <!-- Cart Modal -->
-<div id="calendarmodal" class="container">
+<form name="addcart" method="POST" action="./tourinfo.do">
+<input type="hidden" name="tour_code" value="${dto.tour_code }">
+	<div id="calendarmodal" class="container">
 
-        <div class="modal fade" id="modal-fechacap" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-             <div class="modal-dialog">
-                <div class="modal-content">
-                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">장바구니</h4>
-                     </div>
-				<div class="modal-body">
+		<div class="modal fade" id="modal-fechacap" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">장바구니</h4>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="horario" id="horario" value="" />
+						<p>
+							<label>${dto.tour_name }</label>
+						</p>
+						<p>
+							<label>인원: </label>
+							<!-- + - 버튼 넣어서 인원 추가 삭제 readonly -->
+							<!-- <input type="text" name="unidad" id="unidad" value="" size='5' maxlength='2' readonly /> -->
+							<input type="text" name="people" id="people" size='5' maxlength='3' />
+						</p>
+						<p>
+							<input type="button" value="달력" onclick="pureJSCalendar.open('dd.MM.yyyy', 20, 30, 1, '2018-5-5', '2019-8-20', 'txtTest', 20)" class="btn btn-primary"> <label>예약날짜</label>
+							<input type="text" id="tourday" name="tourday" class="form-controller" size='13'>
+						</p>
+					</div>
 
-					
-					<input type="hidden" name="horario" id="horario" value="" />
-					<p>
-						<label>${dto.tour_name }</label>
-					</p>
-					<form name="cartlist" method="POST" action="./cart.do">
-					<p>
-						<label>인원: </label> 
-						<!-- + - 버튼 넣어서 인원 추가 삭제 readonly -->
-						<!-- <input type="text" name="unidad" id="unidad" value="" size='5' maxlength='2' readonly /> -->
-						<input type="text" name="people" id="people" size='5' maxlength='3' />
-					</p>
-					<p>
-						<input type="button" value="달력" onclick="pureJSCalendar.open('dd.MM.yyyy', 20, 30, 1, '2018-5-5', '2019-8-20', 'txtTest', 20)" class="btn btn-primary">
-						<label>예약날짜</label>
-						<input type="text" id="tourday" name="tourday" class="form-controller" size='13'>
-					</p>
-					</form>
+					<div class="modal-footer">
+						<div style="margin-left: 10px">
+							<input type="submit" value="등록"	 class="glyphicon glyphicon-pencil">
+							<input type="button" value="취소" class="glyphicon glyphicon-pencil" data-dismiss="modal">
+						</div>
+					</div>
 				</div>
-				
-				<div class="modal-footer">
-                          <div style="margin-left:10px">
-                           <button type="button" class="fechacap btn btn-success btn-sm" id="fechacap">
-                           <i class="glyphicon glyphicon-pencil" onclick="location.href='./cart.do'"></i> 담기
-                           </button> 
-                           <a href="" class="btn btn-danger btn-sm" data-dismiss="modal">
-                           <i class="glyphicon glyphicon-ban-circle"></i>닫기</a>
-                          </div>
-                     </div>
-                </div>
-            </div>
-        </div>
-</div>
+			</div>
+		</div>
+	</div>
+</form>
 
 <!-- Calendar Modal -->
 <div id="cal" style="top: 30px; left: 20px; z-index: 20;">

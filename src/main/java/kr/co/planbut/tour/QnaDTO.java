@@ -53,6 +53,7 @@ public class QnaDTO {
 	public String toString() {
 		return "QnaDTO [tq_code=" + tq_code + ", tour_code=" + tour_code + ", m_id=" + m_id + ", content=" + content + ", regdt=" + regdt + "]";
 	}
+
 	
 	
 	

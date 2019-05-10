@@ -103,5 +103,6 @@ public class PlannerDAO {
 		ArrayList<PlaceDTO> list=mapper.placeList();
 		return list;		
 	} // placeList() end
+
 	
 }

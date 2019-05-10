@@ -4,6 +4,7 @@ package kr.co.planbut.tour;
 import kr.co.planbut.common.CityDTO;
 import kr.co.planbut.common.CityplanDTO;
 import kr.co.planbut.common.CountryDTO;
+import kr.co.planbut.common.MemberDTO;
 import kr.co.planbut.common.PlannerDTO;
 import kr.co.planbut.tour.TreserveDTO;
 import kr.co.planbut.tour.TreviewDTO;;
@@ -21,8 +22,9 @@ public class TourDTO {
 	private QnaDTO qnaDTO;
 	private ReplyDTO replyDTO;
 	private TreviewDTO treviewDTO;
+	private MemberDTO memberdto;
 	private int cnt;
-	private int sum;
+	private int pay;
 	
 	public TourDTO() {}
 
@@ -238,6 +240,14 @@ public class TourDTO {
 	public void setTreviewDTO(TreviewDTO treviewDTO) {
 		this.treviewDTO = treviewDTO;
 	}
+	
+	public MemberDTO getMemberdto() {
+		return memberdto;
+	}
+
+	public void setMemberdto(MemberDTO memberdto) {
+		this.memberdto = memberdto;
+	}
 
 	public int getCnt() {
 		return cnt;
@@ -247,12 +257,12 @@ public class TourDTO {
 		this.cnt = cnt;
 	}
 	
-	public int getSum() {
-		return sum;
+	public int getPay() {
+		return pay;
 	}
 
-	public void setSum(int sum) {
-		this.sum = sum;
+	public void setPay(int pay) {
+		this.pay = pay;
 	}
 
 	@Override

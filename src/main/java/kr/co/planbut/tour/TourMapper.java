@@ -20,16 +20,35 @@ public interface TourMapper {
 
 	public ArrayList<TourDTO> cartlist(String m_id);
 	
+	public ArrayList<TourDTO> reviewlist(TourDTO dto);
+	
+	public ArrayList<TourDTO> reservelist(String m_id);
+	
+	public ArrayList<TourDTO> c_reservelist(String m_id);
+	
+	public ArrayList<TourDTO> qnalist(String m_id);
+	
+	public ArrayList<ReplyDTO> replylist(String m_id);
+
 	public TourDTO read(TourDTO dto);
-
+	
 	public int tourtotal(TourDTO dto);
-
-//	public int cart(CartDTO dto);
 	
-//	public TourDTO create(TourDTO dto);
+	public int reviewtotal(TreviewDTO review);
 	
-//	public TourDTO update(TourDTO dto);
+	public int addcart(CartDTO dto);
 
-//	public TourDTO delete(TourDTO dto);
+	public int addreview(TreviewDTO dto);
+	
+	public int addqna(QnaDTO dto);
 
+	public Integer reviewavg(TreviewDTO review);
+
+	public int payed(TreserveDTO dto);
+
+	public ArrayList<TourDTO> readcart(ArrayList<CartDTO> cart_list);
+
+//	public int delete(CartDTO dto);
+
+ 
 }

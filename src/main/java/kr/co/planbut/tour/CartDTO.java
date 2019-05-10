@@ -1,11 +1,15 @@
 package kr.co.planbut.tour;
 
+import java.util.ArrayList;
+
 public class CartDTO {
 	private String cart_code;
 	private String tour_code;
 	private String m_id;
 	private String tourday;	
 	private int people;
+	private ArrayList<String> cart_list;
+	
 	
 	public CartDTO() {}
 
@@ -47,6 +51,14 @@ public class CartDTO {
 
 	public void setPeople(int people) {
 		this.people = people;
+	}
+
+	public ArrayList<String> getCart_list() {
+		return cart_list;
+	}
+
+	public void setCart_list(ArrayList<String> cart_list) {
+		this.cart_list = cart_list;
 	}
 
 	@Override
