@@ -36,11 +36,18 @@
 }
 
 .gallary {
-	background-color: #a8fff1;
+	background-color: #E4F0FF;
+	height: 692px;
 }
 
 div.wrap {
 	padding: 20px 20px;
+}
+
+#map {
+	/* 지도 크기 지정 */
+	height: 30vh; /* 뷰포트 - 화면 높이의 88% 비율 */
+	width: 100%;
 }
 
 #calendar-container {
@@ -84,7 +91,7 @@ div.slide {
 }
 
 img {
-	position: absolute;
+	/* position: absolute; */
 	top: 0;
 	left: 0;
 	right: 0;
@@ -92,7 +99,59 @@ img {
 	max-width: 100%;
 	height: auto;
 }
+
+/* 갤러리 관련 */
+.gallary.wrap div {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.photo-wrap {
+  display: inline-block;
+  width: 31.5%;
+  margin: 5px;
+}
+
+.photo {
+  position: relative;
+  padding-top: 100%;
+  overflow: hidden;
+}
+
+.photo div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transform: translate(50%, 50%);
+  -ms-transform: translate(50%, 50%);
+  transform: translate(50%, 50%);
+}
+
+.photo img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.photo img.portrait {
+  width: 100%;
+  max-width: none;
+  height: auto;
+}
+
+.photo img.landscape {
+  width: auto;
+  max-width: none;
+  height: 100%;
+}
+
 </style>
+
 
 <!-- Contents -->
 
@@ -185,7 +244,7 @@ img {
 						<a href="${pageContext.request.contextPath}/plan/plan.do?plan_code=${article.plan_code }" class="btn btn-default" role="button">도시 수정</a>
 					</h4>
 
-					<div id="floating-panel"></div>
+					<div id="map"></div>
 					
 				</div> <!-- 지도 -->
 
@@ -209,8 +268,65 @@ img {
 				<div class="gallary wrap col-xs-12 col-md-6">
 					<h4>
 						<a href="${pageContext.request.contextPath}/planner/gallery.do?plan_code=${article.plan_code}">사진</a>
+						<a href="${pageContext.request.contextPath}/planner/gallery.do?plan_code=${article.plan_code }" class="btn btn-default" role="button">더보기</a>
 					</h4>
 					
+					<div class="col-xs-12 col-md-12"> <!-- 사진 이미지 start -->
+					
+						<div class="photo-wrap">
+							<div class="photo">
+								<div>
+									<img class="landscape" style="object-fit: cover;" 
+										src="https://scontent-gmp1-1.cdninstagram.com/vp/8a8b7af843a87debea4f3cab319a8371/5DBE6AAE/t51.2885-15/e35/34614936_258392164721442_5483689045236121600_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com">
+								</div>
+							</div>
+						</div>
+
+						<div class="photo-wrap">
+							<div class="photo">
+								<div>
+									<img class="portrait" style="object-fit: cover;"
+										src="https://scontent-gmp1-1.cdninstagram.com/vp/85b9f8f6312b8e98860bbabe6f612ba6/5DE9F0F2/t51.2885-15/e35/34592396_852460618275865_6587577506679750656_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com">
+								</div>
+							</div>
+						</div>
+
+						<div class="photo-wrap">
+							<div class="photo">
+								<div>
+									<img class="portrait" style="object-fit: cover;"
+										src="https://scontent-gmp1-1.cdninstagram.com/vp/92f29fb4dbbd36d4eefb2bf59238f924/5DE98985/t51.2885-15/e35/32307762_2039702016101249_701735409205379072_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com">
+								</div>
+							</div>
+						</div>
+
+						<div class="photo-wrap">
+							<div class="photo">
+								<div>
+									<img class="landscape" style="object-fit: cover;"
+										src="https://scontent-gmp1-1.cdninstagram.com/vp/bc3eab89a7a0bd3961c0faf4251b63a9/5DCE0820/t51.2885-15/e35/33370459_200742200740122_6012538165213003776_n.jpg?_nc_ht=scontent-gmp1-1.cdninstagram.com">
+								</div>
+							</div>
+						</div>
+
+						<div class="photo-wrap">
+							<div class="photo">
+								<div>
+									<img class="portrait" style="object-fit: cover;" src="">
+								</div>
+							</div>
+						</div>
+
+						<div class="photo-wrap">
+							<div class="photo">
+								<div>
+									<img class="portrait" style="object-fit: cover;" src="">
+								</div>
+							</div>
+						</div>
+
+					</div> <!-- 사진 이미지 end -->
+				
 				</div> <!-- 사진 -->
 
 			</div>
@@ -226,33 +342,74 @@ img {
 //////////////////// 지도 관련 Script ////////////////////
 
 	var map;
+	var linePath = new Array();//polyline 그릴 좌표 배열
+	var flightPath; //polyline
+	var cityDTOs = new Array(); //JSON 형식받을 Array (도시들 의 정보)
+	var infowindowCons = new Array();
+	
+	<c:forEach var="cityDTO" items="${CityDTOs }">//마커찍을 전체 도시들 정보 Array에 저장
+	var cityDTO = new Object();
+	cityDTO.ct_name = "${cityDTO.ct_name}";
+	cityDTO.ct_code = "${cityDTO.ct_code}";
+	cityDTO.c_code = "${cityDTO.c_code}";
+	cityDTO.lat = "${cityDTO.lat}";
+	cityDTO.lng = "${cityDTO.lng}";
+	cityDTOs.push(cityDTO);
+	</c:forEach>
 	
 	function initMap() {
 		map = new google.maps.Map(document.getElementById('map'), {//지도에 띄우기
 			zoom : 4,
-			/* 줌옵션 
-			1 : 세계
-			5 : 대륙 / 대륙
-			10 : 도시
-			15 : 거리
-			20 : 건물 
-			 */
-			center : new google.maps.LatLng(48.138082, 16.363455), //유럽 중앙쯤인 어딘가 48.138082, 16.363455
-			mapTypeId : 'roadmap' //roadmap 기본값 생략 가능 roadmap,satellite,satellite,terrain  
+			center : new google.maps.LatLng(48.138082, 16.363455),
+			mapTypeId : 'roadmap' 
 		});//map 옵션 끝 ----------------------------
 
+		//플래너 에 입력되어있는 도시경로 가져와서 지도에 띄우기
+		<c:forEach var="cp" items="${cplist }"> 
 		
-
-		google.maps.event.addDomListener(window, 'load', initMap);
-
+		console.log("${cp.city.ct_name}", "${cp.city.ct_code}", "${cp.city.lat}", "${cp.city.lng}");
 		
-		map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+		linePath.push(new google.maps.LatLng(${cp.city.lat}, ${cp.city.lng}));
+		addLine();
+		</c:forEach>
 
 	}//initMap 끝
 	
+	function addLine() {
+		if (linePath.length>=2) {
+			removeLine();
+		}//if end
+		
+		var lineSymbol = {
+			path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+		};
+			
+		flightPath = new google.maps.Polyline({
+			path : linePath,
+			strokeColor : "red",//"#000000", 
+			strokeOpacity : 0.8,  // 선의 불투명도 
+			strokeWeight : 2, // 선의 두께 
+			//fillColor : "#0000FF",
+			//fillOpacity : 0.4,
+			icons: [{
+			    icon: lineSymbol,
+			    offset: '100%'
+			}]
+		});
+
+		flightPath.setMap(map);
+	}//addLine end
+	
+
+	function removeLine() {
+		flightPath.setMap(null);
+		//flightPath = null;
+	}//removeLine end
+
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnoA39g01shgSGItH57whv1WjBsYSQ9wA&callback=initMap&region=KR" >
+<!-- google maps api -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4ezotcovgaCtiKJnCsW5dGuXUYsLm8wo&callback=initMap&region=KR" >
 </script>
 
 

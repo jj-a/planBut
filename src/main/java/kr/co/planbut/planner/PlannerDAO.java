@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import kr.co.planbut.common.*;
+import kr.co.planbut.plan.PlanMapper;
 
 
 @Component
@@ -104,5 +105,12 @@ public class PlannerDAO {
 		return list;		
 	} // placeList() end
 
+
+	// getCitys
+	public ArrayList<CityDTO> getCitys() { 
+		PlanMapper mapper = sqlSession.getMapper(PlanMapper.class);		
+		ArrayList<CityDTO> CityDTOs = mapper.getCitys();
+		return CityDTOs;
+	}
 	
 }

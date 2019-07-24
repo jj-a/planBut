@@ -155,6 +155,8 @@
 			plan_code, 
 			CP.ct_code, 
 			ct_name, 
+			lat, 
+			lng, 
 			order_code, 
 			day, 
 			trans, 
@@ -202,7 +204,8 @@
 			CP.order_code, 
 			CP.day, 
 			course, 
-			date
+			date, 
+			dayidx 
 		from courseplan as CSP
 		join cityplan as CP
 		on CSP.cp_code = CP.cp_code 

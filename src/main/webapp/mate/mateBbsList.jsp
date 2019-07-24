@@ -49,7 +49,7 @@ background: yellow;
             	<input type="hidden" name="cp_code" value="">
             	<input type="hidden" value="${session_m_id }">
                 <input type="button" id="${status1.index}" name="ct_code" value="${dto1.ct_code }" onclick="recm(this.form, this)">
-                <input type="text" value="${dto1.s_date.substring(0,10) } ~ ${dto1.hey.substring(0,10) }" size="21" readonly>
+                <input type="text" value="${dto1.s_date.substring(0,10) } ~ ${dto1.hey.substring(0,10) }" size="23" readonly>
                 <br>
                 <c:forEach var="dto2" items="${recmPeople }" varStatus="status2">
                     <div id="${status2.index}rp " style="display: none;" class="${dto2.ct_code }">
@@ -165,7 +165,7 @@ background: yellow;
     function mateCheck(f, row, i) {
     	var no = document.getElementsByTagName('tr')[row-3].children[0].childNodes[0].nodeValue;
         f.b_no.value = no;
-        alert(no)
+        //alert(no)
         if(i==1){
 	        f.action="./delete.do?b_no="+no;
 	    	var message="게시물을 삭제하시겠습니까?";

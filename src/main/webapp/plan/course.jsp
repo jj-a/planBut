@@ -307,7 +307,8 @@ li.day:hover {
 
 </script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnoA39g01shgSGItH57whv1WjBsYSQ9wA&callback=initMap&region=KR" >
+<!-- google maps api -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4ezotcovgaCtiKJnCsW5dGuXUYsLm8wo&callback=initMap&region=KR" >
 </script>
  
  

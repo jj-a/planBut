@@ -43,7 +43,9 @@ function initMap() {
  
 }
 </script>
-<script async defer
-	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnoA39g01shgSGItH57whv1WjBsYSQ9wA&callback=initMap">
+
+<!-- google maps api -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4ezotcovgaCtiKJnCsW5dGuXUYsLm8wo&callback=initMap&region=KR" >
 </script>
+
 <%@include file="../footer.jsp"%>

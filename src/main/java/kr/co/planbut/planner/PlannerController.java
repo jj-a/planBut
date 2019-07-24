@@ -79,6 +79,9 @@ public class PlannerController {
 		// Session에 저장되있는 id 가져오기
 		String m_id=(String)session.getAttribute("session_m_id");
 
+		ArrayList<CityDTO> CityDTOs = dao.getCitys(); //좌표찍을 전체 도시들 정보
+		mav.addObject("CityDTOs", CityDTOs);// 좌표찍을 도시들 mav에 담기
+		
 		mav.addObject("article", dao.plannerRead(dto));	// 플래너(planner) 정보
 		mav.addObject("cplist", dao.cityplanList(dto));	// 도시계획(cityplan) 리스트
 		// TODO: 갤러리(gallery) 테이블 생성 + 리스트 추가하기 
