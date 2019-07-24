@@ -12,7 +12,7 @@
 --
 | 구분 | 내용 |
 | :-----------: | :------------ |
-| **Develop** | Java, Spring Framework, MyBatis, JSP, HTML/CSS, Javascript, Ajax |
+| **Develop** | Java, Spring Framework, MyBatis, JSP, HTML/CSS, Javascript, Ajax(REST API) |
 | **DB** | MariaDB (MySQL) |
 | **Library** | jQuery, Bootstrap, FullCalendar, Moment.js |
 | **OpenAPI** | Google Maps API |
